@@ -15,9 +15,11 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: '8.2'
     - name: Install Dependencies
       run: composer install --no-progress --prefer-dist
+    - name: Make PHPUnit Executable
+      run: chmod +x ./vendor/bin/phpunit
     - name: Run Tests
       run: ./vendor/bin/phpunit
 
