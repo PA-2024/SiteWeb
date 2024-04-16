@@ -18,6 +18,8 @@ jobs:
         php-version: '8.2'
     - name: Install Dependencies
       run: composer install --no-progress --prefer-dist
+    - name: Make PHPUnit Executable
+      run: chmod +x ./vendor/bin/phpunit
     - name: Run Tests
       run: ./vendor/bin/phpunit
 
