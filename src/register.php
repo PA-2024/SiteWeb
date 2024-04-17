@@ -1,3 +1,4 @@
+<!-- Auteur : Capdrake (Bastien LEUWERS) -->
 <?php include 'header/entete_login.php'; ?>
     <body>
 	

@@ -26,21 +26,36 @@
 										<div class="account-logo">
 											<a href="index.php"><img src="assets/img/banner.png" alt="" style="width: 150px; height: auto;"></a>
 										</div>
-										<h2>Réinitialiser votre mot de passe</h2>
+										<h2>Connexion</h2>
 										<!-- Form -->
-										<form action="forgot-password.php">
+										<form action="index.php">
 											<div class="input-block">
 												<label >Email <span class="login-danger">*</span></label>
 												<input class="form-control" type="text" >
 											</div>
+											<div class="input-block">
+												<label >Mot de passe <span class="login-danger">*</span></label>
+												<input class="form-control pass-input" type="password" >
+												<span class="profile-views feather-eye-off toggle-password"></span>
+											</div>
+											<div class="forgotpass">
+												<div class="remember-me">
+													<label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Se souvenir de moi
+													<input type="checkbox" name="radio">
+													<span class="checkmark"></span>
+													</label>
+												</div>
+												<a href="forgot-password.php">Vous avez oublié votre mot de passe?</a>
+											</div>
 											<div class="input-block login-btn">
-												<button class="btn btn-primary btn-block" type="submit">Envoyer</button>
+												<button class="btn btn-primary btn-block" type="submit">Connexion</button>
 											</div>
 										</form>
 										<!-- /Form -->
 										  
 										<div class="next-sign">
-											<p class="account-subtitle">Besoin d'un compte?  <a href="register.php">Inscription</a></p>											
+											<p class="account-subtitle">Besoin d'un compte?  <a href="register.php">Inscription</a></p>
+											
 										</div>
 									</div>
 								</div>
