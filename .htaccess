@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteBase /
+
+# Rediriger les requêtes HTTP vers HTTPS (décommentez les deux lignes suivantes si vous souhaitez forcer l'utilisation de HTTPS)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Ne pas appliquer les règles suivantes aux fichiers et dossiers réels
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirige toutes les requêtes vers index.php
+RewriteRule ^ index.php [QSA,L]

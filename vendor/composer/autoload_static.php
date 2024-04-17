@@ -16,6 +16,10 @@ class ComposerStaticInitbd163b353f6f2ed2e506a389e8424783
         array (
             'PhpParser\\' => 10,
         ),
+        'G' => 
+        array (
+            'GeSign\\' => 7,
+        ),
         'D' => 
         array (
             'DeepCopy\\' => 9,
@@ -26,6 +30,10 @@ class ComposerStaticInitbd163b353f6f2ed2e506a389e8424783
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'GeSign\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'DeepCopy\\' => 
         array (
