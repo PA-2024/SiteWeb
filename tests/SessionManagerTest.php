@@ -2,7 +2,7 @@
 // Auteur : Capdrake (Bastien LEUWERS)
 
 use PHPUnit\Framework\TestCase;
-use MyProject\SessionManager;
+use GeSign\SessionManager;
 
 class SessionManagerTest extends TestCase
 {
