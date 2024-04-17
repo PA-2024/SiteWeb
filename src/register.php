@@ -25,9 +25,13 @@
 										<div class="account-logo">
 											<a href="index.php"><img src="assets/img/banner.png" alt="" style="width: 150px; height: auto;"></a>
 										</div>
-										<h2>Connexion</h2>
+										<h2>Inscription</h2>
 										<!-- Form -->
-										<form action="index.php">
+										<form action="register.php">
+											<div class="input-block">
+												<label >Votre nom/prénom <span class="login-danger">*</span></label>
+												<input class="form-control" type="text" >
+											</div>
 											<div class="input-block">
 												<label >Email <span class="login-danger">*</span></label>
 												<input class="form-control" type="text" >
@@ -37,24 +41,27 @@
 												<input class="form-control pass-input" type="password" >
 												<span class="profile-views feather-eye-off toggle-password"></span>
 											</div>
+											<div class="input-block">
+												<label >Confirmer le mot de passe <span class="login-danger">*</span></label>
+												<input class="form-control pass-input-confirm" type="password" >
+												<span class="profile-views feather-eye-off confirm-password"></span>
+											</div>
 											<div class="forgotpass">
 												<div class="remember-me">
-													<label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Se souvenir de moi
+													<label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> J'accepte  <a href="javascript:;">&nbsp terms of service </a>&nbsp et <a href="javascript:;">&nbsp privacy policy </a>
 													<input type="checkbox" name="radio">
 													<span class="checkmark"></span>
 													</label>
 												</div>
-												<a href="forgot-password.php">Vous avez oublié votre mot de passe?</a>
 											</div>
 											<div class="input-block login-btn">
-												<button class="btn btn-primary btn-block" type="submit">Connexion</button>
+												<button class="btn btn-primary btn-block" type="submit">Inscription</button>
 											</div>
 										</form>
 										<!-- /Form -->
 										  
 										<div class="next-sign">
-											<p class="account-subtitle">Besoin d'un compte?  <a href="register.php">Inscription</a></p>
-											
+											<p class="account-subtitle">Vous avez déjà un compte?  <a href="index.php">Connexion</a></p>											
 										</div>
 									</div>
 								</div>
