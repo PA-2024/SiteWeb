@@ -40,3 +40,19 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
         server-dir: httpdocs/
+        
+  performance-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up k6
+        run: |
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 64E628F8D684696D
+          echo "deb http://dl.bintray.com/loadimpact/deb stable main" | sudo tee -a /etc/apt/sources.list
+          sudo apt-get update
+          sudo apt-get install k6
+      - name: Run performance tests
+        run: k6 run tests/performance-test.js
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.url }}

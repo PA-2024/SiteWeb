@@ -1,7 +1,7 @@
 <?php
-// src/SessionManager.php
+// Auteur : Capdrake (Bastien LEUWERS)
 
-namespace MyProject;
+namespace GeSign;
 
 class SessionManager
 {
