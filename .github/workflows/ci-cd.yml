@@ -15,18 +15,22 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          tools: php_codesniffer
+      - name: Install PHP_CodeSniffer
+        run: composer require --dev "squizlabs/php_codesniffer=*"
       - name: Check PSR-2 Compliance
-        run: phpcs --standard=PSR2 src/
+        run: ./vendor/bin/phpcs --standard=PSR2 src/
 
   security-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Security Checker
-        run: composer global require sensiolabs/security-checker
+      - name: Download PHP Security Checker
+        run: |
+          mkdir -p security-checker
+          curl -Ls https://github.com/fabpot/local-php-security-checker/releases/latest/download/local-php-security-checker_$(uname -s)_$(uname -m) -o security-checker/local-php-security-checker
+          chmod +x security-checker/local-php-security-checker
       - name: Run Security Checker
-        run: security-checker security:check composer.lock
+        run: ./security-checker/local-php-security-checker --path=composer.lock
 
   test:
     runs-on: ubuntu-latest
