@@ -17,6 +17,7 @@ jobs:
       with:
         node-version: '20'
   code-quality:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,6 +33,7 @@ jobs:
         run: ./vendor/bin/phpcs --standard=PSR2 src/
 
   security-check:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
