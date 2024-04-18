@@ -28,8 +28,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Download PHP Security Checker
         run: |
-          curl -LsO https://github.com/fabpot/local-php-security-checker/releases/latest/download/local-php-security-checker_$(uname -s)_$(uname -m)
-          mv local-php-security-checker_$(uname -s)_$(uname -m) local-php-security-checker
+          curl -Lso local-php-security-checker https://github.com/fabpot/local-php-security-checker/releases/latest/download/local-php-security-checker_$(uname -s)_$(uname -m)
           chmod +x local-php-security-checker
       - name: Run Security Checker
         run: ./local-php-security-checker --path=composer.lock
