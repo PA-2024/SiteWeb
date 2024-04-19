@@ -24,7 +24,7 @@ class SessionManager
 
     protected function redirectToDashboard()
     {
-        header('Location: dashboard.php');
+        header('Location: admin_dashboard.php');
         exit;
     }
 }
