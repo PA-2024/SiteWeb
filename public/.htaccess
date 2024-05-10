@@ -1,17 +1,18 @@
 RewriteEngine On
 RewriteBase /
 
-# Rediriger les requêtes HTTP vers HTTPS (décommentez les deux lignes suivantes si vous souhaitez forcer l'utilisation de HTTPS)
+# Forcer HTTPS sur toutes les requêtes
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Ne pas appliquer les règles suivantes aux fichiers et dossiers réels
+# Ne pas réécrire les requêtes qui correspondent à des fichiers ou dossiers réels
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Redirige toutes les requêtes vers index.php
-RewriteRule ^ index.php [QSA,L]
+# Réécrire toutes les autres requêtes valides vers index.php
+# RewriteRule ^ index.php [QSA,L]
 
+# Gestion des erreurs
 ErrorDocument 404 /error-404.php
 ErrorDocument 403 /error-404.php
 ErrorDocument 500 /error-500.php
