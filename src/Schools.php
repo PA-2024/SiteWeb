@@ -60,4 +60,3 @@ class Schools {
         return json_decode($response, true);
     }
 }
-?>
