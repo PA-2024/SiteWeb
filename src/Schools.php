@@ -1,17 +1,19 @@
 <?php
 namespace GeSign;
 
-class Schools {
+class Schools
+{
     private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/School";
 
-    public function fetchSchools() {
+    public function fetchSchools()
+    {
         // Initialisation de cURL
         $ch = curl_init();
 
         // Configuration des options de cURL
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $this->apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
 
         // Exécution de la requête cURL
         $response = curl_exec($ch);
@@ -32,9 +34,9 @@ class Schools {
 
         return $schools;
     }
-	
-	// Méthode pour créer une école
-    public function createSchool($name, $token, $allowSite) {
+
+    public function createSchool($name, $token, $allowSite)
+    {
         $postData = json_encode([
             'school_Name' => $name,
             'school_token' => $token,
@@ -54,7 +56,7 @@ class Schools {
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception("Echec de la création d'une école.");
+            throw new \Exception("Échec de la création d'une école.");
         }
 
         return json_decode($response, true);
