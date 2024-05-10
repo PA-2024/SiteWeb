@@ -15,8 +15,8 @@
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Ecoles </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="members.php">Liste des écoles</a></li>
-						<li><a href="add-members.php">Ajouter un école</a></li>
+						<li><a href="schools_list.php">Liste des écoles</a></li>
+						<li><a href="add_school.php">Ajouter un école</a></li>
 						<li><a href="edit-members.php">Ajouter une classe</a></li>
 					</ul>
 				</li>
