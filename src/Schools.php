@@ -61,4 +61,29 @@ class Schools
 
         return json_decode($response, true);
     }
+
+    protected function callApi($method, $data = null)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        if ($method == 'POST') {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Accept: application/json'
+            ]);
+        }
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if (!$response) {
+            throw new \Exception("API call failed");
+        }
+
+        return json_decode($response, true);
+    }
 }
