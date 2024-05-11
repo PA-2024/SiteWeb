@@ -4,50 +4,33 @@ use GeSign\Schools;
 
 class SchoolsTest extends TestCase
 {
+    private $schools;
+
+    protected function setUp(): void
+    {
+        $this->schools = new Schools();
+    }
+
     public function testFetchSchools()
     {
-        // on crée un stub pour la classe Schools
-        $schools = $this->getMockBuilder(Schools::class)
-                        ->onlyMethods(['callApi'])
-                        ->getMock();
-
-        // on prépare le tableau de réponse attendu
-        $mockedResponse = [
-            ['school_Id' => 1, 'school_Name' => 'Test', 'school_token' => 'abc123', 'school_allowSite' => true]
-        ];
-
-        // on configure le stub pour retourner un tableau lors de l'appel de callApi
-        $schools->method('callApi')
-                ->willReturn($mockedResponse);
-
-        // on appelle fetchSchools et on vérifie les résultats
-        $result = $schools->fetchSchools();
+        // Appel direct de fetchSchools
+        $result = $this->schools->fetchSchools();
         
         $this->assertIsArray($result);
-        $this->assertEquals('string', $result[0]['school_Name']);
+        // on s'assure que le tableau n'est pas vide pour confirmer que des données sont retournées
+        $this->assertNotEmpty($result);
+        // on vérifie un champ
+        $this->assertArrayHasKey('school_Name', $result[0]);
     }
 
     public function testCreateSchool()
     {
-        // on crée un stub pour la classe Schools
-        $schools = $this->getMockBuilder(Schools::class)
-                        ->onlyMethods(['callApi'])
-                        ->getMock();
-
-        // on prépare le tableau de réponse attendu pour une création
-        $mockedResponse = [
-            'school_Id' => 6, 'school_Name' => 'Ecole TEST', 'school_token' => 'def456', 'school_allowSite' => true
-        ];
-
-        // on configure le stub pour retourner un tableau lors de l'appel de callApi
-        $schools->method('callApi')
-                ->willReturn($mockedResponse);
-
-        // on appelle createSchool et on vérifie les résultats
-        $result = $schools->createSchool('New School', 'def456', true);
+        // Appel direct de createSchool
+        $result = $this->schools->createSchool('New School', 'def456', true);
 
         $this->assertIsArray($result);
-        $this->assertEquals('Ecole TEST', $result['school_Name']);
+        // on vérifie que l'école créée a les bonnes propriétés
+        $this->assertEquals('New School', $result['school_Name']);
         $this->assertTrue($result['school_allowSite']);
     }
 }
