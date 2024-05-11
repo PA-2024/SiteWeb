@@ -23,14 +23,20 @@ class SchoolsTest extends TestCase
         $this->assertArrayHasKey('school_Name', $result[0]);
     }
 
-    public function testCreateSchool()
+    public function testCreateAndDeleteSchool()
     {
-        // Appel direct de createSchool
-        $result = $this->schools->createSchool('New School', 'def456', true);
+        // Test de création d'une école
+        $createResult = $this->schools->createSchool('Test School', 'test123', true);
+        $this->assertIsArray($createResult);
+        $this->assertEquals('Test School', $createResult['school_Name']);
+        $this->assertTrue($createResult['school_allowSite']);
 
-        $this->assertIsArray($result);
-        // on vérifie que l'école créée a les bonnes propriétés
-        $this->assertEquals('New School', $result['school_Name']);
-        $this->assertTrue($result['school_allowSite']);
+        // Test de suppression de l'école créée
+        if (isset($createResult['school_Id'])) {
+            $deleteResult = $this->schools->deleteSchool($createResult['school_Id']);
+            $this->assertTrue($deleteResult);
+        } else {
+            $this->fail('School ID is not set in the createSchool response.');
+        }
     }
 }

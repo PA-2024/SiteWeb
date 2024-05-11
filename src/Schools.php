@@ -61,29 +61,25 @@ class Schools
 
         return json_decode($response, true);
     }
-
-    protected function callApi($method, $data = null)
+	
+	public function deleteSchool($schoolId)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->apiUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $url = $this->apiUrl . '/' . $schoolId;  // On construir la requête de suppression ici
 
-        if ($method == 'POST') {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Accept: application/json'
-            ]);
-        }
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
 
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  //On Récupère le code de statut HTTP de la réponse
         curl_close($ch);
 
-        if (!$response) {
-            throw new \Exception("API call failed");
+        if ($httpStatusCode != 204) {  // 204 No Content est le statut attendu pour une suppression réussie
+            throw new \Exception("Échec de la suppression de l'école, statut HTTP: " . $httpStatusCode);
         }
 
-        return json_decode($response, true);
+        return true;  // Retourne vrai si la suppression est réussie
     }
+
 }
