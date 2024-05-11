@@ -61,15 +61,17 @@ class Schools
 
         return json_decode($response, true);
     }
-	
-	public function deleteSchool($schoolId)
+
+    public function deleteSchool($schoolId)
     {
         $url = $this->apiUrl . '/' . $schoolId;  // On construir la requête de suppression ici
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+		    'Accept: application/json'
+		]);
 
         $response = curl_exec($ch);
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  //On Récupère le code de statut HTTP de la réponse
@@ -81,5 +83,4 @@ class Schools
 
         return true;  // Retourne vrai si la suppression est réussie
     }
-
 }
