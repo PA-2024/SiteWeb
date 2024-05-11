@@ -30,6 +30,9 @@ $schools = $schoolManager->fetchSchools();
                         </div>
                     </div>
                 </div>
+				
+				<!-- Zone pour les messages d'alerte -->
+				<div id="alert-placeholder"></div>
 
                 <!-- Main Content -->
                 <div class="row">
@@ -100,7 +103,8 @@ $schools = $schoolManager->fetchSchools();
 															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 															<div class="dropdown-menu dropdown-menu-end">
 																<a class="dropdown-item" href="edit-appointment.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a>
-																<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_school"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
+																<a class="dropdown-item delete-link" href="#" data-bs-toggle="modal" data-bs-target="#delete_school" data-id="<?php echo htmlspecialchars($school['school_Id']); ?>"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
+
 															</div>
 														</div>
 													</td>
@@ -120,14 +124,14 @@ $schools = $schoolManager->fetchSchools();
 				<div class="modal-content">
 					<div class="modal-body text-center">
 						<img src="assets/img/sent.png" alt="" width="50" height="46">
-						<h3>Êtes vous sûr de vouloir supprimer cette école ?</h3>
-						<div class="m-t-20"> <a href="#" class="btn btn-white" data-bs-dismiss="modal">Fermer</a>
-							<button type="submit" class="btn btn-danger">Oui</button>
+						<h3>Êtes-vous sûr de vouloir supprimer cette école ?</h3>
+						<div class="m-t-20">
+							<a href="#" class="btn btn-white" data-bs-dismiss="modal">Fermer</a>
+							<button type="button" class="btn btn-danger confirm-delete">Oui</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			
 		</div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
@@ -168,34 +172,67 @@ $schools = $schoolManager->fetchSchools();
         });
     </script>
 	<script>
-	$(document).ready(function() {
-		var dataTable = $('.datatable').DataTable();
+		$(document).ready(function() {
+			var dataTable = $('.datatable').DataTable();
 
-		$('#refreshTableBtn').click(function() {
-			$.ajax({
-				url: 'fetch_schools_ajax.php',
-				type: 'GET',
-				dataType: 'json',
-				success: function(data) {
-					dataTable.clear();
-					$.each(data, function(index, school) {
-						dataTable.row.add([
-							'<div class="form-check check-tables"><input class="form-check-input" type="checkbox" value="' + school.school_Id + '"></div>',
-							school.school_Id,
-							school.school_Name,
-							school.school_token,
-							'10/05/2024',
-							'<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="edit-appointment.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_school"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a></div></div>' 
-						]).draw();
+			$('#refreshTableBtn').click(function() {
+				refreshTable();
+			});
+
+			function refreshTable() {
+				$.ajax({
+					url: 'script/fetch_schools_ajax.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(data) {
+						updateTable(data);
+					},
+					error: function() {
+						alert('Impossible de recharger les données.');
+					}
+				});
+			}
+
+			function updateTable(data) {
+				dataTable.clear();
+				$.each(data, function(index, school) {
+					dataTable.row.add([
+						'<input type="checkbox" class="form-check-input" value="' + school.school_Id + '">',
+						school.school_Id,
+						school.school_Name,
+						school.school_token,
+						'10/05/2024',
+						'<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item edit-link" href="edit-appointment.html">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + school.school_Id + '">Supprimer</a></div></div>'
+					]).draw(false);
+				});
+			}
+
+			// Réinitialiser et configurer les événements de la modale de suppression
+			$(document).on('click', '.delete-link', function() {
+				var schoolId = $(this).data('id');
+				$('#delete_school').data('id', schoolId);
+				$('#delete_school').modal('show');
+			});
+
+			$('#delete_school').on('shown.bs.modal', function() {
+				$(this).find('.btn-danger').off('click').on('click', function() {
+					var idToDelete = $('#delete_school').data('id');
+					$.ajax({
+						url: 'script/delete_school.php',
+						type: 'POST',
+						data: { schoolId: idToDelete },
+						success: function(response) {
+							$('#delete_school').modal('hide');
+							refreshTable();
+							$('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-success alert-dismissible fade show" role="alert"><strong>École supprimée !</strong> Cette école a bien été supprimée.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
+						},
+						error: function() {
+							$('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Erreur !</strong> La suppression de l\'école a échoué.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
+						}
 					});
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					alert('Impossible de recharger le tableau. Erreur: ' + textStatus);
-				}
+				});
 			});
 		});
-
-	});
 	</script>
 
 </body>
