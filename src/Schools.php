@@ -70,8 +70,8 @@ class Schools
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-		    'Accept: application/json'
-		]);
+            'Accept: application/json'
+        ]);
 
         $response = curl_exec($ch);
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  //On Récupère le code de statut HTTP de la réponse
