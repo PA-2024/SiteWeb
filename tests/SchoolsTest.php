@@ -36,7 +36,7 @@ class SchoolsTest extends TestCase
 
         // on prépare le tableau de réponse attendu pour une création
         $mockedResponse = [
-            'school_Id' => 6, 'school_Name' => 'New School', 'school_token' => 'def456', 'school_allowSite' => true
+            'school_Id' => 6, 'school_Name' => 'Ecole TEST', 'school_token' => 'def456', 'school_allowSite' => true
         ];
 
         // on configure le stub pour retourner un tableau lors de l'appel de callApi
@@ -47,7 +47,7 @@ class SchoolsTest extends TestCase
         $result = $schools->createSchool('New School', 'def456', true);
 
         $this->assertIsArray($result);
-        $this->assertEquals('New School', $result['school_Name']);
+        $this->assertEquals('Ecole TEST', $result['school_Name']);
         $this->assertTrue($result['school_allowSite']);
     }
 }
