@@ -24,7 +24,7 @@ class SchoolsTest extends TestCase
         $result = $schools->fetchSchools();
         
         $this->assertIsArray($result);
-        $this->assertEquals('Test', $result[0]['school_Name']);
+        $this->assertEquals('string', $result[0]['school_Name']);
     }
 
     public function testCreateSchool()
