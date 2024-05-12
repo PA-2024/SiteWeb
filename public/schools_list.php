@@ -61,11 +61,10 @@ $schools = $schoolManager->fetchSchools();
 											</div>
 										</div>
 										<div class="col-auto text-end float-end ms-auto download-grp">
-											<a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
-											<a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a>
-											<a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
-											<a href="javascript:;" ><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
-											
+											<a href="javascript:;" id="export-pdf" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="Export to PDF"></a>
+											<a href="javascript:;" id="export-txt" class="me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt="Export to TXT"></a>
+											<a href="javascript:;" id="export-csv" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="Export to CSV"></a>
+											<a href="javascript:;" id="export-xlsx"><img src="assets/img/icons/pdf-icon-04.svg" alt="Export to XLSX"></a>
 										</div>
 									</div>
 								</div>
@@ -172,8 +171,52 @@ $schools = $schoolManager->fetchSchools();
 			var dataTable = $('.datatable').DataTable( {
 			  "searching": true,
 			  "bDestroy": true,
-			  "dom": 'lrtip'
+			  "dom": 'lrtip',
+			  buttons: [
+					{
+						extend: 'pdfHtml5',
+						title: 'School Data',
+						exportOptions: {
+							columns: ':visible'
+						},
+						customize: function (doc) {
+							doc.content.splice(0, 1, {
+								text: 'Report for School Data',
+								fontSize: 16,
+								alignment: 'center'
+							});
+						}
+					},
+					{
+						extend: 'excelHtml5',
+						title: 'School Data',
+						exportOptions: {
+							columns: ':visible'
+						}
+					},
+					{
+						extend: 'csvHtml5',
+						title: 'School Data',
+						exportOptions: {
+							columns: ':visible'
+						}
+					}
+				],
+				select: true
 			} );
+			
+			$('#export-pdf').on('click', function() {
+				dataTable.button('.buttons-pdf').trigger();
+			});
+			$('#export-txt').on('click', function() {
+				dataTable.button('.buttons-csv').trigger(); //A voir, supprimer le txt
+			});
+			$('#export-csv').on('click', function() {
+				dataTable.button('.buttons-csv').trigger();
+			});
+			$('#export-xlsx').on('click', function() {
+				dataTable.button('.buttons-excel').trigger();
+			});
 						
 			$(document).on('submit', '#dataTableSearchForm', function(event) {
 				event.preventDefault();
@@ -245,7 +288,12 @@ $schools = $schoolManager->fetchSchools();
 			});
 		});
 	</script>
-
+	<!-- Buttons -->
+	<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/build/pdfmake.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/vfs_fonts.js"></script>
 </body>
 
 </html>
