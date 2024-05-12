@@ -47,11 +47,12 @@ $schools = $schoolManager->fetchSchools();
 												<h3>Liste des écoles</h3>
 												<div class="doctor-search-blk">
 													<div class="top-nav-search table-search-blk">
-														<form>
-															<input type="text" class="form-control" placeholder="Rechercher">
-															<a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+														<form id="dataTableSearchForm">
+															<input type="text" class="form-control" placeholder="Rechercher" id="dataTableSearchInput">
+															<button type="submit" class="btn"><img src="assets/img/icons/search-normal.svg" alt="Search"></button>
 														</form>
 													</div>
+
 													<div class="add-group">
 														<a href="add_school.php" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""></a>
 														<a href="javascript:;" id="refreshTableBtn" class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg" alt="Refresh"></a>
@@ -166,14 +167,24 @@ $schools = $schoolManager->fetchSchools();
 	<!-- Custom JS -->
     <script src="assets/js/app.js"></script>
 	<!-- Datatables Initialization -->
-    <script>
-        $(document).ready(function() {
-            $('.datatable').DataTable();
-        });
-    </script>
 	<script>
 		$(document).ready(function() {
-			var dataTable = $('.datatable').DataTable();
+			var dataTable = $('.datatable').DataTable( {
+			  "searching": true,
+			  "bDestroy": true,
+			  "dom": 'lrtip'
+			} );
+						
+			$(document).on('submit', '#dataTableSearchForm', function(event) {
+				event.preventDefault();
+				var searchTerm = $('#dataTableSearchInput').val();
+				dataTable.search(searchTerm).draw(); //On effectue la recherche
+			});
+
+			//Pour rechercher lors de l'écriture
+			$('#dataTableSearchInput').on('keyup change', function() {
+				dataTable.search(this.value).draw();
+			});
 
 			$('#refreshTableBtn').click(function() {
 				refreshTable();
