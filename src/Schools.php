@@ -134,4 +134,42 @@ class Schools
 
         return $count;
     }
+    /**
+     * Met à jour les informations d'une école existante.
+     *
+     * @param int $schoolId L'ID de l'école à mettre à jour.
+     * @param string $name Le nouveau nom de l'école.
+     * @param string $token Le nouveau token de l'école.
+     * @param bool $allowSite La nouvelle autorisation du site de l'école.
+     * @return array Les données de l'école mise à jour.
+     * @throws \Exception Si la requête échoue.
+     */
+    public function updateSchool($schoolId, $name, $token, $allowSite)
+    {
+        $url = $this->apiUrl . '/' . $schoolId;
+
+        $putData = json_encode([
+            'school_Name' => $name,
+            'school_token' => $token,
+            'school_allowSite' => $allowSite
+        ]);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $putData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception("Échec de la mise à jour de l'école.");
+        }
+
+        return json_decode($response, true);
+    }
 }
