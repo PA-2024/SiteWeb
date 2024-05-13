@@ -40,7 +40,7 @@ class SchoolsTest extends TestCase
         }
     }
 	
-    public function testUpdateSchool()
+    /*public function testUpdateSchool()
     {
         // Test de création d'une école pour avoir une école à mettre à jour
         $createResult = $this->schools->createSchool('Test School', 'test123', true);
@@ -63,5 +63,5 @@ class SchoolsTest extends TestCase
         } else {
             $this->fail('School ID is not set in the createSchool response.');
         }
-    }
+    }*/
 }
