@@ -31,7 +31,7 @@ class Schools
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
-		
+
         // Filtrer et formater les dates des écoles
         foreach ($schools as &$school) {
             if (isset($school['school_Date']) && $school['school_Date'] != "0001-01-01T00:00:00") {
@@ -44,7 +44,7 @@ class Schools
 
     public function createSchool($name, $token, $allowSite)
     {
-        // on utilise date() pour obtenir la date/heure actuelle au format ISO 8601
+        // On utilise date() pour obtenir la date/heure actuelle au format ISO 8601
         $currentDate = date('Y-m-d') . 'T' . date('H:i:s'); // Format "2024-05-12T00:00:00"
 
         $postData = json_encode([
@@ -75,7 +75,7 @@ class Schools
 
     public function deleteSchool($schoolId)
     {
-        $url = $this->apiUrl . '/' . $schoolId;  // On construir la requête de suppression ici
+        $url = $this->apiUrl . '/' . $schoolId; // On construit la requête de suppression ici
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -85,16 +85,16 @@ class Schools
         ]);
 
         $response = curl_exec($ch);
-        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  //On Récupère le code de statut HTTP de la réponse
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // On récupère le code de statut HTTP de la réponse
         curl_close($ch);
 
-        if ($httpStatusCode != 204) {  // 204 No Content est le statut attendu pour une suppression réussie
+        if ($httpStatusCode != 204) { // 204 No Content est le statut attendu pour une suppression réussie
             throw new \Exception("Échec de la suppression de l'école, statut HTTP: " . $httpStatusCode);
         }
 
-        return true;  // Retourne vrai si la suppression est réussie
+        return true; // Retourne vrai si la suppression est réussie
     }
-	
+
     /**
      * Récupère le nombre d'écoles créées pour un mois donné.
      * 
@@ -131,5 +131,4 @@ class Schools
 
         return $count;
     }
-
 }
