@@ -1,6 +1,4 @@
 <?php 
-//Auteur : Capdrake
-
 include 'header/entete.php'; 
 
 require_once '../vendor/autoload.php';
@@ -9,6 +7,23 @@ use GeSign\Schools;
 
 $schoolManager = new Schools();
 $schools = $schoolManager->fetchSchools();
+
+// Récupération du nombre d'écoles pour le mois actuel et le mois précédent
+$currentMonth = date('m');
+$currentYear = date('Y');
+$previousMonth = date('m', strtotime("-1 month"));
+$previousYear = ($currentMonth == 1) ? $currentYear - 1 : $currentYear;
+
+$currentMonthCount = $schoolManager->countSchoolsByMonth($currentYear, $currentMonth);
+$previousMonthCount = $schoolManager->countSchoolsByMonth($previousYear, $previousMonth);
+
+// Calcul du pourcentage de variation
+if ($previousMonthCount > 0) {
+    $percentageChange = (($currentMonthCount - $previousMonthCount) / $previousMonthCount) * 100;
+} else {
+    $percentageChange = ($currentMonthCount > 0) ? 100 : 0;
+}
+
 ?>
 <body>
     <div class="main-wrapper">
@@ -81,7 +96,7 @@ $schools = $schoolManager->fetchSchools();
 							<div class="dash-content dash-count">
 								<h4>Nombre d'écoles</h4>
 								<h2><span class="counter-up"><?php echo count($schools); ?></span></h2>
-								<p><span class="passive-view"><i class="feather-arrow-up-right me-1"></i>40%</span> vs dernier mois</p>
+								<p><span class="passive-view"><i class="feather-arrow-up-right me-1"></i><?php echo sprintf("%.2f", $percentageChange); ?>%</span> vs dernier mois</p>
 							</div>
 						</div>
 					</div>

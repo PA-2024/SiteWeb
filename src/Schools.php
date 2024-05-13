@@ -31,16 +31,27 @@ class Schools
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
+		
+        // Filtrer et formater les dates des écoles
+        foreach ($schools as &$school) {
+            if (isset($school['school_Date']) && $school['school_Date'] != "0001-01-01T00:00:00") {
+                $school['school_Date'] = date('Y-m-d\TH:i:s', strtotime($school['school_Date']));
+            }
+        }
 
         return $schools;
     }
 
     public function createSchool($name, $token, $allowSite)
     {
+        // on utilise date() pour obtenir la date/heure actuelle au format ISO 8601
+        $currentDate = date('Y-m-d') . 'T' . date('H:i:s'); // Format "2024-05-12T00:00:00"
+
         $postData = json_encode([
             'school_Name' => $name,
             'school_token' => $token,
-            'school_allowSite' => $allowSite
+            'school_allowSite' => $allowSite,
+            'school_Date' => $currentDate
         ]);
 
         $ch = curl_init($this->apiUrl);
@@ -83,4 +94,42 @@ class Schools
 
         return true;  // Retourne vrai si la suppression est réussie
     }
+	
+    /**
+     * Récupère le nombre d'écoles créées pour un mois donné.
+     * 
+     * @param int $year Année concernée.
+     * @param int $month Mois concerné.
+     * @return int Nombre d'écoles créées durant le mois spécifié.
+     * @throws \Exception Si la requête échoue ou si les données JSON sont mal formées.
+     */
+    public function countSchoolsByMonth($year, $month)
+    {
+        $startDate = "$year-$month-01T00:00:00";
+        $endDate = date("Y-m-t\T23:59:59", strtotime($startDate));
+
+        $url = $this->apiUrl . "?startDate=$startDate&endDate=$endDate";
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception("Impossible de récupérer le nombre d'écoles.");
+        }
+
+        $data = json_decode($response, true);
+
+        // Compter les écoles dans le mois donné
+        $count = 0;
+        foreach ($data as $school) {
+            if (isset($school['school_Date']) && $school['school_Date'] >= $startDate && $school['school_Date'] <= $endDate) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
 }

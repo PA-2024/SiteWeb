@@ -61,8 +61,6 @@ $schools = $schoolManager->fetchSchools();
 											</div>
 										</div>
 										<div class="col-auto text-end float-end ms-auto download-grp">
-											<a href="javascript:;" id="export-pdf" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt="Export to PDF"></a>
-											<a href="javascript:;" id="export-txt" class="me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt="Export to TXT"></a>
 											<a href="javascript:;" id="export-csv" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="Export to CSV"></a>
 											<a href="javascript:;" id="export-xlsx"><img src="assets/img/icons/pdf-icon-04.svg" alt="Export to XLSX"></a>
 										</div>
@@ -97,7 +95,7 @@ $schools = $schoolManager->fetchSchools();
                                                     <td><?php echo htmlspecialchars($school['school_Id']); ?></td>
                                                     <td><?php echo htmlspecialchars($school['school_Name']); ?></td>
                                                     <td><?php echo htmlspecialchars($school['school_token']); ?></td>
-                                                    <td>10/05/2024<?php //echo date("d/m/Y", strtotime($school['created_at']));?></td>
+                                                    <td><?php echo date("d/m/Y", strtotime($school['school_Date']));?></td>
 													<td class="text-end">
 														<div class="dropdown dropdown-action">
 															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -165,6 +163,10 @@ $schools = $schoolManager->fetchSchools();
 	
 	<!-- Custom JS -->
     <script src="assets/js/app.js"></script>
+	
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 	<!-- Datatables Initialization -->
 	<script>
 		$(document).ready(function() {
@@ -172,6 +174,7 @@ $schools = $schoolManager->fetchSchools();
 			  "searching": true,
 			  "bDestroy": true,
 			  "dom": 'lrtip',
+			  select: 'multi',
 			  buttons: [
 					{
 						extend: 'pdfHtml5',
@@ -189,28 +192,30 @@ $schools = $schoolManager->fetchSchools();
 					},
 					{
 						extend: 'excelHtml5',
-						title: 'School Data',
+						text: 'Export Excel',
+						title: 'School Data Report',
 						exportOptions: {
-							columns: ':visible'
+							modifier: {
+								selected: true
+							},
+							columns: [1, 2, 3, 4]
 						}
 					},
 					{
 						extend: 'csvHtml5',
-						title: 'School Data',
+						text: 'Export CSV',
+						title: 'School Data Report',
 						exportOptions: {
-							columns: ':visible'
+							modifier: {
+								selected: true
+							},
+							columns: [1, 2, 3, 4]
 						}
 					}
 				],
 				select: true
-			} );
+			});
 			
-			$('#export-pdf').on('click', function() {
-				dataTable.button('.buttons-pdf').trigger();
-			});
-			$('#export-txt').on('click', function() {
-				dataTable.button('.buttons-csv').trigger(); //A voir, supprimer le txt
-			});
 			$('#export-csv').on('click', function() {
 				dataTable.button('.buttons-csv').trigger();
 			});
@@ -250,12 +255,13 @@ $schools = $schoolManager->fetchSchools();
 			function updateTable(data) {
 				dataTable.clear();
 				$.each(data, function(index, school) {
+					var formattedDate = moment(school.school_Date).format('DD/MM/YYYY'); // Formatage de la date
 					dataTable.row.add([
 						'<input type="checkbox" class="form-check-input" value="' + school.school_Id + '">',
 						school.school_Id,
 						school.school_Name,
 						school.school_token,
-						'10/05/2024',
+						formattedDate, // Utilisation de la date formatée
 						'<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item edit-link" href="edit-appointment.html">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + school.school_Id + '">Supprimer</a></div></div>'
 					]).draw(false);
 				});
