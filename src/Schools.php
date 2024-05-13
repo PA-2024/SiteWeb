@@ -97,7 +97,7 @@ class Schools
 
     /**
      * Récupère le nombre d'écoles créées pour un mois donné.
-     * 
+     *
      * @param int $year Année concernée.
      * @param int $month Mois concerné.
      * @return int Nombre d'écoles créées durant le mois spécifié.
@@ -124,7 +124,10 @@ class Schools
         // Compter les écoles dans le mois donné
         $count = 0;
         foreach ($data as $school) {
-            if (isset($school['school_Date']) && $school['school_Date'] >= $startDate && $school['school_Date'] <= $endDate) {
+            $schoolDate = $school['school_Date'] ?? '';
+            $isInDateRange = $schoolDate >= $startDate && $schoolDate <= $endDate;
+
+            if ($isInDateRange) {
                 $count++;
             }
         }
