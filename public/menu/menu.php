@@ -17,7 +17,8 @@
 					<ul style="display: none;">
 						<li><a href="schools_list.php">Liste des écoles</a></li>
 						<li><a href="add_school.php">Ajouter un école</a></li>
-						<li><a href="edit-members.php">Ajouter une classe</a></li>
+						<li><a href="sectors_list.php">Liste des salles</a></li>
+						<li><a href="add_sectors_search.php">Ajouter une classe</a></li>
 					</ul>
 				</li>
 				<div class="logout-btn">

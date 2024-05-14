@@ -33,6 +33,17 @@ $schools = $schoolManager->fetchSchools();
 				
 				<!-- Zone pour les messages d'alerte -->
 				<div id="alert-placeholder"></div>
+				<!-- Zone pour les messages d'alerte 2 -->
+                <?php if (isset($_GET['message']) && $_GET['message'] == 'success'): ?>
+                    <div class="card bg-white">
+                        <div class="card-body">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>École modifiée !</strong> Cette école a bien été modifiée.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
                 <!-- Main Content -->
                 <div class="row">
@@ -100,7 +111,7 @@ $schools = $schoolManager->fetchSchools();
 														<div class="dropdown dropdown-action">
 															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 															<div class="dropdown-menu dropdown-menu-end">
-																<a class="dropdown-item" href="edit-appointment.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a>
+																<a class="dropdown-item" href="edit_school.php?id=<?php echo htmlspecialchars($school['school_Id']); ?>"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a>
 																<a class="dropdown-item delete-link" href="#" data-bs-toggle="modal" data-bs-target="#delete_school" data-id="<?php echo htmlspecialchars($school['school_Id']); ?>"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
 
 															</div>
