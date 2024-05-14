@@ -134,6 +134,30 @@ class Schools
 
         return $count;
     }
+
+    public function fetchSchoolById($schoolId)
+    {
+        $url = $this->apiUrl . '/' . $schoolId;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la récupération des données.');
+        }
+
+        $school = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return $school;
+    }
+
     /**
      * Met à jour les informations d'une école existante.
      *
@@ -148,25 +172,34 @@ class Schools
     {
         $url = $this->apiUrl . '/' . $schoolId;
 
-        $putData = json_encode([
+        // Obtenir les données actuelles de l'école pour conserver la date de création
+        $currentSchool = $this->fetchSchoolById($schoolId);
+        if ($currentSchool === null) {
+            throw new \Exception("École non trouvée.");
+        }
+
+        $postData = json_encode([
+            'school_Id' => $schoolId,
             'school_Name' => $name,
             'school_token' => $token,
-            'school_allowSite' => $allowSite
+            'school_allowSite' => $allowSite,
+            'school_Date' => $currentSchool['school_Date'] // Conserver la date de création actuelle (l'API casse la date sans cela)
         ]);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $putData);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json'
         ]);
 
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($response === false) {
+        if ($response === false || $httpStatusCode != 200) {
             throw new \Exception("Échec de la mise à jour de l'école.");
         }
 
