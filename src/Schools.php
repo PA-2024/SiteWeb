@@ -183,7 +183,7 @@ class Schools
             'school_Name' => $name,
             'school_token' => $token,
             'school_allowSite' => $allowSite,
-            'school_Date' => $currentSchool['school_Date'] 
+            'school_Date' => $currentSchool['school_Date']
             // Conserver la date de création actuelle (l'API casse la date sans cela)
         ]);
 
