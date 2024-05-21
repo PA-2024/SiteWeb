@@ -13,7 +13,7 @@
 					</ul>
 				</li>
 				<li class="submenu">
-					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Gestion des écoles </span> <span class="menu-arrow"></span></a>
+					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-06.svg" alt=""></span> <span>Gestion des écoles </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li class="submenu">
                             <a href="#"></i> <span> Ecoles</span> <span class="menu-arrow"></span></a>
@@ -32,7 +32,7 @@
 					</ul>
 				</li>
 				<div class="logout-btn">
-					<a href="login.php"><span class="menu-side"><img src="assets/img/icons/logout.svg" alt=""></span> <span>Me déconnecter</span></a>
+					<a href="logout.php"><span class="menu-side"><img src="assets/img/icons/logout.svg" alt=""></span> <span>Me déconnecter</span></a>
 				</div>
 			</ul>
 		</div>

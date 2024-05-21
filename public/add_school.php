@@ -6,6 +6,10 @@ require_once '../vendor/autoload.php';
 use GeSign\Schools;
 
 $schoolManager = new Schools();
+use GeSign\SessionManager;
+
+$sessionManager = new SessionManager();
+$sessionManager->checkUserLoggedIn();
 include 'header/entete_dashboard.php'; 
 include 'menu/menu.php'; 
 ?>

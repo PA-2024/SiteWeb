@@ -8,6 +8,11 @@ use GeSign\Schools;
 $schoolManager = new Schools();
 $schools = $schoolManager->fetchSchools();
 
+use GeSign\SessionManager;
+
+$sessionManager = new SessionManager();
+$sessionManager->restrictAccessToLoginUsers();
+
 // Récupération du nombre d'écoles pour le mois actuel et le mois précédent
 $currentMonth = date('m');
 $currentYear = date('Y');
