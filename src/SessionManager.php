@@ -18,8 +18,7 @@ class SessionManager
             } else {
                 $this->redirectToLogin();
             }
-        } 
-        else {
+        } else {
             $this->redirectToDashboard();
         }
     }
