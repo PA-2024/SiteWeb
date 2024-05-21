@@ -5,7 +5,7 @@ class Auth
 {
     private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Auth";
     
-	// A tester
+    // A tester
     public function register($userName, $email, $password, $roleName)
     {
         $postData = json_encode([
@@ -52,7 +52,7 @@ class Auth
         return json_decode($response, true);
     }
     
-	// OK
+    // OK
     public function login($email, $password)
     {
         $postData = json_encode([

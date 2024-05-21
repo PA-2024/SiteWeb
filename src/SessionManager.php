@@ -18,10 +18,10 @@ class SessionManager
             } else {
                 $this->redirectToLogin();
             }
-        }
-		else {
+        } 
+        else {
             $this->redirectToDashboard();
-		}
+        }
     }
 
     protected function redirectToLogin()
