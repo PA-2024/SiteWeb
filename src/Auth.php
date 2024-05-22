@@ -6,7 +6,7 @@ class Auth
     private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Auth";
     
     // A tester
-    public function register($userName, $email, $password, $roleName)
+    public function register($userName, $email, $password, $phoneNumber)
     {
         $postData = json_encode([
             'userName' => $userName,
@@ -17,7 +17,7 @@ class Auth
             'passwordHash' => $password,
             'securityStamp' => bin2hex(random_bytes(16)),
             'concurrencyStamp' => bin2hex(random_bytes(16)),
-            'phoneNumber' => '',
+            'phoneNumber' => $phoneNumber,
             'phoneNumberConfirmed' => false,
             'twoFactorEnabled' => false,
             'lockoutEnd' => null,
@@ -28,7 +28,7 @@ class Auth
             'user_password' => $password,
             'user_Role' => [
                 'roles_Id' => 0,
-                'role_Name' => $roleName
+                'role_Name' => 'string'
             ]
         ]);
 
@@ -45,11 +45,9 @@ class Auth
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpStatusCode !== 200) {
-            return json_decode($response, true)['error'] ?? 'Inscription échouée';
-        }
+        $decodedResponse = json_decode($response, true);
 
-        return json_decode($response, true);
+        return $decodedResponse;
     }
     
     // OK
@@ -63,7 +61,6 @@ class Auth
                 'role_Name' => 'string'
             ]
         ]);
-
         $ch = curl_init($this->apiUrl . '/login');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -81,6 +78,16 @@ class Auth
             return json_decode($response, true)['error'] ?? 'Problème lors de la connexion';
         }
 
-        return json_decode($response, true);
+        $data = json_decode($response, true);
+
+        // on décode le JWT pour extraire les informations utilisateur
+        $tokenParts = explode('.', $data['token']);
+        $payload = json_decode(base64_decode($tokenParts[1]), true);
+
+        return [
+            'token' => $data['token'],
+            'user_Id' => $payload['unique_name'],
+            'userName' => $payload['role']
+        ];
     }
 }

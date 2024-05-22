@@ -29,6 +29,7 @@ if ($previousMonthCount > 0) {
     $percentageChange = ($currentMonthCount > 0) ? 100 : 0;
 }
 
+$userName = $_SESSION['user_name'];
 ?>
 <body>
     <div class="main-wrapper">
@@ -56,11 +57,11 @@ if ($previousMonthCount > 0) {
 				<div class="good-morning-blk">
 					<div class="row">
 						<div class="col-md-6">
-							<div class="morning-user">
-								<h2>Bonjour, <span>Bastien LEUWERS</span></h2>
-								<p>Passez une bonne journée au travail</p>
-							</div>
-						</div>
+                            <div class="morning-user">
+                                <h2>Bonjour, <span><?php echo htmlspecialchars($userName); ?></span></h2>
+                                <p>Bienvenue sur votre tableau de bord. Passez une excellente journée au travail !</p>
+                            </div>
+                        </div>
 						<div class="col-md-6 position-blk">
 							<div class="morning-img">
 								<img src="assets/img/morning-img-01.png" alt="">

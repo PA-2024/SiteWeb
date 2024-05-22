@@ -8,6 +8,7 @@ use GeSign\SessionManager;
 $auth = new Auth();
 $sessionManager = new SessionManager();
 $error = '';
+$success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
@@ -23,6 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $error = 'Connexion échouée: ' . $result;
     }
+}
+
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    $success = '<strong>Inscription réussie.</strong> Vous pouvez maintenant vous connecter.';
 }
 ?>
 <?php include 'header/entete_login.php'; ?>
@@ -52,8 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
                                     <h2>Connexion</h2>
                                     <?php if ($error): ?>
-                                        <div class="alert alert-danger">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                             <?php echo $error; ?>
+											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if ($success): ?>
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <?php echo $success; ?>
+											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
                                     <?php endif; ?>
                                     <!-- Form -->
