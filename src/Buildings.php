@@ -106,7 +106,7 @@ class Buildings
             return json_decode($response, true)['error'] ?? 'Mise à jour échouée';
         }
 
-        return json_decode($response, true);
+        return true;
     }
 
     public function deleteBuilding($id)

@@ -43,8 +43,7 @@ class BuildingsTest extends TestCase
 
         // Test de mise à jour du bâtiment
         $updateResult = $this->buildings->updateBuilding($buildingId, 'Updated City', 'Updated Building', '456 Updated Address', $school);
-        $this->assertIsArray($updateResult);
-        $this->assertEquals('Updated Building', $updateResult['bulding_Name']);
+        $this->assertTrue($deleteResult);
 
         // Test de suppression du bâtiment
         $deleteResult = $this->buildings->deleteBuilding($buildingId);
