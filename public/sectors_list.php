@@ -6,7 +6,7 @@ require_once '../vendor/autoload.php';
 use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
-$sessionManager->checkUserLoggedIn();
+$sessionManager->restrictAccessToLoginUsers();
 
 use GeSign\Schools;
 use GeSign\Sectors;
