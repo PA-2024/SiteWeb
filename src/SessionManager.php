@@ -14,7 +14,7 @@ class SessionManager
                 $_SESSION['user_logged_in'] = true;
                 $_SESSION['user_id'] = $_COOKIE['user_id'];
                 $_SESSION['user_name'] = $_COOKIE['user_name'];
-				$_SESSION['user_role'] = $_COOKIE['user_role'];
+                $_SESSION['user_role'] = $_COOKIE['user_role'];
                 $this->redirectToDashboard();
             } else {
                 $this->redirectToLogin();
@@ -42,13 +42,13 @@ class SessionManager
         $_SESSION['user_logged_in'] = true;
         $_SESSION['user_id'] = $userId;
         $_SESSION['user_name'] = $userName;
-		$_SESSION['user_role'] = $userRole;
+        $_SESSION['user_role'] = $userRole;
 
         if ($remember) {
             setcookie('user_logged_in', 'true', time() + (86400 * 30), "/"); // 30 jours
             setcookie('user_id', $userId, time() + (86400 * 30), "/");
             setcookie('user_name', $userName, time() + (86400 * 30), "/");
-			setcookie('user_role', $userRole, time() + (86400 * 30), "/");
+            setcookie('user_role', $userRole, time() + (86400 * 30), "/");
         }
 
         $this->redirectToDashboard();
@@ -68,7 +68,7 @@ class SessionManager
         setcookie('user_logged_in', '', time() - 3600, "/");
         setcookie('user_id', '', time() - 3600, "/");
         setcookie('user_name', '', time() - 3600, "/");
-		setcookie('user_role', '', time() - 3600, "/");
+        setcookie('user_role', '', time() - 3600, "/");
 
         $this->redirectToLogin();
     }
@@ -82,13 +82,13 @@ class SessionManager
                 $_SESSION['user_logged_in'] = true;
                 $_SESSION['user_id'] = $_COOKIE['user_id'];
                 $_SESSION['user_name'] = $_COOKIE['user_name'];
-				$_SESSION['user_role'] = $_COOKIE['user_role'];
+                $_SESSION['user_role'] = $_COOKIE['user_role'];
             } else {
                 $this->redirectToError();
             }
         }
     }
-	
+
     public function checkUserRole($requiredRole)
     {
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== $requiredRole) {
