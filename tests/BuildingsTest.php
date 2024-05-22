@@ -3,14 +3,17 @@
 
 use PHPUnit\Framework\TestCase;
 use GeSign\Buildings;
+use GeSign\Schools;
 
 class BuildingsTest extends TestCase
 {
     private $buildings;
+    private $schools;
 
     protected function setUp(): void
     {
         $this->buildings = new Buildings();
+        $this->schools = new Schools();
     }
 
     public function testFetchBuildings()
@@ -22,13 +25,8 @@ class BuildingsTest extends TestCase
     public function testCreateAndDeleteBuilding()
     {
         // Créer une école fictive qu'on supprime après
-        $school = [
-            'school_Id' => 0,
-            'school_Name' => 'Test School',
-            'school_token' => 'test123',
-            'school_allowSite' => true,
-            'school_Date' => date('Y-m-d\TH:i:s')
-        ];
+        $school = $this->schools->createSchool('Test School', 'test123', true);
+        $schoolId = $school['school_Id'];
 
         // Test de création d'un bâtiment
         $createResult = $this->buildings->createBuilding('Test City', 'Test Building', '123 Test Address', $school);
@@ -48,5 +46,9 @@ class BuildingsTest extends TestCase
         // Test de suppression du bâtiment
         $deleteResult = $this->buildings->deleteBuilding($buildingId);
         $this->assertTrue($deleteResult);
+
+        // Suppression de l'école créée
+        $deleteSchoolResult = $this->schools->deleteSchool($schoolId);
+        $this->assertTrue($deleteSchoolResult);
     }
 }
