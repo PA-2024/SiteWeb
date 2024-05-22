@@ -102,7 +102,7 @@ class Buildings
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpStatusCode !== 200) {
+        if ($httpStatusCode !== 204) {
             return json_decode($response, true)['error'] ?? 'Mise à jour échouée';
         }
 
@@ -123,7 +123,7 @@ class Buildings
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpStatusCode !== 200) {
+        if ($httpStatusCode !== 204) {
             return json_decode($response, true)['error'] ?? 'Suppression échouée';
         }
 
