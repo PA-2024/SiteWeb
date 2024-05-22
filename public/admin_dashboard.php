@@ -12,6 +12,7 @@ use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
+$sessionManager->checkUserRole('string');
 
 // Récupération du nombre d'écoles pour le mois actuel et le mois précédent
 $currentMonth = date('m');

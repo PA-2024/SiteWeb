@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (is_array($result) && isset($result['token'])) {
         $userId = $result['user_Id'];
         $userName = $result['userName'];
-        $sessionManager->loginUser($userId, $userName, $remember);
+		$userRole = $result['userName'];
+        $sessionManager->loginUser($userId, $userName, $userRole, $remember);
     } else {
         $error = 'Connexion échouée: ' . $result;
     }

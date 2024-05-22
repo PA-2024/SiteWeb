@@ -45,7 +45,7 @@
 						<a class="dropdown-item" href="profile.php">Mon profil</a>
 						<a class="dropdown-item" href="edit-profile.php">Modifier mon profil</a>
 						<a class="dropdown-item" href="settings.htphpml">Paramètres</a>
-						<a class="dropdown-item" href="login.php">Me déconnecter</a>
+						<a class="dropdown-item" href="logout.php">Me déconnecter</a>
 					</div>
                 </li>
 				<li class="nav-item ">
