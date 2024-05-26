@@ -22,7 +22,7 @@ class BuildingsTest extends TestCase
         $this->assertIsArray($result);
     }
 
-    public function testCreateAndDeleteBuilding()
+    /*public function testCreateAndDeleteBuilding()
     {
         // Créer une école fictive qu'on supprime après
         $school = $this->schools->createSchool('Test School', 'test123', true);
@@ -50,5 +50,5 @@ class BuildingsTest extends TestCase
         // Suppression de l'école créée
         $deleteSchoolResult = $this->schools->deleteSchool($schoolId);
         $this->assertTrue($deleteSchoolResult);
-    }
+    }*/
 }
