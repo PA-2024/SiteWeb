@@ -68,7 +68,7 @@ class SubjectsHour
     }
 
     /**
-     * Récupère une heure de cours par ID 
+     * Récupère une heure de cours par ID
      *
      * @param int $subjectsHourId L'ID de l'heure de cours à récupérer.
      * @return array Les données de l'heure de cours.
