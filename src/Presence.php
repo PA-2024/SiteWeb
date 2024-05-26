@@ -2,16 +2,16 @@
 //Auteur : Capdrake (Bastien LEUWERS)
 namespace GeSign;
 
-class Student
+class Presence
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Student";
+    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Presence";
 
     /**
-     * Récupère tous les étudiants depuis l'API.
+     * Récupère toutes les présences
      *
-     * @return array La liste des étudiants.
+     * @return array La liste des présences.
      */
-    public function fetchStudents()
+    public function fetchPresences()
     {
         $ch = curl_init($this->apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -24,30 +24,28 @@ class Student
             throw new \Exception('Erreur lors de la récupération des données.');
         }
 
-        $students = json_decode($response, true);
+        $presences = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
 
-        return $students;
+        return $presences;
     }
 
     /**
-     * Crée un nouvel étudiant dans l'API.
+     * Crée une nouvelle présence
      *
-     * @param string $firstName Le prénom de l'étudiant.
-     * @param string $lastName Le nom de famille de l'étudiant.
-     * @param array $user Les détails de l'utilisateur associé à l'étudiant.
-     * @param array $sector Les détails du secteur associé à l'étudiant.
-     * @return array Les données de l'étudiant créé.
+     * @param int $userId L'ID de l'utilisateur.
+     * @param int $subjectsHourId L'ID de l'heure de cours.
+     * @param string $guid Le GUID de la présence.
+     * @return array Les données de la présence créée.
      */
-    public function createStudent($firstName, $lastName, $user, $sector)
+    public function createPresence($userId, $subjectsHourId, $guid)
     {
         $postData = json_encode([
-            'student_FirstName' => $firstName,
-            'student_LastName' => $lastName,
-            'student_User' => $user,
-            'student_sectors' => $sector
+            'presence_User' => ['id' => $userId],
+            'presence_SubjectsHour' => ['subjectsHour_Id' => $subjectsHourId],
+            'prescence_Guid' => $guid
         ]);
 
         $ch = curl_init($this->apiUrl);
@@ -63,21 +61,21 @@ class Student
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception("Échec de la création de l'étudiant.");
+            throw new \Exception("Échec de la création de la présence.");
         }
 
         return json_decode($response, true);
     }
 
     /**
-     * Récupère un étudiant avec son ID
+     * Récupère une présence par ID
      *
-     * @param int $studentId L'ID de l'étudiant à récupérer.
-     * @return array Les données de l'étudiant.
+     * @param int $presenceId L'ID de la présence à récupérer.
+     * @return array Les données de la présence.
      */
-    public function fetchStudentById($studentId)
+    public function fetchPresenceById($presenceId)
     {
-        $url = $this->apiUrl . '/' . $studentId;
+        $url = $this->apiUrl . '/' . $presenceId;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -90,34 +88,32 @@ class Student
             throw new \Exception('Erreur lors de la récupération des données.');
         }
 
-        $student = json_decode($response, true);
+        $presence = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
 
-        return $student;
+        return $presence;
     }
 
     /**
-     * Met à jour les informations d'un étudiant existant dans l'API.
+     * Met à jour les informations d'une présence existante
      *
-     * @param int $studentId L'ID de l'étudiant à mettre à jour.
-     * @param string $firstName Le nouveau prénom de l'étudiant.
-     * @param string $lastName Le nouveau nom de famille de l'étudiant.
-     * @param array $user Les nouveaux détails de l'utilisateur associé à l'étudiant.
-     * @param array $sector Les nouveaux détails du secteur associé à l'étudiant.
+     * @param int $presenceId L'ID de la présence à mettre à jour.
+     * @param int $userId Le nouvel ID de l'utilisateur.
+     * @param int $subjectsHourId Le nouvel ID de l'heure de cours.
+     * @param string $guid Le nouveau GUID de la présence.
      * @return bool True si la mise à jour a réussi, sinon false.
      */
-    public function updateStudent($studentId, $firstName, $lastName, $user, $sector)
+    public function updatePresence($presenceId, $userId, $subjectsHourId, $guid)
     {
-        $url = $this->apiUrl . '/' . $studentId;
+        $url = $this->apiUrl . '/' . $presenceId;
 
         $postData = json_encode([
-            'student_Id' => $studentId,
-            'student_FirstName' => $firstName,
-            'student_LastName' => $lastName,
-            'student_User' => $user,
-            'student_sectors' => $sector
+            'presence_Id' => $presenceId,
+            'presence_User' => ['id' => $userId],
+            'presence_SubjectsHour' => ['subjectsHour_Id' => $subjectsHourId],
+            'prescence_Guid' => $guid
         ]);
 
         $ch = curl_init($url);
@@ -130,24 +126,25 @@ class Student
         ]);
 
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($response === false) {
-            throw new \Exception("Échec de la mise à jour de l'étudiant.");
+        if ($httpStatusCode != 204) {
+            throw new \Exception("Échec de la mise à jour de la présence.");
         }
 
-        return json_decode($response, true);
+        return true;
     }
 
     /**
-     * Supprime un étudiant par ID depuis l'API.
+     * Supprime une présence par ID
      *
-     * @param int $studentId L'ID de l'étudiant à supprimer.
+     * @param int $presenceId L'ID de la présence à supprimer.
      * @return bool True si la suppression a réussi, sinon false.
      */
-    public function deleteStudent($studentId)
+    public function deletePresence($presenceId)
     {
-        $url = $this->apiUrl . '/' . $studentId;
+        $url = $this->apiUrl . '/' . $presenceId;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -158,8 +155,8 @@ class Student
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpStatusCode != 200) {
-            throw new \Exception("Échec de la suppression de l'étudiant, statut HTTP: " . $httpStatusCode);
+        if ($httpStatusCode != 204) {
+            throw new \Exception("Échec de la suppression de la présence, statut HTTP: " . $httpStatusCode);
         }
 
         return true;

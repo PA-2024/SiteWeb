@@ -1,4 +1,6 @@
 <?php
+//Auteur : Capdrake (Bastien LEUWERS)
+
 namespace GeSign;
 
 class Schools

@@ -2,16 +2,16 @@
 //Auteur : Capdrake (Bastien LEUWERS)
 namespace GeSign;
 
-class Student
+class SubjectsHour
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Student";
+    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/SubjectsHour";
 
     /**
-     * Récupère tous les étudiants depuis l'API.
+     * Récupère toutes les heures de cours
      *
-     * @return array La liste des étudiants.
+     * @return array La liste des heures de cours.
      */
-    public function fetchStudents()
+    public function fetchSubjectsHours()
     {
         $ch = curl_init($this->apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -24,30 +24,28 @@ class Student
             throw new \Exception('Erreur lors de la récupération des données.');
         }
 
-        $students = json_decode($response, true);
+        $subjectsHours = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
 
-        return $students;
+        return $subjectsHours;
     }
 
     /**
-     * Crée un nouvel étudiant dans l'API.
+     * Crée une nouvelle heure de cours
      *
-     * @param string $firstName Le prénom de l'étudiant.
-     * @param string $lastName Le nom de famille de l'étudiant.
-     * @param array $user Les détails de l'utilisateur associé à l'étudiant.
-     * @param array $sector Les détails du secteur associé à l'étudiant.
-     * @return array Les données de l'étudiant créé.
+     * @param int $sectorId L'ID du secteur associé.
+     * @param string $room Le nom de la salle.
+     * @param string $date La date et l'heure du cours.
+     * @return array Les données de l'heure de cours créée.
      */
-    public function createStudent($firstName, $lastName, $user, $sector)
+    public function createSubjectsHour($sectorId, $room, $date)
     {
         $postData = json_encode([
-            'student_FirstName' => $firstName,
-            'student_LastName' => $lastName,
-            'student_User' => $user,
-            'student_sectors' => $sector
+            'subjectsHour_Sectors' => ['sectors_Id' => $sectorId],
+            'subjectsHour_Rooom' => $room,
+            'subjectsHour_Date' => $date
         ]);
 
         $ch = curl_init($this->apiUrl);
@@ -63,21 +61,21 @@ class Student
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception("Échec de la création de l'étudiant.");
+            throw new \Exception("Échec de la création de l'heure de cours.");
         }
 
         return json_decode($response, true);
     }
 
     /**
-     * Récupère un étudiant avec son ID
+     * Récupère une heure de cours par ID 
      *
-     * @param int $studentId L'ID de l'étudiant à récupérer.
-     * @return array Les données de l'étudiant.
+     * @param int $subjectsHourId L'ID de l'heure de cours à récupérer.
+     * @return array Les données de l'heure de cours.
      */
-    public function fetchStudentById($studentId)
+    public function fetchSubjectsHourById($subjectsHourId)
     {
-        $url = $this->apiUrl . '/' . $studentId;
+        $url = $this->apiUrl . '/' . $subjectsHourId;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -90,34 +88,32 @@ class Student
             throw new \Exception('Erreur lors de la récupération des données.');
         }
 
-        $student = json_decode($response, true);
+        $subjectsHour = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
 
-        return $student;
+        return $subjectsHour;
     }
 
     /**
-     * Met à jour les informations d'un étudiant existant dans l'API.
+     * Met à jour les informations d'une heure de cours existante
      *
-     * @param int $studentId L'ID de l'étudiant à mettre à jour.
-     * @param string $firstName Le nouveau prénom de l'étudiant.
-     * @param string $lastName Le nouveau nom de famille de l'étudiant.
-     * @param array $user Les nouveaux détails de l'utilisateur associé à l'étudiant.
-     * @param array $sector Les nouveaux détails du secteur associé à l'étudiant.
+     * @param int $subjectsHourId L'ID de l'heure de cours à mettre à jour.
+     * @param int $sectorId Le nouvel ID du secteur associé.
+     * @param string $room Le nouveau nom de la salle.
+     * @param string $date La nouvelle date et heure du cours.
      * @return bool True si la mise à jour a réussi, sinon false.
      */
-    public function updateStudent($studentId, $firstName, $lastName, $user, $sector)
+    public function updateSubjectsHour($subjectsHourId, $sectorId, $room, $date)
     {
-        $url = $this->apiUrl . '/' . $studentId;
+        $url = $this->apiUrl . '/' . $subjectsHourId;
 
         $postData = json_encode([
-            'student_Id' => $studentId,
-            'student_FirstName' => $firstName,
-            'student_LastName' => $lastName,
-            'student_User' => $user,
-            'student_sectors' => $sector
+            'subjectsHour_Id' => $subjectsHourId,
+            'subjectsHour_Sectors' => ['sectors_Id' => $sectorId],
+            'subjectsHour_Rooom' => $room,
+            'subjectsHour_Date' => $date
         ]);
 
         $ch = curl_init($url);
@@ -130,24 +126,25 @@ class Student
         ]);
 
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($response === false) {
-            throw new \Exception("Échec de la mise à jour de l'étudiant.");
+        if ($httpStatusCode != 204) {
+            throw new \Exception("Échec de la mise à jour de l'heure de cours.");
         }
 
-        return json_decode($response, true);
+        return true;
     }
 
     /**
-     * Supprime un étudiant par ID depuis l'API.
+     * Supprime une heure de cours par ID
      *
-     * @param int $studentId L'ID de l'étudiant à supprimer.
+     * @param int $subjectsHourId L'ID de l'heure de cours à supprimer.
      * @return bool True si la suppression a réussi, sinon false.
      */
-    public function deleteStudent($studentId)
+    public function deleteSubjectsHour($subjectsHourId)
     {
-        $url = $this->apiUrl . '/' . $studentId;
+        $url = $this->apiUrl . '/' . $subjectsHourId;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -158,8 +155,8 @@ class Student
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpStatusCode != 200) {
-            throw new \Exception("Échec de la suppression de l'étudiant, statut HTTP: " . $httpStatusCode);
+        if ($httpStatusCode != 204) {
+            throw new \Exception("Échec de la suppression de l'heure de cours, statut HTTP: " . $httpStatusCode);
         }
 
         return true;
