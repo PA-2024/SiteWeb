@@ -44,8 +44,8 @@
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="profile.php">Mon profil</a>
 						<a class="dropdown-item" href="edit-profile.php">Modifier mon profil</a>
-						<a class="dropdown-item" href="settings.htphpml">Paramètres</a>
-						<a class="dropdown-item" href="logout.php">Me déconnecter</a>
+						<a class="dropdown-item" href="settings.php">Paramètres</a>
+						<a class="dropdown-item" href="script/logout.php">Me déconnecter</a>
 					</div>
                 </li>
 				<li class="nav-item ">
@@ -57,8 +57,8 @@
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="profile.php">Mon profil</a>
 					<a class="dropdown-item" href="edit-profile.php">Modifier mon profil</a>
-					<a class="dropdown-item" href="settings.htphpml">Paramètres</a>
-					<a class="dropdown-item" href="login.php">Me déconnecter</a>
+					<a class="dropdown-item" href="settings.php">Paramètres</a>
+					<a class="dropdown-item" href="script/logout.php">Me déconnecter</a>
                 </div>
             </div>
         </div>
