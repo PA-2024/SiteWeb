@@ -30,6 +30,14 @@ class SessionManager
         exit;
     }
 
+    // Cette fonction supplémentaire sert à gérer la bonne redirection
+    // quand celle-ci est gérée dans un script
+    protected function redirectToLogin2()
+    {
+        header('Location: ../login.php');
+        exit;
+    }
+
     protected function redirectToError()
     {
         header('Location: error-500.php');
@@ -70,7 +78,7 @@ class SessionManager
         setcookie('user_name', '', time() - 3600, "/");
         setcookie('user_role', '', time() - 3600, "/");
 
-        $this->redirectToLogin();
+        $this->redirectToLogin2();
     }
 
     public function restrictAccessToLoginUsers()

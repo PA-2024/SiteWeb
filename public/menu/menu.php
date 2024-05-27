@@ -32,7 +32,7 @@
 					</ul>
 				</li>
 				<div class="logout-btn">
-					<a href="logout.php"><span class="menu-side"><img src="assets/img/icons/logout.svg" alt=""></span> <span>Me déconnecter</span></a>
+					<a href="script/logout.php"><span class="menu-side"><img src="assets/img/icons/logout.svg" alt=""></span> <span>Me déconnecter</span></a>
 				</div>
 			</ul>
 		</div>
