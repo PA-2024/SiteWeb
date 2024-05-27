@@ -26,5 +26,7 @@
 	
 	<!-- Main CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-     
+    
+	<!-- Datepicker CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
 </head>

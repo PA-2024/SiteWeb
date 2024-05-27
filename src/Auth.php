@@ -59,8 +59,16 @@ class Auth
             'user_Role' => [
                 'roles_Id' => 0,
                 'role_Name' => 'string'
+            ],
+            'user_School' => [
+                'school_Id' => 0,
+                'school_Name'=> 'string',
+                'school_token'=> 'string',
+                'school_allowSite'=> true,
+                'school_Date'=> '2024-05-27T20:53:02.794Z'
             ]
         ]);
+
         $ch = curl_init($this->apiUrl . '/login');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);

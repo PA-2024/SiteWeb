@@ -11,8 +11,8 @@ $schools = $schoolManager->fetchSchools();
 use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
-//$sessionManager->restrictAccessToLoginUsers();
-//$sessionManager->checkUserRole('string');
+$sessionManager->restrictAccessToLoginUsers();
+$sessionManager->checkUserRole('string');
 
 // Récupération du nombre d'écoles pour le mois actuel et le mois précédent
 $currentMonth = date('m');
@@ -37,7 +37,7 @@ $userName = $_SESSION['user_name'];
 		<!--On ajoute notre header ici -->
 		<?php include 'header/entete_dashboard.php'; ?>
         <!--On ajoute notre menu à gauche ici-->
-		<?php include 'menu/menu.php'; ?>
+		<?php include 'menu/menu_admin.php'; ?>
         <div class="page-wrapper">
             <div class="content">
 			

@@ -22,14 +22,10 @@
 								<li><a href="add_school.php">Ajouter un école</a></li>
                             </ul>
                         </li>
-						<li class="submenu">
-                            <a href="#"></i> <span> Salles</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="sectors_list.php">Liste des salles</a></li>
-								<li><a href="add_sectors_search.php">Ajouter une classe</a></li>
-                            </ul>
-                        </li>
 					</ul>
+				</li>
+				<li>
+					<a href="errors_list.php"><span class="menu-side"><img src="assets/img/icons/menu-icon-14.svg" alt=""></span> <span>Erreurs</span></a>
 				</li>
 				<div class="logout-btn">
 					<a href="script/logout.php"><span class="menu-side"><img src="assets/img/icons/logout.svg" alt=""></span> <span>Me déconnecter</span></a>

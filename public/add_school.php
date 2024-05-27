@@ -3,26 +3,19 @@
 include 'header/entete.php'; 
 require_once '../vendor/autoload.php';
 use GeSign\SessionManager;
+use GeSign\Schools;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
 
-use GeSign\Schools;
-
 $schoolManager = new Schools();
-use GeSign\SessionManager;
-
-$sessionManager = new SessionManager();
-$sessionManager->checkUserLoggedIn();
-include 'header/entete_dashboard.php'; 
-include 'menu/menu.php'; 
 ?>
 <body>
     <div class="main-wrapper">
 		<!--On ajoute notre header ici -->
 		<?php include 'header/entete_dashboard.php'; ?>
         <!--On ajoute notre menu à gauche ici-->
-		<?php include 'menu/menu.php'; ?>
+		<?php include 'menu/menu_admin.php'; ?>
                 <div class="page-wrapper">
             <div class="content">
                 <!-- Page Header -->
