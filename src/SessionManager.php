@@ -66,7 +66,7 @@ class SessionManager
     protected function redirectToDashboard()
     {
         if (!isset($_SESSION['user_role'])) {
-            $this->redirectToError();;
+            $this->redirectToError();
         }
 
         switch ($_SESSION['user_role']) {
