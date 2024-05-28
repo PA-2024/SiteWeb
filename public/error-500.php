@@ -4,7 +4,7 @@
         <div class="error-box">
             <img class="img-fluid" src="assets/img/error-02.png" alt="Logo">
             <h3><img class="img-fluid mb-0" src="assets/img/icons/danger.svg" alt="Logo"> Internal Server Error</h3>
-            <p>Vous n'êtes pas autorisé à accéder à cette ressource</p>
+            <p>Il semblerait qu'il y ait un souci dans la requête... Merci de réessayer plus tard !</p>
             <button onclick="goBack()" class="btn btn-primary go-home">Retour</button>
         </div>
     </div>

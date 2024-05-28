@@ -40,7 +40,7 @@ class SessionManager
 
     protected function redirectToError()
     {
-        header('Location: error-500.php');
+        header('Location: error-404.php');
         exit;
     }
 

@@ -33,7 +33,7 @@ try {
     $userName = $_SESSION['user_name'];
 } catch (Exception $e) {
     // Redirection vers la page d'erreur 500
-    header('Location: /error-500.php');
+    header('Location: error-500.php');
     exit();
 }
 ?>
