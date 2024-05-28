@@ -6,6 +6,7 @@ use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
+$sessionManager->checkUserRole('Admin');
 
 use GeSign\Schools;
 
@@ -28,7 +29,7 @@ if (isset($_GET['id'])) {
         <!-- On ajoute notre header ici -->
         <?php include 'header/entete_dashboard.php'; ?>
         <!-- On ajoute notre menu à gauche ici -->
-        <?php include 'menu/menu.php'; ?>
+        <?php include 'menu/menu_admin.php'; ?>
         <div class="page-wrapper">
             <div class="content">
                 <!-- Page Header -->

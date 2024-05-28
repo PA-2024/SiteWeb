@@ -7,9 +7,8 @@
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Classe </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="members.php">Liste des classes</a></li>
-						<li><a href="add-members.php">Ajouter une classe</a></li>
-						<li><a href="edit-members.php">Editer une classe</a></li>
+						<li><a href="sectors_list.php">Liste des classes</a></li>
+						<li><a href="add_sectors.php">Ajouter une classe</a></li>
 					</ul>
 				</li>
 				<li class="submenu">

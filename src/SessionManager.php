@@ -15,6 +15,7 @@ class SessionManager
                 $_SESSION['user_id'] = $_COOKIE['user_id'];
                 $_SESSION['user_name'] = $_COOKIE['user_name'];
                 $_SESSION['user_role'] = $_COOKIE['user_role'];
+                $_SESSION['token'] = $_COOKIE['token'];
                 $this->redirectToDashboard();
             } else {
                 $this->redirectToLogin();
@@ -30,8 +31,6 @@ class SessionManager
         exit;
     }
 
-    // Cette fonction supplémentaire sert à gérer la bonne redirection
-    // quand celle-ci est gérée dans un script
     protected function redirectToLogin2()
     {
         header('Location: ../login.php');
@@ -44,19 +43,21 @@ class SessionManager
         exit;
     }
 
-    public function loginUser($userId, $userName, $userRole, $remember = false)
+    public function loginUser($userId, $userName, $userRole, $token, $remember = false)
     {
         session_start();
         $_SESSION['user_logged_in'] = true;
         $_SESSION['user_id'] = $userId;
         $_SESSION['user_name'] = $userName;
         $_SESSION['user_role'] = $userRole;
+        $_SESSION['token'] = $token;
 
         if ($remember) {
             setcookie('user_logged_in', 'true', time() + (86400 * 30), "/"); // 30 jours
             setcookie('user_id', $userId, time() + (86400 * 30), "/");
             setcookie('user_name', $userName, time() + (86400 * 30), "/");
             setcookie('user_role', $userRole, time() + (86400 * 30), "/");
+            setcookie('token', $token, time() + (86400 * 30), "/");
         }
 
         $this->redirectToDashboard();
@@ -64,7 +65,28 @@ class SessionManager
 
     protected function redirectToDashboard()
     {
-        header('Location: admin_dashboard.php');
+        if (!isset($_SESSION['user_role'])) {
+            //$this->redirectToError();
+			print("ici");
+        }
+
+        switch ($_SESSION['user_role']) {
+            case 'Admin':
+                header('Location: admin_dashboard.php');
+                break;
+            case 'Gestion Ecole':
+                header('Location: director_dashboard.php');
+                break;
+            case 'Professeur':
+                header('Location: professor_dashboard.php');
+                break;
+            case 'Eleve':
+                header('Location: student_dashboard.php');
+                break;
+            default:
+				print($_SESSION['user_role']);
+                //$this->redirectToError();
+        }
         exit;
     }
 
@@ -77,6 +99,7 @@ class SessionManager
         setcookie('user_id', '', time() - 3600, "/");
         setcookie('user_name', '', time() - 3600, "/");
         setcookie('user_role', '', time() - 3600, "/");
+        setcookie('token', '', time() - 3600, "/");
 
         $this->redirectToLogin2();
     }
@@ -91,6 +114,7 @@ class SessionManager
                 $_SESSION['user_id'] = $_COOKIE['user_id'];
                 $_SESSION['user_name'] = $_COOKIE['user_name'];
                 $_SESSION['user_role'] = $_COOKIE['user_role'];
+                $_SESSION['token'] = $_COOKIE['token'];
             } else {
                 $this->redirectToError();
             }
@@ -100,7 +124,7 @@ class SessionManager
     public function checkUserRole($requiredRole)
     {
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== $requiredRole) {
-            header('Location: error-500.php');
+            header('Location: error-404.php');
             exit;
         }
     }

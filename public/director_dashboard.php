@@ -8,7 +8,7 @@ use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
-//$sessionManager->checkUserRole('string');
+$sessionManager->checkUserRole('Gestion Ecole');
 
 try {
     $schoolManager = new Schools();
@@ -76,18 +76,6 @@ try {
 					</div>
 				</div>
 				<div class="row">
-				    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-							<div class="dash-boxs comman-flex-center">
-								<img src="assets/img/icons/profile-add.svg" alt="">
-							</div>
-							<div class="dash-content dash-count">
-								<h4>Nouveaux membres</h4>
-								<h2><span class="counter-up" ></span></h2>
-								<p><span class="passive-view"><i class="feather-arrow-up-right me-1"></i>20%</span> vs dernier mois</p>
-							</div>
-                        </div>
-                    </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
 							<div class="dash-boxs comman-flex-center">
@@ -100,18 +88,6 @@ try {
 							</div>
                         </div>
                     </div>
-					<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-						<div class="dash-widget">
-							<div class="dash-boxs comman-flex-center">
-								<img src="assets/img/icons/star.svg" alt="">
-							</div>
-							<div class="dash-content dash-count">
-								<h4>Nombre d'écoles</h4>
-								<h2><span class="counter-up"><?php echo count($schools); ?></span></h2>
-								<p><span class="passive-view"><i class="feather-arrow-up-right me-1"></i><?php echo sprintf("%.2f", $percentageChange); ?>%</span> vs dernier mois</p>
-							</div>
-						</div>
-					</div>
 				</div>
             </div>
         </div>

@@ -8,7 +8,7 @@ use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
-//$sessionManager->checkUserRole('string');
+$sessionManager->checkUserRole('Admin');
 
 try {
     $schoolManager = new Schools();
@@ -109,139 +109,6 @@ try {
 								<h4>Nombre d'écoles</h4>
 								<h2><span class="counter-up"><?php echo count($schools); ?></span></h2>
 								<p><span class="passive-view"><i class="feather-arrow-up-right me-1"></i><?php echo sprintf("%.2f", $percentageChange); ?>%</span> vs dernier mois</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-xl-12">
-						<div class="card">
-							<div class="card-header pb-0">
-								<h4 class="card-title d-inline-block">Nouveaux membres récents </h4> <a href="members.php" class="float-end patient-views">Tout montrer</a>
-							</div>
-							<div class="card-block table-dash">
-								<div class="table-responsive">
-									<table class="table mb-0 border-0 datatable custom-table">
-										<thead>
-											<tr>
-												<th>
-													<div class="form-check check-tables">
-														<input class="form-check-input" type="checkbox" value="something">
-													</div>
-												</th>
-												<th>ID</th>
-												<th>Nom</th>
-												<th>Age</th>
-												<th>Date de naissance</th>
-												<th>Rôle</th>
-												<th>Triage</th>
-												<th></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>
-													<div class="form-check check-tables">
-														<input class="form-check-input" type="checkbox" value="something">
-													</div>
-												</td>
-												<td>R00001</td>
-												<td class="table-image">
-													<img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" alt=""> 
-													<h2>Bastien LEUWERS</h2>
-												</td>
-												<td>24</td>
-												<td>26/09/1999</td>
-												<td>Bogoss</td>
-												<td><button class="custom-badge status-green ">Non Urgent</button></td>
-												<td class="text-end">
-													<div class="dropdown dropdown-action">
-														<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-														<div class="dropdown-menu dropdown-menu-end">
-															<a class="dropdown-item" href="edit-members.php"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a>
-															<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_appointment"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="form-check check-tables">
-														<input class="form-check-input" type="checkbox" value="something">
-													</div>
-												</td>
-												<td>R00001</td>
-												<td class="table-image">
-													<img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" alt=""> 
-													<h2>Bastien LEUWERS</h2>
-												</td>
-												<td>24</td>
-												<td>26/09/1999</td>
-												<td>Bogoss</td>
-												<td><button class="custom-badge status-pink ">Non Urgent</button></td>
-												<td class="text-end">
-													<div class="dropdown dropdown-action">
-														<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-														<div class="dropdown-menu dropdown-menu-end">
-															<a class="dropdown-item" href="edit-members.php"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a>
-															<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_appointment"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="form-check check-tables">
-														<input class="form-check-input" type="checkbox" value="something">
-													</div>
-												</td>
-												<td>R00001</td>
-												<td class="table-image">
-													<img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" alt=""> 
-													<h2>Bastien LEUWERS</h2>
-												</td>
-												<td>24</td>
-												<td>26/09/1999</td>
-												<td>Bogoss</td>
-												<td><button class="custom-badge status-gray ">Non Urgent</button></td>
-												<td class="text-end">
-													<div class="dropdown dropdown-action">
-														<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-														<div class="dropdown-menu dropdown-menu-end">
-															<a class="dropdown-item" href="edit-members.php"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a>
-															<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_appointment"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="form-check check-tables">
-														<input class="form-check-input" type="checkbox" value="something">
-													</div>
-												</td>
-												<td>R00001</td>
-												<td class="table-image">
-													<img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" alt=""> 
-													<h2>Bastien LEUWERS</h2>
-												</td>
-												<td>24</td>
-												<td>26/09/1999</td>
-												<td>Bogoss</td>
-												<td><button class="custom-badge status-orange ">Non Urgent</button></td>
-												<td class="text-end">
-													<div class="dropdown dropdown-action">
-														<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-														<div class="dropdown-menu dropdown-menu-end">
-															<a class="dropdown-item" href="edit-members.php"><i class="fa-solid fa-pen-to-square m-r-5"></i> Editer</a>
-															<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_appointment"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
 							</div>
 						</div>
 					</div>

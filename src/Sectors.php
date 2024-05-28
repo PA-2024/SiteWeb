@@ -29,18 +29,12 @@ class Sectors
         return $sectors;
     }
 
-    public function addSector($sectorsName, $schoolId, $schoolName, $schoolToken, $schoolAllowSite, $schoolDate)
+    public function addSector($sectorsName, $schoolId)
     {
         $postData = json_encode([
             "sectors_Id" => 0,
             "sectors_Name" => $sectorsName,
-            "sectors_School" => [
-                "school_Id" => $schoolId,
-                "school_Name" => $schoolName,
-                "school_token" => $schoolToken,
-                "school_allowSite" => $schoolAllowSite,
-                "school_Date" => $schoolDate
-            ]
+            "sectors_School" => $schoolId
         ]);
 
         // Initialiser cURL

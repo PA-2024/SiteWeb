@@ -55,18 +55,7 @@ class Auth
     {
         $postData = json_encode([
             'user_email' => $email,
-            'user_password' => $password,
-            'user_Role' => [
-                'roles_Id' => 0,
-                'role_Name' => 'string'
-            ],
-            'user_School' => [
-                'school_Id' => 0,
-                'school_Name'=> 'string',
-                'school_token'=> 'string',
-                'school_allowSite'=> true,
-                'school_Date'=> '2024-05-27T20:53:02.794Z'
-            ]
+            'user_password' => $password
         ]);
 
         $ch = curl_init($this->apiUrl . '/login');
@@ -95,7 +84,8 @@ class Auth
         return [
             'token' => $data['token'],
             'user_Id' => $payload['unique_name'],
-            'userName' => $payload['role']
+            'userName' => $payload['unique_name'],
+            'role' => $payload['role']
         ];
     }
 }

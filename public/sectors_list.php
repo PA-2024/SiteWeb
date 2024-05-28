@@ -7,6 +7,7 @@ use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
+$sessionManager->checkUserRole('Gestion Ecole');
 
 use GeSign\Schools;
 use GeSign\Sectors;
@@ -22,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $allSectors = $sectorsManager->fetchSectors();
 
     foreach ($allSectors as $sector) {
-        if (isset($sector['sectors_School']) && $sector['sectors_School'] !== null) {
-            if ($sector['sectors_School']['school_Id'] == $selectedSchoolId) {
+        if (isset($sector['sectors_School_Id']) && $sector['sectors_School_Id'] !== null) {
+            if ($sector['sectors_School_Id'] == $selectedSchoolId) {
                 $sectors[] = $sector;
             }
         }
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- On ajoute notre header ici -->
         <?php include 'header/entete_dashboard.php'; ?>
         <!-- On ajoute notre menu à gauche ici -->
-        <?php include 'menu/menu.php'; ?>
+        <?php include 'menu/menu_gestion.php'; ?>
         <div class="page-wrapper">
             <div class="content">
                 <!-- Page Header -->
@@ -50,6 +51,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                 </div>
+				
+				<!-- Zone pour les messages d'alerte -->
+				<div id="alert-placeholder"></div>
+				<!-- Zone pour les messages d'alerte 2 -->
+				<?php if (isset($_GET['message'])): ?>
+					<div class="card bg-white">
+						<div class="card-body">
+							<?php if ($_GET['message'] == 'success'): ?>
+								<div class="alert alert-success alert-dismissible fade show" role="alert">
+									<strong>Cours bien ajouté !</strong> Ce cours a bien été ajouté.
+							<?php elseif ($_GET['message'] == 'error'): ?>
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>Cours non ajouté !</strong> Ce cours n'a pas pu être ajouté...
+							<?php endif; ?>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+						</div>
+					</div>
+				<?php endif; ?>
 
                 <!-- Main Content -->
                 <div class="row">

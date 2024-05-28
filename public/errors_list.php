@@ -8,7 +8,8 @@ use GeSign\SessionManager;
 use GeSign\Errors;
 
 $sessionManager = new SessionManager();
-//$sessionManager->restrictAccessToLoginUsers();
+$sessionManager->restrictAccessToLoginUsers();
+$sessionManager->checkUserRole('Admin');
 
 $errorManager = new Errors();
 $errors = $errorManager->fetchErrors();
@@ -26,7 +27,7 @@ $errors = $errorManager->fetchErrors();
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Tableau de bord</a></li>
+                                <li class="breadcrumb-item"><a href="admin_dashboard.php">Tableau de bord</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Liste des erreurs</li>
                             </ul>

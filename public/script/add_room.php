@@ -28,23 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($selectedSchool) {
             $result = $sectorsManager->addSector(
                 $roomName,
-                $selectedSchool['school_Id'],
-                $selectedSchool['school_Name'],
-                $selectedSchool['school_token'],
-                $selectedSchool['school_allowSite'],
-                $selectedSchool['school_Date']
+                $selectedSchool['school_Id']
             );
 
-            header("Location: ../schools_list.php?message=success");
+            header("Location: ../sectors_list.php?message=success");
             exit;
         } else {
             throw new Exception("École sélectionnée non trouvée.");
         }
     } catch (Exception $e) {
-        header("Location: ../schools_list.php?message=error");
+        header("Location: ../sectors_list.php?message=error");
         exit;
     }
 } else {
-    header("Location: ../schools_list.php");
+    header("Location: ../sectors_list.php");
     exit;
 }

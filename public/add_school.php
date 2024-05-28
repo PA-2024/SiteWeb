@@ -7,6 +7,7 @@ use GeSign\Schools;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
+$sessionManager->checkUserRole('Admin');
 
 $schoolManager = new Schools();
 ?>
