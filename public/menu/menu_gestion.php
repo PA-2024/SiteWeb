@@ -5,21 +5,28 @@
 				<li class="menu-title">Main</li>
 
 				<li class="submenu">
-					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Membres </span> <span class="menu-arrow"></span></a>
+					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Classe </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="members.php">Liste des membres</a></li>
-						<li><a href="add-members.php">Ajouter un membre</a></li>
-						<li><a href="edit-members.php">Editer un membre</a></li>
+						<li><a href="members.php">Liste des classes</a></li>
+						<li><a href="add-members.php">Ajouter une classe</a></li>
+						<li><a href="edit-members.php">Editer une classe</a></li>
 					</ul>
 				</li>
 				<li class="submenu">
-					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-06.svg" alt=""></span> <span>Gestion des écoles </span> <span class="menu-arrow"></span></a>
+					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Etudiants </span> <span class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a href="members.php">Liste des étudiants</a></li>
+						<li><a href="add-members.php">Ajouter des étudiants</a></li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-06.svg" alt=""></span> <span>Gestion des cours </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li class="submenu">
-                            <a href="#"></i> <span> Ecoles</span> <span class="menu-arrow"></span></a>
+                            <a href="#"></i> <span> Cours</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="schools_list.php">Liste des écoles</a></li>
-								<li><a href="add_school.php">Ajouter un école</a></li>
+                                <li><a href="schools_list.php">Liste des cours</a></li>
+								<li><a href="add_school.php">Ajouter un cours</a></li>
                             </ul>
                         </li>
 					</ul>

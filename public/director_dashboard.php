@@ -4,40 +4,45 @@ include 'header/entete.php';
 require_once '../vendor/autoload.php';
 
 use GeSign\Schools;
-
-$schoolManager = new Schools();
-$schools = $schoolManager->fetchSchools();
-
 use GeSign\SessionManager;
 
 $sessionManager = new SessionManager();
-//$sessionManager->restrictAccessToLoginUsers();
+$sessionManager->restrictAccessToLoginUsers();
 //$sessionManager->checkUserRole('string');
 
-// Récupération du nombre d'écoles pour le mois actuel et le mois précédent
-$currentMonth = date('m');
-$currentYear = date('Y');
-$previousMonth = date('m', strtotime("-1 month"));
-$previousYear = ($currentMonth == 1) ? $currentYear - 1 : $currentYear;
+try {
+    $schoolManager = new Schools();
+    $schools = $schoolManager->fetchSchools();
 
-$currentMonthCount = $schoolManager->countSchoolsByMonth($currentYear, $currentMonth);
-$previousMonthCount = $schoolManager->countSchoolsByMonth($previousYear, $previousMonth);
+    // Récupération du nombre d'écoles pour le mois actuel et le mois précédent
+    $currentMonth = date('m');
+    $currentYear = date('Y');
+    $previousMonth = date('m', strtotime("-1 month"));
+    $previousYear = ($currentMonth == 1) ? $currentYear - 1 : $currentYear;
 
-// Calcul du pourcentage de variation
-if ($previousMonthCount > 0) {
-    $percentageChange = (($currentMonthCount - $previousMonthCount) / $previousMonthCount) * 100;
-} else {
-    $percentageChange = ($currentMonthCount > 0) ? 100 : 0;
+    $currentMonthCount = $schoolManager->countSchoolsByMonth($currentYear, $currentMonth);
+    $previousMonthCount = $schoolManager->countSchoolsByMonth($previousYear, $previousMonth);
+
+    // Calcul du pourcentage de variation
+    if ($previousMonthCount > 0) {
+        $percentageChange = (($currentMonthCount - $previousMonthCount) / $previousMonthCount) * 100;
+    } else {
+        $percentageChange = ($currentMonthCount > 0) ? 100 : 0;
+    }
+
+    $userName = $_SESSION['user_name'];
+} catch (Exception $e) {
+    // Redirection vers la page d'erreur 500
+    header('Location: /error-500.php');
+    exit();
 }
-
-$userName = $_SESSION['user_name'];
 ?>
 <body>
     <div class="main-wrapper">
 		<!--On ajoute notre header ici -->
 		<?php include 'header/entete_dashboard.php'; ?>
         <!--On ajoute notre menu à gauche ici-->
-		<?php include 'menu/menu.php'; ?>
+		<?php include 'menu/menu_gestion.php'; ?>
         <div class="page-wrapper">
             <div class="content">
 			
