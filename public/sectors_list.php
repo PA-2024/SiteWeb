@@ -23,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $allSectors = $sectorsManager->fetchSectors();
 
     foreach ($allSectors as $sector) {
-        if (isset($sector['sectors_School_Id']) && $sector['sectors_School_Id'] !== null) {
-            if ($sector['sectors_School_Id'] == $selectedSchoolId) {
+        if (isset($sector['sectors_School']) && $sector['sectors_School'] !== null) {
+            if ($sector['sectors_School']['school_Id'] == $selectedSchoolId) {
                 $sectors[] = $sector;
             }
         }
