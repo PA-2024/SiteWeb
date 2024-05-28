@@ -66,8 +66,7 @@ class SessionManager
     protected function redirectToDashboard()
     {
         if (!isset($_SESSION['user_role'])) {
-            //$this->redirectToError();
-			print("ici");
+            $this->redirectToError();;
         }
 
         switch ($_SESSION['user_role']) {
@@ -84,8 +83,7 @@ class SessionManager
                 header('Location: student_dashboard.php');
                 break;
             default:
-				print($_SESSION['user_role']);
-                //$this->redirectToError();
+                $this->redirectToError();
         }
         exit;
     }
