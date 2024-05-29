@@ -16,6 +16,7 @@ class SessionManager
                 $_SESSION['user_name'] = $_COOKIE['user_name'];
                 $_SESSION['user_role'] = $_COOKIE['user_role'];
                 $_SESSION['token'] = $_COOKIE['token'];
+                $_SESSION['school'] = $_COOKIE['school'];
                 $this->redirectToDashboard();
             } else {
                 $this->redirectToLogin();
@@ -43,7 +44,7 @@ class SessionManager
         exit;
     }
 
-    public function loginUser($userId, $userName, $userRole, $token, $remember = false)
+    public function loginUser($userId, $userName, $userRole, $token, $school, $remember = false)
     {
         session_start();
         $_SESSION['user_logged_in'] = true;
@@ -51,6 +52,7 @@ class SessionManager
         $_SESSION['user_name'] = $userName;
         $_SESSION['user_role'] = $userRole;
         $_SESSION['token'] = $token;
+        $_SESSION['school'] = $school;
 
         if ($remember) {
             setcookie('user_logged_in', 'true', time() + (86400 * 30), "/"); // 30 jours
@@ -58,6 +60,7 @@ class SessionManager
             setcookie('user_name', $userName, time() + (86400 * 30), "/");
             setcookie('user_role', $userRole, time() + (86400 * 30), "/");
             setcookie('token', $token, time() + (86400 * 30), "/");
+            setcookie('school', $school, time() + (86400 * 30), "/");
         }
 
         $this->redirectToDashboard();
@@ -98,6 +101,7 @@ class SessionManager
         setcookie('user_name', '', time() - 3600, "/");
         setcookie('user_role', '', time() - 3600, "/");
         setcookie('token', '', time() - 3600, "/");
+        setcookie('school', '', time() - 3600, "/");
 
         $this->redirectToLogin2();
     }
@@ -113,6 +117,7 @@ class SessionManager
                 $_SESSION['user_name'] = $_COOKIE['user_name'];
                 $_SESSION['user_role'] = $_COOKIE['user_role'];
                 $_SESSION['token'] = $_COOKIE['token'];
+                $_SESSION['school'] = $_COOKIE['school'];
             } else {
                 $this->redirectToError();
             }

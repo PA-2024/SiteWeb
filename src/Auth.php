@@ -83,9 +83,10 @@ class Auth
 
         return [
             'token' => $data['token'],
-            'user_Id' => $payload['unique_name'],
+            'user_Id' => $payload['nameid'],
             'userName' => $payload['unique_name'],
-            'role' => $payload['role']
+            'role' => $payload['role'],
+            'school' => $payload['SchoolName']
         ];
     }
 }
