@@ -139,7 +139,7 @@ class Schools
 
     public function fetchSchoolById($schoolId)
     {
-        $url = $this->apiUrl . '/' . $schoolId;
+        $url = $this->apiUrl . '/' . 'Details' . '/' . $schoolId;
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
