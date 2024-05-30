@@ -88,7 +88,7 @@ class Sectors
 
         return true;
     }
-	
+
     public function updateSector($sectorId, $sectorsName, $schoolId)
     {
         $url = $this->apiUrl . '/' . $sectorId;
