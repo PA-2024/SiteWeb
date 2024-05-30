@@ -8,6 +8,6 @@ export let options = {
 };
 
 export default function () {
-    http.get('https://pa.wstr.fr');
+    http.get('https://gesign.wstr.fr/');
     sleep(1);
 }
