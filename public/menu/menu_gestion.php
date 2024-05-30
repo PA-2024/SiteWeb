@@ -28,6 +28,14 @@
 								<li><a href="add_school.php">Ajouter un cours</a></li>
                             </ul>
                         </li>
+						<li class="submenu">
+                            <a href="#"></i> <span> Heures de Cours</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="schools_list.php">Liste des heures</a></li>
+								<li><a href="add_school.php">Ajouter un cours</a></li>
+                            </ul>
+                        </li>
+						<li><a href="schools_list.php">Calendrier</a></li>
 					</ul>
 				</li>
 				<div class="logout-btn">

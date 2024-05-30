@@ -208,4 +208,33 @@ class Schools
 
         return json_decode($response, true);
     }
+
+    /**
+     * Récupère les détails d'une école par son nom.
+     *
+     * @param string $name Le nom de l'école à récupérer.
+     * @return array Les détails de l'école.
+     */
+    public function fetchSchoolByName($name)
+    {
+        $url = $this->apiUrl . '/DetailsbyName/' . urlencode($name);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la récupération des données.');
+        }
+
+        $school = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return $school;
+    }
 }

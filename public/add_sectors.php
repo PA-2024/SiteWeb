@@ -11,7 +11,23 @@ $sessionManager->checkUserRole('Gestion Ecole');
 use GeSign\Schools;
 
 $schoolManager = new Schools();
-$schools = $schoolManager->fetchSchools();
+
+// Récupération du nom de l'école à partir de la session ou du cookie
+$schoolName = $_SESSION['school'] ?? $_COOKIE['school'];
+
+if (!$schoolName) {
+    // Rediriger vers une page d'erreur si le nom de l'école n'est pas disponible
+    header('Location: error-404.php');
+    exit;
+}
+
+try {
+    // Récupérer les détails de l'école par son nom
+    $school = $schoolManager->fetchSchoolByName($schoolName);
+} catch (Exception $e) {
+    // Gérer l'exception et afficher un message d'erreur
+    $errorMessage = $e->getMessage();
+}
 ?>
 <body>
     <div class="main-wrapper">
@@ -26,9 +42,9 @@ $schools = $schoolManager->fetchSchools();
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="sectors_list.php">Salles</a></li>
+                                <li class="breadcrumb-item"><a href="sectors_list.php">Classe</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                                <li class="breadcrumb-item active">Ajouter une salle</li>
+                                <li class="breadcrumb-item active">Ajouter une classe</li>
                             </ul>
                         </div>
                     </div>
@@ -39,38 +55,38 @@ $schools = $schoolManager->fetchSchools();
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="script/add_room.php" method="post">
-                                    <div class="row">
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="input-block local-forms">
-                                                <label>École <span class="login-danger">*</span></label>
-                                                <select name="school_Id" id="school-select" class="form-control select" required>
-                                                    <option value="">Sélectionnez une école</option>
-                                                    <?php foreach ($schools as $school): ?>
-                                                        <option value="<?php echo htmlspecialchars($school['school_Id']); ?>">
-                                                            <?php echo htmlspecialchars($school['school_Name']); ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
+                                <?php if (isset($errorMessage)): ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Erreur !</strong> <?php echo htmlspecialchars($errorMessage); ?>
+                                    </div>
+                                <?php else: ?>
+                                    <form action="script/add_room.php" method="post">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 col-xl-4">
+                                                <div class="input-block local-forms">
+                                                    <label>École <span class="login-danger">*</span></label>
+                                                    <input class="form-control" type="text" name="school_name" value="<?php echo htmlspecialchars($school['school_Name']); ?>" readonly>
+                                                    <input type="hidden" name="school_Id" value="<?php echo htmlspecialchars($school['school_Id']); ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-xl-4">
+                                                <div class="input-block local-forms">
+                                                    <label>Nom de la classe <span class="login-danger">*</span></label>
+                                                    <input class="form-control" type="text" name="room_name" id="room-name" required>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-6 col-xl-4">
-                                            <div class="input-block local-forms">
-                                                <label>Nom de la salle <span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" name="room_name" id="room-name" required disabled>
+                                        <div class="col-12">
+                                            <div class="doctor-submit text-end">
+                                                <button type="submit" class="btn btn-primary submit-form me-2">Ajouter</button>
+                                                <button type="reset" class="btn btn-primary cancel-form">Annuler</button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="doctor-submit text-end">
-                                            <button type="submit" class="btn btn-primary submit-form me-2">Ajouter</button>
-                                            <button type="reset" class="btn btn-primary cancel-form">Annuler</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                <?php endif; ?>
                             </div>
-                        </div>							
-                    </div>					
+                        </div>                            
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -106,19 +122,6 @@ $schools = $schoolManager->fetchSchools();
     
     <!-- Custom JS -->
     <script src="assets/js/app.js"></script>
-
-    <!-- Activation du champ salle -->
-    <script>
-        $(document).ready(function() {
-            $('#school-select').on('change', function() {
-                if ($(this).val() !== '') {
-                    $('#room-name').prop('disabled', false);
-                } else {
-                    $('#room-name').prop('disabled', true);
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>
