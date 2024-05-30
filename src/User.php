@@ -49,7 +49,6 @@ class User
 
         $response = curl_exec($ch);
         curl_close($ch);
-		
 
         if ($response === false) {
             throw new \Exception('Erreur lors de la récupération des données.');
