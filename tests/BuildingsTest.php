@@ -7,7 +7,7 @@ use GeSign\Schools;
 
 class BuildingsTest extends TestCase
 {
-    private $buildings;
+    /*private $buildings;
     private $schools;
 
     protected function setUp(): void
@@ -22,7 +22,7 @@ class BuildingsTest extends TestCase
         $this->assertIsArray($result);
     }
 
-    /*public function testCreateAndDeleteBuilding()
+    public function testCreateAndDeleteBuilding()
     {
         // Créer une école fictive qu'on supprime après
         $school = $this->schools->createSchool('Test School', 'test123', true);
