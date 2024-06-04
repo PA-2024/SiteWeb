@@ -1,25 +1,62 @@
 <?php
-//Auteur : Capdrake (Bastien LEUWERS)
+// Auteur : Capdrake (Bastien LEUWERS)
 
 use PHPUnit\Framework\TestCase;
 use GeSign\Buildings;
 use GeSign\Schools;
+use GuzzleHttp\Client;
 
 class BuildingsTest extends TestCase
 {
-    /*private $buildings;
+    private $buildings;
     private $schools;
+    private $token;
 
     protected function setUp(): void
     {
-        $this->buildings = new Buildings();
+        // Récupérer le token
+        $this->token = $this->authenticateAndGetToken();
+        $this->buildings = new Buildings($this->token);
         $this->schools = new Schools();
+    }
+
+    private function authenticateAndGetToken()
+    {
+        $client = new Client();
+        $response = $client->post('https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Auth/login', [
+            'json' => [
+                'username' => 'test3@gmail.com',
+                'password' => 'test'
+            ]
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \Exception('Authentification échouée');
+        }
+
+        $data = json_decode($response->getBody(), true);
+        return $data['token'];
     }
 
     public function testFetchBuildings()
     {
         $result = $this->buildings->fetchBuildings();
         $this->assertIsArray($result);
+    }
+
+    public function testFetchBuildingsBySchoolId()
+    {
+        // Créer une école fictive qu'on supprime après
+        $school = $this->schools->createSchool('Test School', 'test123', true);
+        $schoolId = $school['school_Id'];
+
+        // Test de récupération des bâtiments par ID d'école
+        $result = $this->buildings->fetchBuildingsBySchoolId($schoolId);
+        $this->assertIsArray($result);
+
+        // Suppression de l'école créée
+        $deleteSchoolResult = $this->schools->deleteSchool($schoolId);
+        $this->assertTrue($deleteSchoolResult);
     }
 
     public function testCreateAndDeleteBuilding()
@@ -50,5 +87,5 @@ class BuildingsTest extends TestCase
         // Suppression de l'école créée
         $deleteSchoolResult = $this->schools->deleteSchool($schoolId);
         $this->assertTrue($deleteSchoolResult);
-    }*/
+    }
 }
