@@ -112,7 +112,7 @@ class User
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($response === false || $httpStatusCode != 200) {
+        if ($response === false || $httpStatusCode != 204) {
             throw new \Exception("Échec de la mise à jour de l'utilisateur. Code HTTP : " . $httpStatusCode);
         }
 

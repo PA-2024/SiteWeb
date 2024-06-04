@@ -86,7 +86,8 @@ class Auth
             'user_Id' => $payload['nameid'],
             'userName' => $payload['unique_name'],
             'role' => $payload['role'],
-            'school' => $payload['SchoolName']
+            'school' => $payload['SchoolName'],
+            'schoolId' => $payload['SchoolId']
         ];
     }
 }

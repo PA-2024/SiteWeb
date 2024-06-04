@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$userRole = $result['role'];
 		$token = $result['token'];
 		$school = $result['school'];
-        $sessionManager->loginUser($userId, $userName, $userRole, $token, $school, $remember);
+		$schoolId = $result['schoolId'];
+        $sessionManager->loginUser($userId, $userName, $userRole, $token, $school, $schoolId, $remember);
     } else {
         $error = 'Connexion échouée: ' . $result;
     }

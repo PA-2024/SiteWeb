@@ -6,6 +6,12 @@ namespace GeSign;
 class Buildings
 {
     private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/Buildings";
+    private $token;
+
+    public function __construct($token)
+    {
+        $this->token = $token;
+    }
 
     public function fetchBuildings()
     {
@@ -128,5 +134,29 @@ class Buildings
         }
 
         return true;
+    }
+
+    public function fetchBuildingsBySchoolId($schoolId)
+    {
+        $url = $this->apiUrl . '/GetBySchool/' . $schoolId;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la récupération des données.');
+        }
+
+        $buildings = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return $buildings;
     }
 }

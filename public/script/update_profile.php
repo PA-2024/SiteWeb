@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_email = $_POST['user_email'] ?? '';
 
     try {
-        $userManager->updateUser($user_id, $user_firstname, $user_lastname, $user_num, $user_email);
+        $userManager->updateUser($user_id, $user_email, $user_lastname, $user_firstname, $user_num);
         header('Location: ../profile.php?message=success');
         exit;
     } catch (Exception $e) {

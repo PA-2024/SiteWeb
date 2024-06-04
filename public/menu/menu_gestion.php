@@ -38,6 +38,13 @@
 						<li><a href="schools_list.php">Calendrier</a></li>
 					</ul>
 				</li>
+				<li class="submenu">
+					<a href="#"><i class="fa fa-columns"></i> <span>Bâtiments</span> <span class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a href="buildings_list.php">Liste des bâtiments</a></li>
+						<li><a href="add_building.php">Ajouter des bâtiments</a></li>
+					</ul>
+				</li>
 				<div class="logout-btn">
 					<a href="script/logout.php"><span class="menu-side"><img src="assets/img/icons/logout.svg" alt=""></span> <span>Me déconnecter</span></a>
 				</div>
