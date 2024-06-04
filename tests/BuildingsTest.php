@@ -4,38 +4,26 @@
 use PHPUnit\Framework\TestCase;
 use GeSign\Buildings;
 use GeSign\Schools;
-use GuzzleHttp\Client;
+use GeSign\Auth;
 
 class BuildingsTest extends TestCase
 {
     private $buildings;
     private $schools;
+    private $auth;
     private $token;
 
     protected function setUp(): void
     {
-        // Récupérer le token
-        $this->token = $this->authenticateAndGetToken();
+        $this->auth = new Auth();
+        $loginResponse = $this->auth->login('test3@gmail.com', 'test');
+        if (isset($loginResponse['token'])) {
+            $this->token = $loginResponse['token'];
+        } else {
+            throw new \Exception('Authentification échouée : ' . json_encode($loginResponse));
+        }
         $this->buildings = new Buildings($this->token);
         $this->schools = new Schools();
-    }
-
-    private function authenticateAndGetToken()
-    {
-        $client = new Client();
-        $response = $client->post('https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Auth/login', [
-            'json' => [
-                'username' => 'test3@gmail.com',
-                'password' => 'test'
-            ]
-        ]);
-
-        if ($response->getStatusCode() !== 200) {
-            throw new \Exception('Authentification échouée');
-        }
-
-        $data = json_decode($response->getBody(), true);
-        return $data['token'];
     }
 
     public function testFetchBuildings()
