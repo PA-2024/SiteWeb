@@ -37,17 +37,17 @@ class Student
      *
      * @param string $firstName Le prénom de l'étudiant.
      * @param string $lastName Le nom de famille de l'étudiant.
-     * @param array $user Les détails de l'utilisateur associé à l'étudiant.
-     * @param array $sector Les détails du secteur associé à l'étudiant.
+     * @param int $userId L'ID de l'utilisateur associé à l'étudiant.
+     * @param int $sectorId L'ID du secteur associé à l'étudiant.
      * @return array Les données de l'étudiant créé.
      */
-    public function createStudent($firstName, $lastName, $user, $sector)
+    public function createStudent($firstName, $lastName, $userId, $sectorId)
     {
         $postData = json_encode([
             'student_FirstName' => $firstName,
             'student_LastName' => $lastName,
-            'student_User' => $user,
-            'student_sectors' => $sector
+            'student_User_Id' => $userId,
+            'student_Sector_Id' => $sectorId
         ]);
 
         $ch = curl_init($this->apiUrl);
@@ -70,7 +70,7 @@ class Student
     }
 
     /**
-     * Récupère un étudiant avec son ID
+     * Récupère un étudiant avec son ID.
      *
      * @param int $studentId L'ID de l'étudiant à récupérer.
      * @return array Les données de l'étudiant.
@@ -104,26 +104,26 @@ class Student
      * @param int $studentId L'ID de l'étudiant à mettre à jour.
      * @param string $firstName Le nouveau prénom de l'étudiant.
      * @param string $lastName Le nouveau nom de famille de l'étudiant.
-     * @param array $user Les nouveaux détails de l'utilisateur associé à l'étudiant.
-     * @param array $sector Les nouveaux détails du secteur associé à l'étudiant.
-     * @return bool True si la mise à jour a réussi, sinon false.
+     * @param int $userId Le nouvel ID de l'utilisateur associé à l'étudiant.
+     * @param int $sectorId Le nouvel ID du secteur associé à l'étudiant.
+     * @return array Les données de l'étudiant mis à jour.
      */
-    public function updateStudent($studentId, $firstName, $lastName, $user, $sector)
+    public function updateStudent($studentId, $firstName, $lastName, $userId, $sectorId)
     {
         $url = $this->apiUrl . '/' . $studentId;
 
-        $postData = json_encode([
+        $putData = json_encode([
             'student_Id' => $studentId,
             'student_FirstName' => $firstName,
             'student_LastName' => $lastName,
-            'student_User' => $user,
-            'student_sectors' => $sector
+            'student_User_Id' => $userId,
+            'student_Sector_Id' => $sectorId
         ]);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $putData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json'
@@ -158,7 +158,7 @@ class Student
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpStatusCode != 200) {
+        if ($httpStatusCode != 204) {
             throw new \Exception("Échec de la suppression de l'étudiant, statut HTTP: " . $httpStatusCode);
         }
 
