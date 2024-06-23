@@ -41,7 +41,6 @@ if (!$schoolId) {
                         <div class="card">
                             <div class="card-body">
                                 <form action="script/add_building.php" method="post">
-                                    <input type="hidden" name="buildingSchool" value="<?php echo htmlspecialchars($schoolId); ?>">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">

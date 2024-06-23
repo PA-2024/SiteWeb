@@ -34,13 +34,12 @@ class Buildings
         return $buildings;
     }
 
-    public function createBuilding($city, $name, $address, $school)
+    public function createBuilding($city, $name, $address)
     {
         $postData = json_encode([
             'bulding_City' => $city,
             'bulding_Name' => $name,
-            'bulding_Adress' => $address,
-            'school' => $school
+            'bulding_Adress' => $address
         ]);
 
         $ch = curl_init($this->apiUrl);
@@ -49,7 +48,8 @@ class Buildings
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Accept: application/json'
+            'Accept: application/json',
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
@@ -122,7 +122,8 @@ class Buildings
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: application/json'
+            'Accept: application/json',
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);

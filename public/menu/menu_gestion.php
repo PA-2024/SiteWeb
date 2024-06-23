@@ -24,8 +24,8 @@
 						<li class="submenu">
                             <a href="#"></i> <span> Cours</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="schools_list.php">Liste des cours</a></li>
-								<li><a href="add_school.php">Ajouter un cours</a></li>
+                                <li><a href="subjects_list.php">Liste des cours</a></li>
+								<li><a href="add_subjects.php">Ajouter un cours</a></li>
                             </ul>
                         </li>
 						<li class="submenu">

@@ -4,16 +4,24 @@
 require_once '../../vendor/autoload.php';
 use GeSign\Buildings;
 
-if (isset($_POST['buildingName']) && isset($_POST['buildingCity']) && isset($_POST['buildingAddress']) && isset($_POST['buildingSchool'])) {
-    $buildingManager = new Buildings();
+// Récupération du token de l'utilisateur connecté
+$token = $_SESSION['token'] ?? $_COOKIE['token'];
+
+if (!$token) {
+    header('Location: login.php');
+    exit;
+}
+
+if (isset($_POST['buildingName']) && isset($_POST['buildingCity']) && isset($_POST['buildingAddress'])) {
+    $buildingManager = new Buildings($token);
     try {
         $result = $buildingManager->createBuilding(
             $_POST['buildingCity'],
             $_POST['buildingName'],
-            $_POST['buildingAddress'],
-            $_POST['buildingSchool']
+            $_POST['buildingAddress']
         );
-        if ($result === true) {
+        // Vérifiez si l'opération a réussi en fonction de la présence de l'ID du bâtiment
+        if (isset($result['bulding_Id'])) {
             header('Location: ../buildings_list.php?message=success');
         } else {
             header('Location: ../buildings_list.php?message=error&error=' . urlencode($result));
