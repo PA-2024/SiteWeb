@@ -1,11 +1,10 @@
 <?php
-//Auteur : Capdrake (Bastien LEUWERS)
-
+// Auteur : Capdrake (Bastien LEUWERS)
 namespace GeSign;
 
-class Buildings
+class Subjects
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/Buildings";
+    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Subjects";
     private $token;
 
     public function __construct($token)
@@ -13,12 +12,20 @@ class Buildings
         $this->token = $token;
     }
 
-    public function fetchBuildings()
+    /**
+     * Récupère tous les sujets depuis l'API.
+     *
+     * @return array La liste des sujets.
+     */
+    public function fetchSubjects()
     {
-        $ch = curl_init();
+        $ch = curl_init($this->apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $this->apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
         $response = curl_exec($ch);
         curl_close($ch);
 
@@ -26,20 +33,26 @@ class Buildings
             throw new \Exception('Erreur lors de la récupération des données.');
         }
 
-        $buildings = json_decode($response, true);
+        $subjects = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
 
-        return $buildings;
+        return $subjects;
     }
 
-    public function createBuilding($city, $name, $address)
+    /**
+     * Crée un nouveau sujet dans l'API.
+     *
+     * @param string $name Le nom du sujet.
+     * @param int $userId L'ID de l'utilisateur enseignant.
+     * @return array Les données du sujet créé.
+     */
+    public function createSubject($name, $userId)
     {
         $postData = json_encode([
-            'bulding_City' => $city,
-            'bulding_Name' => $name,
-            'bulding_Adress' => $address
+            'subjects_Name' => $name,
+            'subjects_User_Id' => $userId
         ]);
 
         $ch = curl_init($this->apiUrl);
@@ -63,12 +76,23 @@ class Buildings
         return json_decode($response, true);
     }
 
-    public function fetchBuildingById($id)
+    /**
+     * Récupère un sujet par son ID.
+     *
+     * @param int $subjectId L'ID du sujet à récupérer.
+     * @return array Les données du sujet.
+     */
+    public function fetchSubjectById($subjectId)
     {
-        $url = $this->apiUrl . '/' . $id;
+        $url = $this->apiUrl . '/' . $subjectId;
+
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
         $response = curl_exec($ch);
         curl_close($ch);
 
@@ -76,25 +100,32 @@ class Buildings
             throw new \Exception('Erreur lors de la récupération des données.');
         }
 
-        $building = json_decode($response, true);
+        $subject = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
 
-        return $building;
+        return $subject;
     }
 
-    public function updateBuilding($id, $city, $name, $address, $school)
+    /**
+     * Met à jour les informations d'un sujet existant dans l'API.
+     *
+     * @param int $subjectId L'ID du sujet à mettre à jour.
+     * @param string $name Le nouveau nom du sujet.
+     * @param int $userId L'ID de l'utilisateur enseignant.
+     * @return bool True si la mise à jour a réussi, sinon false.
+     */
+    public function updateSubject($subjectId, $name, $userId)
     {
+        $url = $this->apiUrl . '/' . $subjectId;
+
         $putData = json_encode([
-            'bulding_Id' => $id,
-            'bulding_City' => $city,
-            'bulding_Name' => $name,
-            'bulding_Adress' => $address,
-            'school' => $school
+            'subjects_Id' => $subjectId,
+            'subjects_Name' => $name,
+            'subjects_User_Id' => $userId
         ]);
 
-        $url = $this->apiUrl . '/' . $id;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -116,9 +147,16 @@ class Buildings
         return true;
     }
 
-    public function deleteBuilding($id)
+    /**
+     * Supprime un sujet par ID depuis l'API.
+     *
+     * @param int $subjectId L'ID du sujet à supprimer.
+     * @return bool True si la suppression a réussi, sinon false.
+     */
+    public function deleteSubject($subjectId)
     {
-        $url = $this->apiUrl . '/' . $id;
+        $url = $this->apiUrl . '/' . $subjectId;
+
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -136,29 +174,5 @@ class Buildings
         }
 
         return true;
-    }
-
-    public function fetchBuildingsBySchoolId($schoolId)
-    {
-        $url = $this->apiUrl . '/GetBySchool/' . $schoolId;
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: application/json',
-            'Authorization: ' . $this->token
-        ]);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        if ($response === false) {
-            throw new \Exception('Erreur lors de la récupération des données.');
-        }
-
-        $buildings = json_decode($response, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
-        }
-
-        return $buildings;
     }
 }

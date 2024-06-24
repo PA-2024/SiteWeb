@@ -4,8 +4,16 @@
 require_once '../../vendor/autoload.php';
 use GeSign\Buildings;
 
+// Récupération du token de l'utilisateur connecté
+$token = $_SESSION['token'] ?? $_COOKIE['token'];
+
+if (!$token) {
+    header('Location: login.php');
+    exit;
+}
+
 if (isset($_POST['buildingId']) && isset($_POST['buildingName']) && isset($_POST['buildingCity']) && isset($_POST['buildingAddress']) && isset($_POST['buildingSchool'])) {
-    $buildingManager = new Buildings();
+    $buildingManager = new Buildings($token);
     try {
         $result = $buildingManager->updateBuilding(
             $_POST['buildingId'],

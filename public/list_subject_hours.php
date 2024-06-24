@@ -4,8 +4,7 @@ include 'header/entete.php';
 require_once '../vendor/autoload.php';
 
 use GeSign\SessionManager;
-use GeSign\Subjects;
-use GeSign\Schools;
+use GeSign\SubjectsHour;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
@@ -19,23 +18,14 @@ if (!$token) {
     exit;
 }
 
-$schoolName = $_SESSION['school'] ?? $_COOKIE['school'];
-
-if (!$schoolName) {
-    // Rediriger vers une page d'erreur si le nom de l'école n'est pas disponible
-    header('Location: error-404.php');
-    exit;
-}
-
-$subjectManager = new Subjects($token);
-
-$subjects = $subjectManager->fetchSubjects();
+$subjectHourManager = new SubjectsHour($token);
+$subjectHours = $subjectHourManager->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des Cours</title>
+    <title>Liste des Heures de Cours</title>
 </head>
 <body>
     <div class="main-wrapper">
@@ -48,9 +38,9 @@ $subjects = $subjectManager->fetchSubjects();
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="subjects_list.php">Cours</a></li>
+                                <li class="breadcrumb-item"><a href="list_subject_hours.php">Heures de Cours</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                                <li class="breadcrumb-item active">Liste des Cours</li>
+                                <li class="breadcrumb-item active">Liste des Heures de Cours</li>
                             </ul>
                         </div>
                     </div>
@@ -63,16 +53,16 @@ $subjects = $subjectManager->fetchSubjects();
                         <div class="card-body">
                             <?php if ($_GET['message'] == 'success'): ?>
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Cours bien ajouté !</strong> Ce cours a bien été ajouté.
+                                    <strong>Heure de cours ajoutée avec succès !</strong>
                             <?php elseif ($_GET['message'] == 'error'): ?>
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>Cours non ajouté !</strong> Ce cours n'a pas pu être ajouté...
+                                    <strong>Erreur lors de l'ajout de l'heure de cours !</strong>
                             <?php elseif ($_GET['message'] == 'success2'): ?>
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Cours bien modifié !</strong> Ce cours a bien été modifié.
+                                    <strong>Heure de cours modifiée avec succès !</strong>
                             <?php elseif ($_GET['message'] == 'error2'): ?>
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>Cours non modifié !</strong> Ce cours n'a pas pu être modifié...
+                                    <strong>Erreur lors de la modification de l'heure de cours !</strong>
                             <?php endif; ?>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
@@ -95,7 +85,7 @@ $subjects = $subjectManager->fetchSubjects();
                         <div class="row align-items-center">
                             <div class="col">
                                 <div class="doctor-table-blk">
-                                    <h3>Liste des Cours</h3>
+                                    <h3>Liste des Heures de Cours</h3>
                                     <div class="doctor-search-blk">
                                         <div class="top-nav-search table-search-blk">
                                             <form id="dataTableSearchForm">
@@ -104,7 +94,7 @@ $subjects = $subjectManager->fetchSubjects();
                                             </form>
                                         </div>
                                         <div class="add-group">
-                                            <a href="add_subjects.php" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""></a>
+                                            <a href="add_subject_hour.php" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""></a>
                                             <a href="javascript:;" id="refreshTableBtn" class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg" alt="Refresh"></a>
                                         </div>
                                     </div>
@@ -134,27 +124,31 @@ $subjects = $subjectManager->fetchSubjects();
                                                     </th>
                                                     <th>ID</th>
                                                     <th>Nom du Cours</th>
-                                                    <th>Professeur</th>
+                                                    <th>Salle</th>
+                                                    <th>Date de Début</th>
+                                                    <th>Date de Fin</th>
                                                     <th class="text-end">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($subjects as $subject): ?>
+                                                <?php foreach ($subjectHours as $subjectHour): ?>
                                                     <tr>
                                                         <td>
                                                             <div class="form-check check-tables">
-                                                                <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($subject['subjects_Id']); ?>">
+                                                                <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($subjectHour['subjectsHour_Id']); ?>">
                                                             </div>
                                                         </td>
-                                                        <td><?php echo htmlspecialchars($subject['subjects_Id']); ?></td>
-                                                        <td><?php echo htmlspecialchars($subject['subjects_Name']); ?></td>
-                                                        <td><?php echo htmlspecialchars($subject['teacher']['user_firstname'] . ' ' . $subject['teacher']['user_lastname']); ?></td>
+                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Id']); ?></td>
+                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Subjects']['subjects_Name']); ?></td>
+                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Room']); ?></td>
+                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_DateStart']); ?></td>
+                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_DateEnd']); ?></td>
                                                         <td class="text-end">
                                                             <div class="dropdown dropdown-action">
                                                                 <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                                    <a class="dropdown-item" href="edit_subject.php?id=<?php echo htmlspecialchars($subject['subjects_Id']); ?>"><i class="fa-solid fa-pen-to-square m-r-5"></i> Éditer</a>
-                                                                    <a class="dropdown-item delete-link" href="#" data-bs-toggle="modal" data-bs-target="#delete_subject" data-id="<?php echo htmlspecialchars($subject['subjects_Id']); ?>"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
+                                                                    <a class="dropdown-item" href="edit_subject_hour.php?id=<?php echo htmlspecialchars($subjectHour['subjectsHour_Id']); ?>"><i class="fa-solid fa-pen-to-square m-r-5"></i> Éditer</a>
+                                                                    <a class="dropdown-item delete-link" href="#" data-bs-toggle="modal" data-bs-target="#delete_subject_hour" data-id="<?php echo htmlspecialchars($subjectHour['subjectsHour_Id']); ?>"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -171,12 +165,12 @@ $subjects = $subjectManager->fetchSubjects();
             </div>
         </div>
 
-        <div id="delete_subject" class="modal fade delete-modal" role="dialog">
+        <div id="delete_subject_hour" class="modal fade delete-modal" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
                         <img src="assets/img/sent.png" alt="" width="50" height="46">
-                        <h3>Êtes-vous sûr de vouloir supprimer ce cours ?</h3>
+                        <h3>Êtes-vous sûr de vouloir supprimer cette heure de cours ?</h3>
                         <div class="m-t-20">
                             <a href="#" class="btn btn-white" data-bs-dismiss="modal">Fermer</a>
                             <button type="button" class="btn btn-danger confirm-delete">Oui</button>
@@ -220,131 +214,133 @@ $subjects = $subjectManager->fetchSubjects();
 
     <!-- Script pour gérer le tableau et la suppression -->
     <script>
-	$(document).ready(function() {
-		var dataTable = $('.datatable').DataTable({
-			"searching": true,
-			"bDestroy": true,
-			"dom": 'lrtip',
-			select: 'multi',
-			buttons: [
-				{
-					extend: 'pdfHtml5',
-					title: 'School Data',
-					exportOptions: {
-						columns: ':visible'
-					},
-					customize: function(doc) {
-						doc.content.splice(0, 1, {
-							text: 'Report for School Data',
-							fontSize: 16,
-							alignment: 'center'
-						});
-					}
-				},
-				{
-					extend: 'excelHtml5',
-					text: 'Export Excel',
-					title: 'School Data Report',
-					exportOptions: {
-						modifier: {
-							selected: true
-						},
-						columns: [1, 2, 3, 4]
-					}
-				},
-				{
-					extend: 'csvHtml5',
-					text: 'Export CSV',
-					title: 'School Data Report',
-					exportOptions: {
-						modifier: {
-							selected: true
-						},
-						columns: [1, 2, 3, 4]
-					}
-				}
-			],
-			select: true
-		});
+    $(document).ready(function() {
+        var dataTable = $('.datatable').DataTable({
+            "searching": true,
+            "bDestroy": true,
+            "dom": 'lrtip',
+            select: 'multi',
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    title: 'School Data',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    customize: function(doc) {
+                        doc.content.splice(0, 1, {
+                            text: 'Report for School Data',
+                            fontSize: 16,
+                            alignment: 'center'
+                        });
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Export Excel',
+                    title: 'School Data Report',
+                    exportOptions: {
+                        modifier: {
+                            selected: true
+                        },
+                        columns: [1, 2, 3, 4]
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: 'Export CSV',
+                    title: 'School Data Report',
+                    exportOptions: {
+                        modifier: {
+                            selected: true
+                        },
+                        columns: [1, 2, 3, 4]
+                    }
+                }
+            ],
+            select: true
+        });
 
-		$('#export-csv').on('click', function() {
-			dataTable.button('.buttons-csv').trigger();
-		});
-		$('#export-xlsx').on('click', function() {
-			dataTable.button('.buttons-excel').trigger();
-		});
+        $('#export-csv').on('click', function() {
+            dataTable.button('.buttons-csv').trigger();
+        });
+        $('#export-xlsx').on('click', function() {
+            dataTable.button('.buttons-excel').trigger();
+        });
 
-		$(document).on('submit', '#dataTableSearchForm', function(event) {
-			event.preventDefault();
-			var searchTerm = $('#dataTableSearchInput').val();
-			dataTable.search(searchTerm).draw(); // On effectue la recherche
-		});
+        $(document).on('submit', '#dataTableSearchForm', function(event) {
+            event.preventDefault();
+            var searchTerm = $('#dataTableSearchInput').val();
+            dataTable.search(searchTerm).draw(); // On effectue la recherche
+        });
 
-		// Pour rechercher lors de l'écriture
-		$('#dataTableSearchInput').on('keyup change', function() {
-			dataTable.search(this.value).draw();
-		});
+        // Pour rechercher lors de l'écriture
+        $('#dataTableSearchInput').on('keyup change', function() {
+            dataTable.search(this.value).draw();
+        });
 
-		$('#refreshTableBtn').click(function() {
-			refreshTable();
-		});
+        $('#refreshTableBtn').click(function() {
+            refreshTable();
+        });
 
-		function refreshTable() {
-			$.ajax({
-				url: 'script/fetch_subjects_ajax.php',
-				type: 'GET',
-				dataType: 'json',
-				success: function(data) {
-					updateTable(data);
-				},
-				error: function() {
-					alert('Impossible de recharger les données.');
-				}
-			});
-		}
+        function refreshTable() {
+            $.ajax({
+                url: 'script/fetch_subject_hours_ajax.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    updateTable(data);
+                },
+                error: function() {
+                    alert('Impossible de recharger les données.');
+                }
+            });
+        }
 
-		function updateTable(data) {
-			dataTable.clear();
-			$.each(data, function(index, subject) {
-				dataTable.row.add([
-					'<input type="checkbox" class="form-check-input" value="' + subject.subjects_Id + '">',
-					subject.subjects_Id,
-					subject.subjects_Name,
-					subject.teacher.user_firstname + ' ' + subject.teacher.user_lastname,
-					'<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item" href="edit_subject.php?id=' + subject.subjects_Id + '">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + subject.subjects_Id + '">Supprimer</a></div></div>'
-				]).draw(false);
-			});
-			rebindEvents();
-		}
+        function updateTable(data) {
+            dataTable.clear();
+            $.each(data, function(index, subjectHour) {
+                dataTable.row.add([
+                    '<input type="checkbox" class="form-check-input" value="' + subjectHour.subjectsHour_Id + '">',
+                    subjectHour.subjectsHour_Id,
+                    subjectHour.subjectsHour_Subjects.subjects_Name,
+                    subjectHour.subjectsHour_Room,
+                    subjectHour.subjectsHour_DateStart,
+                    subjectHour.subjectsHour_DateEnd,
+                    '<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item" href="edit_subject_hour.php?id=' + subjectHour.subjectsHour_Id + '">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + subjectHour.subjectsHour_Id + '">Supprimer</a></div></div>'
+                ]).draw(false);
+            });
+            rebindEvents();
+        }
 
-		function rebindEvents() {
-			$(document).on('click', '.delete-link', function() {
-				var subjectId = $(this).data('id');
-				$('#delete_subject').data('id', subjectId);
-				$('#delete_subject').modal('show');
-			});
+        function rebindEvents() {
+            $(document).on('click', '.delete-link', function() {
+                var subjectHourId = $(this).data('id');
+                $('#delete_subject_hour').data('id', subjectHourId);
+                $('#delete_subject_hour').modal('show');
+            });
 
-			$('#delete_subject').on('shown.bs.modal', function() {
-				$(this).find('.btn-danger').off('click').on('click', function() {
-					var idToDelete = $('#delete_subject').data('id');
-					$.ajax({
-						url: 'script/subject_scripts.php?action=delete',
-						type: 'POST',
-						data: { subjectId: idToDelete },
-						success: function(response) {
-							$('#delete_subject').modal('hide');
-							refreshTable();
-							$('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Cours supprimé !</strong> Ce cours a bien été supprimé.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
-						},
-						error: function() {
-							$('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Erreur !</strong> La suppression du cours a échoué.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
-						}
-					});
-				});
-			});
-		}
-		rebindEvents();
-	});
+            $('#delete_subject_hour').on('shown.bs.modal', function() {
+                $(this).find('.btn-danger').off('click').on('click', function() {
+                    var idToDelete = $('#delete_subject_hour').data('id');
+                    $.ajax({
+                        url: 'script/subject_hour_scripts.php?action=delete',
+                        type: 'POST',
+                        data: { subjectHourId: idToDelete },
+                        success: function(response) {
+                            $('#delete_subject_hour').modal('hide');
+                            refreshTable();
+                            $('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Heure de cours supprimée !</strong> Cette heure de cours a bien été supprimée.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
+                        },
+                        error: function() {
+                            $('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Erreur !</strong> La suppression de l\'heure de cours a échoué.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
+                        }
+                    });
+                });
+            });
+        }
+        rebindEvents();
+    });
     </script>
 </body>
 </html>

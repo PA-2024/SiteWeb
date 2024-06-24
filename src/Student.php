@@ -2,9 +2,17 @@
 //Auteur : Capdrake (Bastien LEUWERS)
 namespace GeSign;
 
+use Exception;
+
 class Student
 {
     private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Student";
+    private $token;
+
+    public function __construct($token)
+    {
+        $this->token = $token;
+    }
 
     /**
      * Récupère tous les étudiants depuis l'API.
@@ -15,18 +23,21 @@ class Student
     {
         $ch = curl_init($this->apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
 
         $response = curl_exec($ch);
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception('Erreur lors de la récupération des données.');
+            throw new Exception('Erreur lors de la récupération des données.');
         }
 
         $students = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
+            throw new Exception('Erreur dans le décodage des données JSON.');
         }
 
         return $students;
@@ -35,19 +46,15 @@ class Student
     /**
      * Crée un nouvel étudiant dans l'API.
      *
-     * @param string $firstName Le prénom de l'étudiant.
-     * @param string $lastName Le nom de famille de l'étudiant.
      * @param int $userId L'ID de l'utilisateur associé à l'étudiant.
-     * @param int $sectorId L'ID du secteur associé à l'étudiant.
+     * @param int $classId L'ID de la classe associée à l'étudiant.
      * @return array Les données de l'étudiant créé.
      */
-    public function createStudent($firstName, $lastName, $userId, $sectorId)
+    public function createStudent($userId, $classId)
     {
         $postData = json_encode([
-            'student_FirstName' => $firstName,
-            'student_LastName' => $lastName,
-            'student_User_Id' => $userId,
-            'student_Sector_Id' => $sectorId
+            'student_User_id' => $userId,
+            'student_Class_id' => $classId
         ]);
 
         $ch = curl_init($this->apiUrl);
@@ -56,14 +63,15 @@ class Student
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Accept: application/json'
+            'Accept: application/json',
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception("Échec de la création de l'étudiant.");
+            throw new Exception("Échec de la création de l'étudiant.");
         }
 
         return json_decode($response, true);
@@ -81,18 +89,21 @@ class Student
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
 
         $response = curl_exec($ch);
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception('Erreur lors de la récupération des données.');
+            throw new Exception('Erreur lors de la récupération des données.');
         }
 
         $student = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
+            throw new Exception('Erreur dans le décodage des données JSON.');
         }
 
         return $student;
@@ -102,22 +113,18 @@ class Student
      * Met à jour les informations d'un étudiant existant dans l'API.
      *
      * @param int $studentId L'ID de l'étudiant à mettre à jour.
-     * @param string $firstName Le nouveau prénom de l'étudiant.
-     * @param string $lastName Le nouveau nom de famille de l'étudiant.
      * @param int $userId Le nouvel ID de l'utilisateur associé à l'étudiant.
-     * @param int $sectorId Le nouvel ID du secteur associé à l'étudiant.
+     * @param int $classId Le nouvel ID de la classe associée à l'étudiant.
      * @return array Les données de l'étudiant mis à jour.
      */
-    public function updateStudent($studentId, $firstName, $lastName, $userId, $sectorId)
+    public function updateStudent($studentId, $userId, $classId)
     {
         $url = $this->apiUrl . '/' . $studentId;
 
         $putData = json_encode([
             'student_Id' => $studentId,
-            'student_FirstName' => $firstName,
-            'student_LastName' => $lastName,
             'student_User_Id' => $userId,
-            'student_Sector_Id' => $sectorId
+            'student_Sector_Id' => $classId
         ]);
 
         $ch = curl_init($url);
@@ -126,14 +133,15 @@ class Student
         curl_setopt($ch, CURLOPT_POSTFIELDS, $putData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Accept: application/json'
+            'Accept: application/json',
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception("Échec de la mise à jour de l'étudiant.");
+            throw new Exception("Échec de la mise à jour de l'étudiant.");
         }
 
         return json_decode($response, true);
@@ -152,14 +160,17 @@ class Student
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
 
         $response = curl_exec($ch);
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($httpStatusCode != 204) {
-            throw new \Exception("Échec de la suppression de l'étudiant, statut HTTP: " . $httpStatusCode);
+            throw new Exception("Échec de la suppression de l'étudiant, statut HTTP: " . $httpStatusCode);
         }
 
         return true;

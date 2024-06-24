@@ -9,7 +9,15 @@ $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Gestion Ecole');
 
-$buildingManager = new Buildings();
+// Récupération du token de l'utilisateur connecté
+$token = $_SESSION['token'] ?? $_COOKIE['token'];
+
+if (!$token) {
+    header('Location: login.php');
+    exit;
+}
+
+$buildingManager = new Buildings($token);
 
 if (isset($_GET['id'])) {
     $buildingId = htmlspecialchars($_GET['id']);

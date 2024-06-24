@@ -3,17 +3,31 @@
 include 'header/entete.php';
 require_once '../vendor/autoload.php';
 use GeSign\SessionManager;
+use GeSign\Subjects;
 use GeSign\User;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Gestion Ecole');
 
+if (!isset($_GET['id'])) {
+    header("Location: error-500.php");
+    exit;
+}
+
 // Récupération du token de l'utilisateur connecté
 $token = $_SESSION['token'] ?? $_COOKIE['token'];
 
 if (!$token) {
     header('Location: login.php');
+    exit;
+}
+
+$subjectId = htmlspecialchars($_GET['id']);
+$subjectManager = new Subjects($token);
+$subject = $subjectManager->fetchSubjectById($subjectId);
+if (!$subject) {
+    echo "Cours non trouvé.";
     exit;
 }
 
@@ -25,7 +39,7 @@ $teachers = $userManager->fetchProfessorsBySchool();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter un Cours</title>
+    <title>Editer un Cours</title>
 </head>
 <body>
     <div class="main-wrapper">
@@ -40,7 +54,7 @@ $teachers = $userManager->fetchProfessorsBySchool();
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                                <li class="breadcrumb-item active">Ajouter un Cours</li>
+                                <li class="breadcrumb-item active">Editer un Cours</li>
                             </ul>
                         </div>
                     </div>
@@ -50,12 +64,12 @@ $teachers = $userManager->fetchProfessorsBySchool();
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="script/subject_scripts.php?action=add" method="post">
+                                <form action="script/subject_scripts.php?action=edit&id=<?php echo $subjectId; ?>" method="post">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-block">
                                                 <label>Nom du Cours</label>
-                                                <input type="text" name="subjectName" class="form-control" required>
+                                                <input type="text" name="subjectName" class="form-control" value="<?php echo htmlspecialchars($subject['subjects_Name']); ?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -63,7 +77,7 @@ $teachers = $userManager->fetchProfessorsBySchool();
                                                 <label>Professeur</label>
                                                 <select name="teacherId" class="form-control" required>
                                                     <?php foreach ($teachers as $teacher): ?>
-                                                        <option value="<?php echo $teacher['user_Id']; ?>">
+                                                        <option value="<?php echo $teacher['user_Id']; ?>" <?php echo $teacher['user_Id'] == $subject['teacher']['user_Id'] ? 'selected' : ''; ?>>
                                                             <?php echo htmlspecialchars($teacher['user_firstname'] . ' ' . $teacher['user_lastname']); ?>
                                                         </option>
                                                     <?php endforeach; ?>
@@ -72,7 +86,7 @@ $teachers = $userManager->fetchProfessorsBySchool();
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
                                         <a href="subjects_list.php" class="btn btn-secondary">Annuler</a>
                                     </div>
                                 </form>
@@ -86,7 +100,7 @@ $teachers = $userManager->fetchProfessorsBySchool();
                         <div class="card-body">
                             <?php if ($_GET['message'] == 'success'): ?>
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Action réussie !</strong> Le cours a été ajouté avec succès.
+                                    <strong>Action réussie !</strong> Le cours a été mis à jour avec succès.
                             <?php elseif ($_GET['message'] == 'error'): ?>
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <strong>Erreur !</strong> Une erreur s'est produite...
