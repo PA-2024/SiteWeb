@@ -168,8 +168,10 @@ class SubjectsHour
 
     public function fetchByDateRangeAndStudent($studentId, $startDate, $endDate)
     {
-        $url = $this->apiUrl . '/byDateRange/' . 
-        $studentId . '?StartDate=' . urlencode($startDate) . '&EndDate=' . urlencode($endDate);
+        $baseUrl = $this->apiUrl . '/byDateRange/' . $studentId;
+        $queryParams = '?StartDate=' . urlencode($startDate) . '&EndDate=' . urlencode($endDate);
+        $url = $baseUrl . $queryParams;
+
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
