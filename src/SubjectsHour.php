@@ -194,4 +194,31 @@ class SubjectsHour
 
         return $subjectHours;
     }
+
+    public function fetchSubjectsHoursByDateRange($startDate, $endDate)
+    {
+        $url = $this->apiUrl . "/Teacher/byDateRange?StartDate=" . urlencode($startDate) . "&EndDate=" . urlencode($endDate);
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la récupération des données.');
+        }
+
+        $subjectsHours = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return $subjectsHours;
+    }
 }

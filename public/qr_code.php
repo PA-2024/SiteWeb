@@ -21,7 +21,11 @@ if (!$token) {
 }
 
 $subjectsHourManager = new SubjectsHour($token);
-$subjectsHours = $subjectsHourManager->fetchAll();
+
+$today = new DateTime();
+$startDate = $today->format('Y-m-d') . 'T00:00:00';
+$endDate = (new DateTime('+1 year'))->format('Y-m-d') . 'T23:59:59';
+$subjectsHours = $subjectsHourManager->fetchSubjectsHoursByDateRange($startDate, $endDate);
 
 $selectedHour = isset($_GET['subjectsHourId']) ? $_GET['subjectsHourId'] : null;
 $qrText = "Capdrake est magnifique";
@@ -30,8 +34,8 @@ $qrCode->setSize(300);
 $writer = new PngWriter();
 $qrImage = $writer->write($qrCode)->getDataUri();
 
-// Fonction pour formater la date
-function formatDate($dateString) {
+// Fonction pour formater la date en français
+function formatDateInFrench($dateString) {
     setlocale(LC_TIME, 'fr_FR.UTF-8');
     $date = new DateTime($dateString);
     $formattedDate = strftime('%d %B %Y', $date->getTimestamp());
@@ -42,7 +46,7 @@ function formatDate($dateString) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>QR Code de Présence</title>
@@ -59,7 +63,7 @@ function formatDate($dateString) {
     <script>
         function refreshQRCode() {
             const qrCodeImage = document.getElementById('qr-code-img');
-            qrCodeImage.src = 'script/generate_qr.php?text=Capdrake+est+magnifique&_=' + new Date().getTime();
+            qrCodeImage.src = 'generate_qr.php?text=Capdrake+est+magnifique&_=' + new Date().getTime();
         }
 
         setInterval(refreshQRCode, 10000);
@@ -88,9 +92,9 @@ function formatDate($dateString) {
                         <form method="get" class="form-inline mb-4">
                             <label for="subjectsHourId" class="mr-2">Sélectionner l'heure de cours:</label>
                             <select name="subjectsHourId" id="subjectsHourId" class="form-control mr-2" required>
-                            <?php foreach ($subjectsHours as $subjectsHour): ?>
+                                <?php foreach ($subjectsHours as $subjectsHour): ?>
                                     <option value="<?php echo htmlspecialchars($subjectsHour['subjectsHour_Id']); ?>" <?php echo isset($_GET['subjectsHourId']) && $_GET['subjectsHourId'] == $subjectsHour['subjectsHour_Id'] ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($subjectsHour['subjectsHour_Subjects']['subjects_Name'] . ' - ' . formatDate($subjectsHour['subjectsHour_DateStart'])); ?>
+                                        <?php echo htmlspecialchars($subjectsHour['subjectsHour_Subjects']['subjects_Name'] . ' - ' . formatDateInFrench($subjectsHour['subjectsHour_DateStart'])); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
