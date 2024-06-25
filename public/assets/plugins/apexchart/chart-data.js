@@ -702,57 +702,6 @@ var chart = new ApexCharts(
 chart.render();
 }
 
-// Donut Chart
-
-if ($('#donut-chart-dash').length > 0) {
-var donutChart = {
-    chart: {
-        height: 290,
-        type: 'donut',
-        toolbar: {
-          show: false,
-        }
-    },
-	 plotOptions: {
-        bar: {
-            horizontal: false,
-            columnWidth: '50%'
-        },
-    },
-	dataLabels: {
-        enabled: false
-    },
-    series: [44, 55, 41, 17],
-	labels: [
-        'Neurology',
-        'Dental Care',
-        'Gynocology',
-        'Orthopedic'
-    ],
-    responsive: [{
-        breakpoint: 480,
-        options: {
-            chart: {
-                width: 200
-            },
-            legend: {
-                position: 'bottom'
-            }
-        }
-    }],
-	legend: {
-        position: 'bottom',
-    }
-}
-
-var donut = new ApexCharts(
-    document.querySelector("#donut-chart-dash"),
-    donutChart
-);
-
-donut.render();
-}
-
 // Simple Line
 if ($('#apexcharts-area').length > 0) {
 	var options = {

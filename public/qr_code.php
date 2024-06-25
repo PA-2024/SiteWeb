@@ -98,6 +98,7 @@ function formatDateInFrench($dateString) {
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                            <br>
                             <button type="submit" class="btn btn-primary">Afficher</button>
                         </form>
 

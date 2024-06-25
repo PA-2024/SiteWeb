@@ -2,8 +2,14 @@
 	<div class="sidebar-inner slimscroll">
 		<div id="sidebar-menu" class="sidebar-menu">
 			<ul>
-				<li class="menu-title">Main</li>
-
+				<li class="menu-title">Menu</li>
+				<li class="submenu">
+					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Professeurs </span> <span class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a href="professor_list.php">Liste des professeurs</a></li>
+						<li><a href="add_sectors.php">Ajouter un professeur</a></li>
+					</ul>
+				</li>
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Classe </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">

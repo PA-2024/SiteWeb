@@ -6,7 +6,7 @@ use Endroid\QrCode\Writer\PngWriter;
 
 $text = $_GET['text'] ?? 'Capdrake est magnifique';
 $qrCode = new QrCode($text);
-$qrCode->setSize(600);
+$qrCode->setSize(300);
 $writer = new PngWriter();
 
 header('Content-Type: image/png');
