@@ -61,4 +61,26 @@ class Presence
 
         return $presence;
     }
+
+    public function deletePresence($id)
+    {
+        $url = $this->apiUrl . '/' . $id;
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la suppression de la présence.');
+        }
+
+        return true;
+    }
 }
