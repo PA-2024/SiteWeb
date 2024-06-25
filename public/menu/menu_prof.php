@@ -7,8 +7,8 @@
 				<li class="submenu">
 					<a href="#"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Membres </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="members.php">Appel</a></li>
-						<li><a href="add-members.php">Faire l'appel</a></li>
+						<li><a href="presence_list.php">Appel</a></li>
+						<li><a href="qr_code.php">Faire l'appel</a></li>
 						<li><a href="edit-members.php">Voir l'appel</a></li>
 					</ul>
 				</li>
