@@ -197,7 +197,9 @@ class SubjectsHour
 
     public function fetchSubjectsHoursByDateRange($startDate, $endDate)
     {
-        $url = $this->apiUrl . "/Teacher/byDateRange?StartDate=" . urlencode($startDate) . "&EndDate=" . urlencode($endDate);
+        $url = $this->apiUrl . "/Teacher/byDateRange" .
+        "?StartDate=" . urlencode($startDate) .
+        "&EndDate=" . urlencode($endDate);
 
         $ch = curl_init($url);
 

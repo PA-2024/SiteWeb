@@ -79,7 +79,7 @@ function formatDateInFrench($dateString) {
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Tableau de bord</a></li>
+                                <li class="breadcrumb-item"><a href="professor_dashboard.php">Tableau de bord</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">QR Code de Présence</li>
                             </ul>
@@ -94,7 +94,7 @@ function formatDateInFrench($dateString) {
                             <select name="subjectsHourId" id="subjectsHourId" class="form-control mr-2" required>
                                 <?php foreach ($subjectsHours as $subjectsHour): ?>
                                     <option value="<?php echo htmlspecialchars($subjectsHour['subjectsHour_Id']); ?>" <?php echo isset($_GET['subjectsHourId']) && $_GET['subjectsHourId'] == $subjectsHour['subjectsHour_Id'] ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($subjectsHour['subjectsHour_Subjects']['subjects_Name'] . ' - ' . formatDateInFrench($subjectsHour['subjectsHour_DateStart'])); ?>
+                                        <?php echo htmlspecialchars($subjectsHour['subjectsHour_Subject']['subjects_Name'] . ' - ' . formatDateInFrench($subjectsHour['subjectsHour_DateStart'])); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -113,5 +113,23 @@ function formatDateInFrench($dateString) {
             </div>
         </div>
     </div>
+
+    <!-- jQuery -->
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Feather Js -->
+    <script src="assets/js/feather.min.js"></script>
+
+    <!-- Slimscroll -->
+    <script src="assets/js/jquery.slimscroll.js"></script>
+
+    <!-- Select2 Js -->
+    <script src="assets/js/select2.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

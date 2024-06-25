@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Tableau de bord</a></li>
+                                <li class="breadcrumb-item"><a href="professor_dashboard.php">Tableau de bord</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Liste des Présences</li>
                             </ul>
@@ -133,5 +133,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
+    <!-- jQuery -->
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Feather Js -->
+    <script src="assets/js/feather.min.js"></script>
+
+    <!-- Slimscroll -->
+    <script src="assets/js/jquery.slimscroll.js"></script>
+
+    <!-- Select2 Js -->
+    <script src="assets/js/select2.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/app.js"></script>
 </body>
 </html>
