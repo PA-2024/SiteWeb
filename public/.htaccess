@@ -7,8 +7,8 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-FallbackResource /public/index.php
+FallbackResource /index.php
 
-ErrorDocument 404 /public/error-404.php
-ErrorDocument 403 /public/error-404.php
-ErrorDocument 500 /public/error-500.php
+ErrorDocument 404 /error-404.php
+ErrorDocument 403 /error-404.php
+ErrorDocument 500 /error-500.php
