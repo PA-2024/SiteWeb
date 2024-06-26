@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         $updateResult = $schoolManager->updateSchool($schoolId, $name, $token, $allowSite);
-        header("Location: ../schools_list.php?message=success");
+        header("Location: ../views/lists/schools_list.php?message=success");
     } catch (Exception $e) {
         echo "Erreur lors de la mise à jour de l'école : " . $e->getMessage();
     }

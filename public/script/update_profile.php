@@ -24,14 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $userManager->updateUser($user_id, $user_email, $user_lastname, $user_firstname, $user_num);
-        header('Location: ../profile.php?message=success');
+        header('Location: ../views/misc/profile.php?message=success');
         exit;
     } catch (Exception $e) {
-        header('Location: ../profile.php?message=error&error=' . urlencode($e->getMessage()));
+        header('Location: ../views/misc/profile.php?message=error&error=' . urlencode($e->getMessage()) . $user_id);
         exit;
     }
 } else {
-    header('Location: ../profile.php');
+    header('Location: ../views/misc/profile.php');
     exit;
 }
 ?>

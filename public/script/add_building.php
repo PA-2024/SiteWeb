@@ -22,17 +22,17 @@ if (isset($_POST['buildingName']) && isset($_POST['buildingCity']) && isset($_PO
         );
         // Vérifiez si l'opération a réussi en fonction de la présence de l'ID du bâtiment
         if (isset($result['bulding_Id'])) {
-            header('Location: ../buildings_list.php?message=success');
+            header('Location: ../views/lists/buildings_list.php?message=success');
         } else {
-            header('Location: ../buildings_list.php?message=error&error=' . urlencode($result));
+            header('Location: ../views/lists/buildings_list.php?message=error&error=' . urlencode($result));
         }
         exit;
     } catch (Exception $e) {
-        header('Location: ../buildings_list.php?message=error&error=' . urlencode($e->getMessage()));
+        header('Location: ../views/lists/buildings_list.php?message=error&error=' . urlencode($e->getMessage()));
         exit;
     }
 } else {
-    header('Location: ../buildings_list.php?message=error&error=' . urlencode('Requête invalide'));
+    header('Location: ../views/lists/buildings_list.php?message=error&error=' . urlencode('Requête invalide'));
     exit;
 }
 ?>

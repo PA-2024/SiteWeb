@@ -16,9 +16,9 @@ switch ($action) {
         $teacherId = $_POST['teacherId'];
         try {
             $subjectManager->createSubject($subjectName, $teacherId);
-            header('Location: ../subjects_list.php?message=success');
+            header('Location: ../views/lists/subjects_list.php?message=success');
         } catch (Exception $e) {
-            header('Location: ../add_subject.php?message=error&error=' . urlencode($e->getMessage()));
+            header('Location: ../views/forms/add_subject.php?message=error&error=' . urlencode($e->getMessage()));
         }
         break;
 
@@ -28,9 +28,9 @@ switch ($action) {
         $teacherId = $_POST['teacherId'];
         try {
             $subjectManager->updateSubject($subjectId, $subjectName, $teacherId);
-            header('Location: ../subjects_list.php?message=success');
+            header('Location: ../views/lists/subjects_list.php?message=success');
         } catch (Exception $e) {
-            header('Location: ../edit_subject.php?id=' . $subjectId . '&message=error&error=' . urlencode($e->getMessage()));
+            header('Location: ../views/forms/edit_subject.php?id=' . $subjectId . '&message=error&error=' . urlencode($e->getMessage()));
         }
         break;
 

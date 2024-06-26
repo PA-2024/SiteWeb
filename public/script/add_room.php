@@ -31,16 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $selectedSchool['school_Id']
             );
 
-            header("Location: ../sectors_list.php?message=success");
+            header("Location: ../views/lists/sectors_list.php?message=success");
             exit;
         } else {
             throw new Exception("École sélectionnée non trouvée.");
         }
     } catch (Exception $e) {
-        header("Location: ../sectors_list.php?message=error");
+        header("Location: ../views/lists/sectors_list.php?message=error");
         exit;
     }
 } else {
-    header("Location: ../sectors_list.php");
+    header("Location: ../views/lists/sectors_list.php");
     exit;
 }

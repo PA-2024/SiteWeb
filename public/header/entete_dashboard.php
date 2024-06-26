@@ -11,16 +11,16 @@ $role = $_SESSION['user_role'];
 
         <div class="header">
 			<div class="header-left">
-				<a href="index.php" class="logo">
-					<img src="assets/img/logo.png" width="35" height="35" alt=""> <span>GeSign</span>
+				<a href="../../index.php" class="logo">
+					<img src="../../assets/img/logo.png" width="35" height="35" alt=""> <span>GeSign</span>
 				</a>
 			</div>
-			<a id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg"  alt=""></a>
-            <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img src="assets/img/icons/bar-icon.svg"  alt=""></a>
+			<a id="toggle_btn" href="javascript:void(0);"><img src="../../assets/img/icons/bar-icon.svg"  alt=""></a>
+            <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img src="../../assets/img/icons/bar-icon.svg"  alt=""></a>
             <div class="top-nav-search mob-view">
                 <form action="search.php" method="get">
                     <input type="text" name="query" id="search-input" class="form-control" placeholder="Rechercher">
-                    <button type="submit" class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></button>
+                    <button type="submit" class="btn"><img src="../../assets/img/icons/search-normal.svg" alt=""></button>
                 </form>
             </div>
             <script>
@@ -69,7 +69,7 @@ $role = $_SESSION['user_role'];
 
             <ul class="nav user-menu float-end">
                 <li class="nav-item dropdown d-none d-md-block">
-                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img src="assets/img/icons/note-icon-01.svg" alt=""><span class="pulse"></span> </a>
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img src="../../assets/img/icons/note-icon-01.svg" alt=""><span class="pulse"></span> </a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
@@ -94,18 +94,18 @@ $role = $_SESSION['user_role'];
 						</span>
                     </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.php">Mon profil</a>
-						<a class="dropdown-item" href="edit-profile.php">Modifier mon profil</a>
-						<a class="dropdown-item" href="script/logout.php">Me déconnecter</a>
+						<a class="dropdown-item" href="../misc/profile.php">Mon profil</a>
+						<a class="dropdown-item" href="../forms/edit-profile.php">Modifier mon profil</a>
+						<a class="dropdown-item" href="../../script/logout.php">Me déconnecter</a>
 					</div>
                 </li>
             </ul>
             <div class="dropdown mobile-user-menu float-end">
                 <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="profile.php">Mon profil</a>
-					<a class="dropdown-item" href="edit-profile.php">Modifier mon profil</a>
-					<a class="dropdown-item" href="script/logout.php">Me déconnecter</a>
+                    <a class="dropdown-item" href="../misc/profile.php">Mon profil</a>
+					<a class="dropdown-item" href="../forms/edit-profile.php">Modifier mon profil</a>
+					<a class="dropdown-item" href="../../script/logout.php">Me déconnecter</a>
                 </div>
             </div>
         </div>

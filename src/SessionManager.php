@@ -18,30 +18,30 @@ class SessionManager
                 $_SESSION['token'] = $_COOKIE['token'];
                 $_SESSION['school'] = $_COOKIE['school'];
                 $_SESSION['schoolId'] = $_COOKIE['schoolId'];
-                $this->redirectToDashboard();
+                $this->redirectToDashboard2();
             } else {
                 $this->redirectToLogin();
             }
         } else {
-            $this->redirectToDashboard();
+            $this->redirectToDashboard2();
         }
     }
 
     protected function redirectToLogin()
     {
-        header('Location: login.php');
+        header('Location: views/auth/login.php');
         exit;
     }
 
     protected function redirectToLogin2()
     {
-        header('Location: ../login.php');
+        header('Location: ../views/auth/login.php');
         exit;
     }
 
     protected function redirectToError()
     {
-        header('Location: error-404.php');
+        header('Location: views/misc/error-404.php');
         exit;
     }
 
@@ -77,16 +77,41 @@ class SessionManager
 
         switch ($_SESSION['user_role']) {
             case 'Admin':
-                header('Location: admin_dashboard.php');
+                header('Location: ../dashboard/admin_dashboard.php');
                 break;
             case 'Gestion Ecole':
-                header('Location: director_dashboard.php');
+                header('Location: ../dashboard/director_dashboard.php');
                 break;
             case 'Professeur':
-                header('Location: professor_dashboard.php');
+                header('Location: ../dashboard/professor_dashboard.php');
                 break;
             case 'Eleve':
-                header('Location: student_dashboard.php');
+                header('Location: ../dashboard/student_dashboard.php');
+                break;
+            default:
+                $this->redirectToError();
+        }
+        exit;
+    }
+
+    protected function redirectToDashboard2()
+    {
+        if (!isset($_SESSION['user_role'])) {
+            $this->redirectToError();
+        }
+
+        switch ($_SESSION['user_role']) {
+            case 'Admin':
+                header('Location: views/dashboard/admin_dashboard.php');
+                break;
+            case 'Gestion Ecole':
+                header('Location: views/dashboard/director_dashboard.php');
+                break;
+            case 'Professeur':
+                header('Location: views/dashboard/professor_dashboard.php');
+                break;
+            case 'Eleve':
+                header('Location: views/dashboard/student_dashboard.php');
                 break;
             default:
                 $this->redirectToError();
@@ -132,7 +157,7 @@ class SessionManager
     public function checkUserRole($requiredRole)
     {
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== $requiredRole) {
-            header('Location: error-404.php');
+            header('Location: ../misc/error-404.php');
             exit;
         }
     }

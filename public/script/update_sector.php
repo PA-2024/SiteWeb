@@ -14,13 +14,13 @@ if (isset($_POST['sectorId']) && isset($_POST['sectorsName'])) {
             $_POST['sectorsName'],
             $_POST['schoolId']
         );
-        header('Location: ../sectors_list.php?message=success2');
+        header('Location: ../views/lists/sectors_list.php?message=success2');
         exit;
     } catch (Exception $e) {
-        header('Location: ../sectors_list.php?message=error2&error=' . urlencode($e->getMessage()));
+        header('Location: ../views/lists/sectors_list.php?message=error2&error=' . urlencode($e->getMessage()));
         exit;
     }
 } else {
-    header('Location: ../sectors_list.php?message=error2&error=' . urlencode('Requête invalide'));
+    header('Location: ../views/lists/sectors_list.php?message=error2&error=' . urlencode('Requête invalide'));
     exit;
 }

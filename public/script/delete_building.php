@@ -8,7 +8,7 @@ use GeSign\Buildings;
 $token = $_SESSION['token'] ?? $_COOKIE['token'];
 
 if (!$token) {
-    header('Location: login.php');
+    header('Location: ../views/auth/login.php');
     exit;
 }
 

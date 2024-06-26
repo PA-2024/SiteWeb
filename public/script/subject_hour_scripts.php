@@ -13,7 +13,7 @@ $sessionManager->checkUserRole('Gestion Ecole');
 $token = $_SESSION['token'] ?? $_COOKIE['token'];
 
 if (!$token) {
-    header('Location: login.php');
+    header('Location: ../views/auth/login.php');
     exit;
 }
 
@@ -32,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'subjectsHour_DateEnd' => $_POST['subjectsHour_DateEnd'],
                 ];
                 $subjectHourManager->create($data);
-                header('Location: ../list_subject_hours.php?message=success');
+                header('Location: ../views/lists/list_subject_hours.php?message=success');
             } catch (Exception $e) {
-                header('Location: ../list_subject_hours.php?message=error');
+                header('Location: ../views/lists/list_subject_hours.php?message=error');
             }
             break;
 
@@ -50,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'subjectsHour_DateEnd' => $_POST['subjectsHour_DateEnd'],
                 ];
                 $subjectHourManager->update($subjectHourId, $data);
-                header('Location: ../list_subject_hours.php?message=success2');
+                header('Location: ../views/lists/list_subject_hours.php?message=success2');
             } catch (Exception $e) {
-                header('Location: ../list_subject_hours.php?message=error2');
+                header('Location: ../views/lists/list_subject_hours.php?message=error2');
             }
             break;
 
@@ -67,10 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
         default:
-            header('Location: ../list_subject_hours.php');
+            header('Location: ../views/lists/list_subject_hours.php');
             break;
     }
 } else {
-    header('Location: ../list_subject_hours.php');
+    header('Location: ../views/lists/list_subject_hours.php');
 }
 ?>

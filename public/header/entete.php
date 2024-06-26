@@ -9,24 +9,24 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	
 	<!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
 	
 	<!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/all.min.css">
 	
 	<!-- Select2 CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/css/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="../../assets/css/select2.min.css">
 	
 	<!-- Datatables CSS -->
-	<link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
+	<link rel="stylesheet" href="../../assets/plugins/datatables/datatables.min.css">
 	
 	<!-- Feathericon CSS -->
-	<link rel="stylesheet" href="assets/css/feather.css">
+	<link rel="stylesheet" href="../../assets/css/feather.css">
 	
 	<!-- Main CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
     
 	<!-- Datepicker CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../../assets/css/bootstrap-datetimepicker.min.css">
 </head>
