@@ -1,14 +1,57 @@
 RewriteEngine On
 RewriteBase /
 
+# Rediriger HTTP vers HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# Traiter les fichiers et dossiers existants normalement
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
+# Redirections personnalisées pour les vues
+RewriteRule ^login/?$ views/auth/login.php [L]
+RewriteRule ^register/?$ views/auth/register.php [L]
+RewriteRule ^forgot-password/?$ views/auth/forgot-password.php [L]
+
+RewriteRule ^admin_dashboard/?$ views/dashboard/admin_dashboard.php [L]
+RewriteRule ^director_dashboard/?$ views/dashboard/director_dashboard.php [L]
+RewriteRule ^professor_dashboard/?$ views/dashboard/professor_dashboard.php [L]
+RewriteRule ^student_dashboard/?$ views/dashboard/student_dashboard.php [L]
+
+RewriteRule ^add_building/?$ views/forms/add_building.php [L]
+RewriteRule ^add_school/?$ views/forms/add_school.php [L]
+RewriteRule ^add_sectors/?$ views/forms/add_sectors.php [L]
+RewriteRule ^add_student/?$ views/forms/add_student.php [L]
+RewriteRule ^add_subject_hour/?$ views/forms/add_subject_hour.php [L]
+RewriteRule ^add_subjects/?$ views/forms/add_subjects.php [L]
+RewriteRule ^edit_building/?$ views/forms/edit_building.php [L]
+RewriteRule ^edit_school/?$ views/forms/edit_school.php [L]
+RewriteRule ^edit_sector/?$ views/forms/edit_sector.php [L]
+RewriteRule ^edit_student/?$ views/forms/edit_student.php [L]
+RewriteRule ^edit_subject_hour/?$ views/forms/edit_subject_hour.php [L]
+RewriteRule ^edit_subject/?$ views/forms/edit_subject.php [L]
+RewriteRule ^edit_profile/?$ views/forms/edit_profile.php [L]
+
+RewriteRule ^buildings_list/?$ views/lists/buildings_list.php [L]
+RewriteRule ^errors_list/?$ views/lists/errors_list.php [L]
+RewriteRule ^list_subject_hours/?$ views/lists/list_subject_hours.php [L]
+RewriteRule ^presence_list/?$ views/lists/presence_list.php [L]
+RewriteRule ^schools_list/?$ views/lists/schools_list.php [L]
+RewriteRule ^sectors_list/?$ views/lists/sectors_list.php [L]
+RewriteRule ^student_list/?$ views/lists/student_list.php [L]
+RewriteRule ^subjects_list/?$ views/lists/subjects_list.php [L]
+
+RewriteRule ^calendar_admin/?$ views/misc/calendar_admin.php [L]
+RewriteRule ^error-404/?$ views/misc/error-404.php [L]
+RewriteRule ^error-500/?$ views/misc/error-500.php [L]
+RewriteRule ^profile/?$ views/misc/profile.php [L]
+RewriteRule ^qr_code/?$ views/misc/qr_code.php [L]
+
+# Fallback pour les autres URL
 FallbackResource /index.php
 
+# Pages d'erreur personnalisées
 ErrorDocument 404 /views/misc/error-404.php
 ErrorDocument 403 /views/misc/error-404.php
 ErrorDocument 500 /views/misc/error-500.php

@@ -214,7 +214,7 @@ try {
 									<h4>Presences/absences</h4>
 								</div>	
 								<div id="donut-chart-dash" class="chart-user-icon">
-									<img src="assets/img/icons/user-icon.svg" alt="">
+									<img src="../../assets/img/icons/user-icon.svg" alt="">
 								</div>
 							</div>
 						</div>

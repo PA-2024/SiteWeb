@@ -56,16 +56,16 @@
 		<!-- /Main Wrapper -->
 		
 		<!-- jQuery -->
-		<script src="assets/js/jquery-3.7.1.min.js"></script>
+		<script src="../../assets/js/jquery-3.7.1.min.js"></script>
 		
 		<!-- Bootstrap Core JS -->
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		<script src="../../assets/js/bootstrap.bundle.min.js"></script>
 		
 		<!-- Feather Js -->
-		<script src="assets/js/feather.min.js"></script>
+		<script src="../../assets/js/feather.min.js"></script>
 		
 		<!-- Custom JS -->
-		<script src="assets/js/app.js"></script>
+		<script src="../../assets/js/app.js"></script>
 		
     </body>
 </html>
