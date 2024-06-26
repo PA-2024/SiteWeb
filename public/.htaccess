@@ -9,6 +9,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 FallbackResource /index.php
 
-ErrorDocument 404 /views/misc/error-404.php
-ErrorDocument 403 /views/misc/error-404.php
-ErrorDocument 500 /views/misc/error-500.php
+ErrorDocument 404 /public/views/misc/error-404.php
+ErrorDocument 403 /public/views/misc/error-404.php
+ErrorDocument 500 /public/views/misc/error-500.php
