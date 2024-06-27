@@ -38,4 +38,3 @@ class Teacher
         return $teachers;
     }
 }
-?>
