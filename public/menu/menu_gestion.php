@@ -6,8 +6,8 @@
                 <li class="submenu">
                     <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Professeurs </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="../lists/professor_list.php">Liste des professeurs</a></li>
-                        <li><a href="../forms/add_professor.php">Ajouter un professeur</a></li>
+                        <li><a href="../lists/teacher_list.php">Liste des professeurs</a></li>
+                        <li><a href="../forms/add_teacher.php">Ajouter un professeur</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

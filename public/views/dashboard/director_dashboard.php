@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once '../../../vendor/autoload.php';
 
 use GeSign\Schools;
@@ -19,6 +19,7 @@ if (!$token) {
 }
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+    header('Content-Type: application/json');
     // Si c'est une requête AJAX, renvoyer les données JSON
     try {
         $schoolManager = new Schools();
@@ -85,8 +86,10 @@ include '../../header/entete.php';
     <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../assets/plugins/datatables/datatables.min.js"></script>
 
-    <!-- counterup JS -->
-    <script src="../../assets/js/jquery.waypoints.js"></script>
+    <!-- Waypoints JS -->
+    <script src="../../assets/js/jquery.waypoints.min.js"></script>
+
+    <!-- Counter-Up JS -->
     <script src="../../assets/js/jquery.counterup.min.js"></script>
 
     <!-- Apexchart JS -->
@@ -95,6 +98,99 @@ include '../../header/entete.php';
 
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Charger les données via AJAX
+            $.ajax({
+                url: 'director_dashboard.php?ajax=1',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#user-name').text(data.userName);
+                    $('#total-present').text(data.totalPresent);
+                    $('#total-missed').text(data.totalMissed);
+                    $('#total-students').text(data.students.length);
+                    $('#total-professors').text(data.professors);
+
+                    // Remplir la liste des étudiants
+                    let studentList = '';
+                    data.students.forEach(student => {
+                        studentList += `<tr>
+                            <td>${student.student_Id}</td>
+                            <td>${student.student_User.user_lastname}</td>
+                            <td>${student.student_User.user_firstname}</td>
+                            <td>${student.student_User.user_email}</td>
+                            <td>${student.student_Sectors.sectors_Name}</td>
+                        </tr>`;
+                    });
+                    $('#student-list').html(studentList);
+
+                    // Initialiser DataTables
+                    if ($.fn.DataTable) {
+                        $('.datatable').DataTable();
+                    }
+
+                    // Initialiser Counter-Up
+                    if ($.fn.counterUp) {
+                        $('.counter-up').counterUp({
+                            delay: 10,
+                            time: 1000
+                        });
+                    }
+
+                    // Mise à jour du graphique Donut pour les présences/absences
+                    if ($('#donut-chart-dash').length > 0 && typeof ApexCharts !== 'undefined') {
+                        var donutChart = {
+                            chart: {
+                                height: 290,
+                                type: 'donut',
+                                toolbar: {
+                                    show: false,
+                                }
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: false,
+                                    columnWidth: '50%'
+                                },
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            series: [data.totalPresent, data.totalMissed],
+                            labels: [
+                                'Présences',
+                                'Absences'
+                            ],
+                            responsive: [{
+                                breakpoint: 480,
+                                options: {
+                                    chart: {
+                                        width: 200
+                                    },
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }],
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                        var chart = new ApexCharts(
+                            document.querySelector("#donut-chart-dash"),
+                            donutChart
+                        );
+                        chart.render();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="main-wrapper">
@@ -207,7 +303,7 @@ include '../../header/entete.php';
                                             </tr>
                                         </thead>
                                         <tbody id="student-list">
-                                            <!-- Les étudiants seront chargés ici via AJAX -->
+                                            <!-- Les étudiants seront ajoutés ici via AJAX -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -256,91 +352,5 @@ include '../../header/entete.php';
             </div>
         </div>
     </div>
-    <div class="sidebar-overlay" data-reff=""></div>
-    
-    <script>
-        $(document).ready(function() {
-            // Chargement des données via AJAX
-            $.get('?ajax=1', function(response) {
-                console.log(response);
-                const data = JSON.parse(response);
-                
-                if (data.error) {
-                    alert(data.error);
-                    return;
-                }
-
-                $('#user-name').text(data.userName);
-                $('#total-missed').text(data.totalMissed);
-                $('#total-present').text(data.totalPresent);
-                $('#total-students').text(data.students.length);
-                $('#total-professors').text(data.professors);
-
-                // Mise à jour de la liste des étudiants
-                let studentListHtml = '';
-                data.students.forEach(student => {
-                    studentListHtml += `
-                        <tr>
-                            <td>${student.student_Id}</td>
-                            <td>${student.student_User.user_lastname}</td>
-                            <td>${student.student_User.user_firstname}</td>
-                            <td>${student.student_User.user_email}</td>
-                            <td>${student.student_Sectors.sectors_Name}</td>
-                        </tr>
-                    `;
-                });
-                $('#student-list').html(studentListHtml);
-
-                // Mise à jour du graphique Donut pour les présences/absences
-                if ($('#donut-chart-dash').length > 0) {
-                    var donutChart = {
-                        chart: {
-                            height: 290,
-                            type: 'donut',
-                            toolbar: {
-                                show: false,
-                            }
-                        },
-                        plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                columnWidth: '50%'
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        series: [data.totalPresent, data.totalMissed],
-                        labels: [
-                            'Présences',
-                            'Absences'
-                        ],
-                        responsive: [{
-                            breakpoint: 480,
-                            options: {
-                                chart: {
-                                    width: 200
-                                },
-                                legend: {
-                                    position: 'bottom'
-                                }
-                            }
-                        }],
-                        legend: {
-                            position: 'bottom',
-                        }
-                    }
-                    var chart = new ApexCharts(
-                        document.querySelector("#donut-chart-dash"),
-                        donutChart
-                    );
-                    chart.render();
-                }
-
-                // Initialisation du datatable
-                $('.datatable').DataTable();
-            });
-        });
-    </script>
 </body>
 </html>
