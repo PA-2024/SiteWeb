@@ -17,18 +17,13 @@
     <div class="main-wrapper">
         <!-- Header -->
         <header class="header">
-            <div class="header-left">
-                <a href="index.php" class="logo">
-                    <img src="../../assets/img/logo.png" alt="Logo">
-                </a>
-            </div>
             <div class="header-right">
-                <a href="login.php" class="btn btn-primary">Login</a>
-                <a href="register.php" class="btn btn-primary">Register</a>
+                <a href="../auth/login.php" class="btn btn-primary">Login</a>
+                <a href="../auth/register.php" class="btn btn-primary">Register</a>
             </div>
         </header>
         <!-- /Header -->
-        
+        <br><br><br><br>
         <!-- Page Content -->
         <div class="content">
             <div class="container-fluid">
