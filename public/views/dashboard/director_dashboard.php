@@ -430,5 +430,36 @@ include '../../header/entete.php';
             </div>
         </div>
     </div>
+
+    <!-- jQuery -->
+    <script src="../../assets/js/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Feather Js -->
+    <script src="../../assets/js/feather.min.js"></script>
+
+    <!-- Slimscroll -->
+    <script src="../../assets/js/jquery.slimscroll.js"></script>
+
+    <!-- Select2 Js -->
+    <script src="../../assets/js/select2.min.js"></script>
+
+    <!-- Datatables JS -->
+    <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../assets/plugins/datatables/datatables.min.js"></script>
+
+    <!-- Counter-Up JS -->
+    <script src="../../assets/js/jquery.waypoints.js"></script>
+    <script src="../../assets/js/jquery.counterup.min.js"></script>
+
+    <!-- Apexchart JS -->
+    <script src="../../assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="../../assets/plugins/apexchart/chart-data.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../../assets/js/app.js"></script>
+    
 </body>
 </html>
