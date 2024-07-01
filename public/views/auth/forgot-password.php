@@ -8,8 +8,8 @@
 				<div class="row">
 				
 					<!-- Login logo -->
-					<div class="col-lg-6 login-wrap">
-						<div class="login-sec">
+					<div class="col-lg-6 login-wrap d-flex justify-content-center align-items-center">
+						<div>
 							<div class="log-img">
 								<img class="img-fluid" src="../../assets/img/logo.png" alt="Logo" style="width: 600px; height: auto;">
 							</div>
