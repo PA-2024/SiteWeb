@@ -287,7 +287,7 @@ $(function() {
 	new Chart(ctx8, {
 		type: 'line',
 		data: {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'juillet', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 			datasets: [{
 				data: [14, 12, 34, 25, 44, 36, 35, 25, 30, 32, 20, 25 ],
 				borderColor: '#2E37A4',
@@ -336,7 +336,7 @@ $(function() {
 	new Chart(ctx9, {
 		type: 'line',
 		data: {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'juillet', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 			datasets: [{
 				data: [14, 12, 34, 25, 44, 36, 35, 25, 30, 32, 20, 25 ],
 				borderColor: '#2E37A4',

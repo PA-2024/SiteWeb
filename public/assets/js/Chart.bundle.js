@@ -2597,7 +2597,7 @@ addParseToken(['MMM', 'MMMM'], function (input, array, config, token) {
 // LOCALES
 
 var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
-var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
+var defaultLocaleMonths = 'janvier_February_March_April_May_June_juillet_August_September_October_November_December'.split('_');
 function localeMonths (m, format) {
     if (!m) {
         return isArray(this._months) ? this._months :
@@ -2835,7 +2835,7 @@ function createUTCDate (y) {
 
 // start-of-first-week - start-of-year
 function firstWeekOffset(year, dow, doy) {
-    var // first-week day -- which january is always in the first week (4 for iso, 1 for other)
+    var // first-week day -- which janvier is always in the first week (4 for iso, 1 for other)
         fwd = 7 + dow - doy,
         // first-week day local weekday -- which local weekday is fwd
         fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;

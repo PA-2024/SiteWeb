@@ -27,21 +27,39 @@ $subjectManager = new Subjects($token);
 $subjects = $subjectManager->fetchSubjects();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/x-icon" href="../../assets/img/favicon.png">
     <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../../assets/css/fullcalendar.min.css">
     <link rel="stylesheet" type="text/css" href="../../assets/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap-datetimepicker.min.css">
-	<!-- Feathericon CSS -->
-	<link rel="stylesheet" href="../../assets/css/feather.css">
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" href="../../assets/css/feather.css">
     <link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
+    <style>
+        #calendar {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .fc-event {
+            border: 1px solid #ffc107;
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .fc-event:hover {
+            background-color: #ffeeba;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
 </head>
 
 <body>
@@ -90,33 +108,33 @@ $subjects = $subjectManager->fetchSubjects();
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="add_event" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content modal-md">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add Event</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="input-block">
-                                <label>Event Name <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="input-block">
-                                <label>Event Date <span class="text-danger">*</span></label>
-                                <div class="cal-icon">
-                                    <input class="form-control datetimepicker" type="text">
+                        <div id="add_event" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content modal-md">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Ajouter un événement</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="input-block">
+                                                <label>Nom de l'événement <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text">
+                                            </div>
+                                            <div class="input-block">
+                                                <label>Date de l'événement <span class="text-danger">*</span></label>
+                                                <div class="cal-icon">
+                                                    <input class="form-control datetimepicker" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="m-t-20 text-center">
+                                                <button class="btn btn-primary submit-btn">Créer l'événement</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Create Event</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -134,22 +152,43 @@ $subjects = $subjectManager->fetchSubjects();
     <script src="../../assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="../../assets/js/app.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                locale: 'fr',
                 editable: false,
                 events: [],
-                eventClick: function(calEvent, jsEvent, view) {
+                eventRender: function (event, element) {
+                    element.popover({
+                        title: event.title,
+                        content: `
+                            <strong>Nom du cours:</strong> ${event.title}<br>
+                            <strong>Salle:</strong> ${event.room}<br>
+                            <strong>Début:</strong> ${event.start.format('YYYY-MM-DD HH:mm')}<br>
+                            <strong>Fin:</strong> ${event.end.format('YYYY-MM-DD HH:mm')}
+                        `,
+                        trigger: 'hover',
+                        placement: 'top',
+                        container: 'body',
+                        html: true
+                    });
+                },
+                eventClick: function (event) {
                     $('#event-modal .modal-body').html(`
-                        <p><strong>Nom du cours:</strong> ${calEvent.title}</p>
-                        <p><strong>Salle:</strong> ${calEvent.room}</p>
-                        <p><strong>Début:</strong> ${calEvent.start.format('YYYY-MM-DD HH:mm')}</p>
-                        <p><strong>Fin:</strong> ${calEvent.end.format('YYYY-MM-DD HH:mm')}</p>
+                        <p><strong>Nom du cours:</strong> ${event.title}</p>
+                        <p><strong>Salle:</strong> ${event.room}</p>
+                        <p><strong>Début:</strong> ${event.start.format('YYYY-MM-DD HH:mm')}</p>
+                        <p><strong>Fin:</strong> ${event.end.format('YYYY-MM-DD HH:mm')}</p>
                     `);
                     $('#event-modal').modal('show');
                 }
             });
 
-            $('#subjectSelect').on('change', function() {
+            $('#subjectSelect').on('change', function () {
                 var subjectId = $(this).val();
                 if (subjectId) {
                     $.ajax({
@@ -157,19 +196,20 @@ $subjects = $subjectManager->fetchSubjects();
                         type: 'GET',
                         dataType: 'json',
                         data: { subjectId: subjectId },
-                        success: function(data) {
-                            var events = data.map(function(hour) {
+                        success: function (data) {
+                            var events = data.map(function (hour) {
                                 return {
                                     title: hour.subjectsHour_Subjects.subjects_Name,
                                     start: hour.subjectsHour_DateStart,
                                     end: hour.subjectsHour_DateEnd,
-                                    room: hour.subjectsHour_Room
+                                    room: hour.subjectsHour_Room,
+                                    description: hour.subjectsHour_Subjects.subjects_Description || ''
                                 };
                             });
                             $('#calendar').fullCalendar('removeEvents');
                             $('#calendar').fullCalendar('addEventSource', events);
                         },
-                        error: function() {
+                        error: function () {
                             alert('Impossible de charger les heures de cours.');
                         }
                     });

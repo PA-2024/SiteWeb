@@ -77,6 +77,18 @@ class Student
         return json_decode($response, true);
     }
 
+    /**
+     * Enregistre un nouvel étudiant dans l'API.
+     *
+     * @param string $email L'email de l'étudiant.
+     * @param string $password Le mot de passe de l'étudiant.
+     * @param string $lastname Le nom de famille de l'étudiant.
+     * @param string $firstname Le prénom de l'étudiant.
+     * @param string $num Le numéro de l'étudiant.
+     * @param int $schoolId L'ID de l'école de l'étudiant.
+     * @param int $sectorId L'ID du secteur de l'étudiant.
+     * @return array Les données de l'étudiant créé.
+     */
     public function registerStudent($email, $password, $lastname, $firstname, $num, $schoolId, $sectorId)
     {
         $ch = curl_init("{$this->apiUrl}/registerStudent");
@@ -106,16 +118,16 @@ class Student
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception('Erreur lors de la création de l\'étudiant.');
+            throw new Exception('Erreur lors de la création de l\'étudiant.');
         }
 
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
+            throw new Exception('Erreur dans le décodage des données JSON.');
         }
 
         if (isset($result['error'])) {
-            throw new \Exception($result['error']);
+            throw new Exception($result['error']);
         }
 
         return $result;

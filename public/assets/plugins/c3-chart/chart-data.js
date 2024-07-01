@@ -21,7 +21,7 @@
 				// name of each serie
 				'data1': 'May',
 				'data2': 'June',
-				'data3': 'July'
+				'data3': 'juillet'
 			}
 		},
 		axis: {
@@ -65,7 +65,7 @@
 			x: {
 				type: 'category',
 				// name of each category
-				categories: ['May', 'June', 'July', 'Aug', 'Sep', 'Oct']
+				categories: ['May', 'June', 'juillet', 'Aug', 'Sep', 'Oct']
 			},
 		},
 		legend: {
@@ -101,7 +101,7 @@
 			x: {
 				type: 'category',
 				// name of each category
-				categories: ['May', 'June', 'July', 'Aug', 'Sep', 'Oct']
+				categories: ['May', 'June', 'juillet', 'Aug', 'Sep', 'Oct']
 			},
 		},
 		legend: {
@@ -137,7 +137,7 @@
 			x: {
 				type: 'category',
 				// name of each category
-				categories: ['May', 'June', 'July', 'Aug', 'Sep', 'Oct']
+				categories: ['May', 'June', 'juillet', 'Aug', 'Sep', 'Oct']
 			},
 		},
 		legend: {
@@ -248,7 +248,7 @@
 			x: {
 				type: 'category',
 				// name of each category
-				categories: ['May', 'June', 'July', 'Aug', 'Sep', 'Oct']
+				categories: ['May', 'June', 'juillet', 'Aug', 'Sep', 'Oct']
 			},
 		},
 		legend: {
@@ -321,7 +321,7 @@
 			x: {
 				type: 'category',
 				// name of each category
-				categories: ['May', 'June', 'July', 'Aug', 'Sep', 'Oct']
+				categories: ['May', 'June', 'juillet', 'Aug', 'Sep', 'Oct']
 			},
 		},
 		legend: {
@@ -357,7 +357,7 @@
 			x: {
 				type: 'category',
 				// name of each category
-				categories: ['May', 'June', 'July', 'Aug', 'Sep', 'Oct']
+				categories: ['May', 'June', 'juillet', 'Aug', 'Sep', 'Oct']
 			},
 		},
 		legend: {
@@ -846,7 +846,7 @@
 			x: {
 				type: 'category',
 				// name of each category
-				categories: ['May', 'Jun', 'July', 'Aug', 'Sep', 'Oct']
+				categories: ['May', 'Jun', 'juillet', 'Aug', 'Sep', 'Oct']
 			},
 		},
 		legend: {
