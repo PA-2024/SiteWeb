@@ -40,7 +40,7 @@
 										<!-- /Form -->
 										  
 										<div class="next-sign">
-											<p class="account-subtitle">Besoin d'un compte?  <a href="register.php">Inscription</a></p>											
+											<p class="account-subtitle">Vous voulez vous connecter?  <a href="login.php">Connexion</a></p>											
 										</div>
 									</div>
 								</div>
