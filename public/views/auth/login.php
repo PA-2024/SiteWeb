@@ -20,11 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (is_array($result) && isset($result['token'])) {
         $userId = $result['user_Id'];
         $userName = $result['userName'];
-		$userRole = $result['role'];
-		$token = $result['token'];
-		$school = $result['school'];
-		$schoolId = $result['schoolId'];
+        $userRole = $result['role'];
+        $token = $result['token'];
+        $school = $result['school'];
+        $schoolId = $result['schoolId'];
         $sessionManager->loginUser($userId, $userName, $userRole, $token, $school, $schoolId, $remember);
+        header("Location: ../dashboard/{$userRole}_dashboard.php");
+        exit;
     } else {
         $error = 'Connexion échouée: ' . $result;
     }
@@ -63,17 +65,17 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                     <?php if ($error): ?>
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                             <?php echo $error; ?>
-											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
                                     <?php endif; ?>
                                     <?php if ($success): ?>
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                                             <?php echo $success; ?>
-											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
                                     <?php endif; ?>
                                     <!-- Form -->
-                                    <form action="login.php" method="post">
+                                    <form id="login-form" action="login.php" method="post">
                                         <div class="input-block">
                                             <label>Email <span class="login-danger">*</span></label>
                                             <input class="form-control" type="text" name="email" required>
@@ -97,8 +99,10 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         </div>
                                     </form>
                                     <!-- /Form -->
-                                    <div class="next-sign">
-                                        <p class="account-subtitle">Besoin d'un compte? <a href="register.php">Inscription</a></p>
+                                </div>
+                                <div id="loading-spinner" class="d-none">
+                                    <div class="spinner-border text-warning" role="status">
+                                        <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
                             </div>
@@ -122,5 +126,13 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
     
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#login-form').on('submit', function() {
+                $('#login-form').hide();
+                $('#loading-spinner').removeClass('d-none');
+            });
+        });
+    </script>
 </body>
 </html>
