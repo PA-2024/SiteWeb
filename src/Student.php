@@ -77,6 +77,50 @@ class Student
         return json_decode($response, true);
     }
 
+    public function registerStudent($email, $password, $lastname, $firstname, $num, $schoolId, $sectorId)
+    {
+        $ch = curl_init("{$this->apiUrl}/registerStudent");
+
+        $data = [
+            "user_email" => $email,
+            "user_password" => $password,
+            "user_lastname" => $lastname,
+            "user_firstname" => $firstname,
+            "user_num" => $num,
+            "user_School_Id" => $schoolId,
+            "student_Sector_Id" => $sectorId
+        ];
+
+        $payload = json_encode($data);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la création de l\'étudiant.');
+        }
+
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        if (isset($result['error'])) {
+            throw new \Exception($result['error']);
+        }
+
+        return $result;
+    }
+
     /**
      * Récupère un étudiant avec son ID.
      *

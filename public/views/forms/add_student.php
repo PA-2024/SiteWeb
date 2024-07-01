@@ -5,7 +5,6 @@ require_once '../../../vendor/autoload.php';
 
 use GeSign\SessionManager;
 use GeSign\Student;
-use GeSign\User;
 use GeSign\Sectors;
 
 $sessionManager = new SessionManager();
@@ -20,36 +19,39 @@ if (!$token) {
     exit;
 }
 
-$userManager = new User($token);
+// Récupération de l'ID de l'école de l'utilisateur connecté
+$schoolId = $_SESSION['schoolId'] ?? null;
+
+if (!$schoolId) {
+    echo 'Erreur : Aucune école associée à l\'utilisateur.';
+    exit;
+}
+
 $sectorManager = new Sectors();
+$studentManager = new Student($token);
 
 try {
-    $users = $userManager->fetchAllUsers();
     $sectors = $sectorManager->fetchSectors();
 } catch (Exception $e) {
     $errorMessage = $e->getMessage();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $userId = $_POST['user_id'];
-    $classId = $_POST['class_id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $lastname = $_POST['lastname'];
+    $firstname = $_POST['firstname'];
+    $num = $_POST['num'];
+    $sectorId = $_POST['sector_id'];
 
-    $studentManager = new Student($token);
     try {
-        $studentManager->createStudent($userId, $classId);
-        header('Location: ../lists/student_list.php?message=success');
-        exit;
+        $studentManager->registerStudent($email, $password, $lastname, $firstname, $num, $schoolId, $sectorId);
+        $successMessage = "L'étudiant a été ajouté avec succès.";
     } catch (Exception $e) {
-        $errorMessage = $e->getMessage();
+        $errorMessage = 'Erreur : ' . $e->getMessage();
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Ajouter un Étudiant</title>
-</head>
 <body>
     <div class="main-wrapper">
         <?php include '../../header/entete_dashboard.php'; ?>
@@ -68,29 +70,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                 </div>
 
+                <?php if (isset($successMessage)): ?>
+                    <div class="alert alert-success"><?php echo htmlspecialchars($successMessage); ?></div>
+                <?php endif; ?>
                 <?php if (isset($errorMessage)): ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Erreur !</strong> <?php echo htmlspecialchars($errorMessage); ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <div class="alert alert-danger"><?php echo htmlspecialchars($errorMessage); ?></div>
                 <?php endif; ?>
 
                 <div class="card bg-white">
                     <div class="card-body">
-                        <form method="post">
+                        <form action="add_student.php" method="post">
                             <div class="form-group">
-                                <label>Utilisateur</label>
-                                <select class="form-control" name="user_id" required>
-                                    <?php foreach ($users as $user): ?>
-                                        <option value="<?php echo htmlspecialchars($user['user_Id']); ?>">
-                                            <?php echo htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="password" class="form-control" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" class="form-control" name="firstname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" class="form-control" name="lastname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Numéro</label>
+                                <input type="text" class="form-control" name="num" required>
                             </div>
                             <div class="form-group">
                                 <label>Classe</label>
-                                <select class="form-control" name="class_id" required>
+                                <select class="form-control" name="sector_id" required>
                                     <?php foreach ($sectors as $sector): ?>
                                         <option value="<?php echo htmlspecialchars($sector['sectors_Id']); ?>">
                                             <?php echo htmlspecialchars($sector['sectors_Name']); ?>
@@ -107,5 +119,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
+    <div class="sidebar-overlay" data-reff=""></div>
+
+    <!-- jQuery -->
+    <script src="../../assets/js/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Feather Js -->
+    <script src="../../assets/js/feather.min.js"></script>
+
+    <!-- Slimscroll -->
+    <script src="../../assets/js/jquery.slimscroll.js"></script>
+
+    <!-- Select2 Js -->
+    <script src="../../assets/js/select2.min.js"></script>
+
+    <!-- Datatables JS -->
+    <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../assets/plugins/datatables/datatables.min.js"></script>
+
+    <!-- counterup JS -->
+    <script src="../../assets/js/jquery.waypoints.js"></script>
+    <script src="../../assets/js/jquery.counterup.min.js"></script>
+
+    <!-- Apexchart JS -->
+    <script src="../../assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="../../assets/plugins/apexchart/chart-data.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../../assets/js/app.js"></script>
 </body>
 </html>
