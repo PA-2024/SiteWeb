@@ -35,13 +35,24 @@ $user_firstname = $user['user_firstname'] ?? '';
 $user_lastname = $user['user_lastname'] ?? '';
 $user_num = $user['user_num'] ?? '';
 $user_email = $user['user_email'] ?? '';
+$user_role = $user['user_Role']['role_Name'] ?? '';
 ?>
 <body>
     <div class="main-wrapper">
         <!-- On ajoute notre header ici -->
         <?php include '../../header/entete_dashboard.php'; ?>
         <!-- On ajoute notre menu à gauche ici -->
-        <?php include '../../menu/menu_gestion.php'; ?>
+        <?php
+        if ($user_role === 'Gestion Ecole') {
+            include '../../menu/menu_gestion.php';
+        } elseif ($user_role === 'Admin') {
+            include '../../menu/menu_admin.php';
+        } elseif ($user_role === 'Professeur') {
+            include '../../menu/menu_prof.php';
+        } elseif ($user_role === 'Eleve') {
+            include '../../menu/menu_student.php';
+        }
+        ?>
         <div class="page-wrapper">
             <div class="content">
                 <!-- Page Header -->
@@ -64,23 +75,19 @@ $user_email = $user['user_email'] ?? '';
                             <div class="col-md-12">
                                 <div class="profile-img-wrap">
                                     <img class="inline-block" src="https://i.pinimg.com/236x/54/72/d1/5472d1b09d3d724228109d381d617326.jpg" alt="user">
-                                    <div class="fileupload btn">
-                                        <span class="btn-text">edit</span>
-                                        <input class="upload" type="file">
-                                    </div>
                                 </div>
                                 <div class="profile-basic">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-block local-forms">
                                                 <label class="focus-label">Prénom</label>
-                                                <input type="text" class="form-control floating" name="user_firstname" value="<?php echo htmlspecialchars($user_firstname); ?>">
+                                                <input type="text" class="form-control floating" value="<?php echo htmlspecialchars($user_firstname); ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-block local-forms">
                                                 <label class="focus-label">Nom</label>
-                                                <input type="text" class="form-control floating" name="user_lastname" value="<?php echo htmlspecialchars($user_lastname); ?>">
+                                                <input type="text" class="form-control floating" value="<?php echo htmlspecialchars($user_lastname); ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -92,7 +99,7 @@ $user_email = $user['user_email'] ?? '';
                                         <div class="col-md-6">
                                             <div class="input-block local-forms">
                                                 <label class="focus-label">Email</label>
-                                                <input type="email" class="form-control floating" name="user_email" value="<?php echo htmlspecialchars($user_email); ?>">
+                                                <input type="email" class="form-control floating" value="<?php echo htmlspecialchars($user_email); ?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -128,7 +135,7 @@ $user_email = $user['user_email'] ?? '';
     <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../assets/plugins/datatables/datatables.min.js"></script>
     
-    <!-- counterup JS -->
+    <!-- Counterup JS -->
     <script src="../../assets/js/jquery.waypoints.js"></script>
     <script src="../../assets/js/jquery.counterup.min.js"></script>
     

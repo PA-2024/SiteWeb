@@ -21,6 +21,7 @@
                     <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Etudiants </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="../lists/student_list.php">Liste des étudiants</a></li>
+                        <li><a href="../lists/justif_list.php">Justification des absences</a></li>
                         <li><a href="../forms/add_student.php">Ajouter des étudiants</a></li>
                     </ul>
                 </li>

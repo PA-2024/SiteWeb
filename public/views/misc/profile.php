@@ -41,7 +41,17 @@ $user_email = $user['user_email'] ?? 'Email non spécifié';
         <!-- On ajoute notre header ici -->
         <?php include '../../header/entete_dashboard.php'; ?>
         <!-- On ajoute notre menu à gauche ici -->
-        <?php include '../../menu/menu_gestion.php'; ?>
+        <?php
+        if ($user_role === 'Gestion Ecole') {
+            include '../../menu/menu_gestion.php';
+        } elseif ($user_role === 'Admin') {
+            include '../../menu/menu_admin.php';
+        } elseif ($user_role === 'Professeur') {
+            include '../../menu/menu_prof.php';
+        } elseif ($user_role === 'Eleve') {
+            include '../../menu/menu_student.php';
+        }
+        ?>
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
