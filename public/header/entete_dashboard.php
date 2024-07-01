@@ -2,12 +2,6 @@
 $userName = $_SESSION['user_name'];
 $role = $_SESSION['user_role'];
 ?>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- jQuery UI -->
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
         <div class="header">
 			<div class="header-left">
@@ -23,49 +17,6 @@ $role = $_SESSION['user_role'];
                     <button type="submit" class="btn"><img src="../../assets/img/icons/search-normal.svg" alt=""></button>
                 </form>
             </div>
-            <script>
-            $(function() {
-                var availableTags = [
-                    "Gérer les professeurs",
-                    "Gérer les élèves",
-                    "Gérer les cours",
-                    "Gérer les écoles",
-                    "Voir les absences",
-                    "Voir les présences",
-                    "Ajouter un professeur",
-                    "Ajouter un élève",
-                    "Ajouter un cours"
-                ];
-
-                $("#search-input").autocomplete({
-                    source: availableTags,
-                    select: function(event, ui) {
-                        var selectedValue = ui.item.value;
-                        var searchQueryLower = selectedValue.toLowerCase();
-
-                        if (searchQueryLower.includes('prof')) {
-                            window.location.href = 'professor_list.php';
-                        } else if (searchQueryLower.includes('élève') || searchQueryLower.includes('etudiant')) {
-                            window.location.href = 'student_list.php';
-                        } else if (searchQueryLower.includes('cours')) {
-                            window.location.href = 'subjects_list.php';
-                        } else if (searchQueryLower.includes('ecole')) {
-                            window.location.href = 'school_list.php';
-                        } else if (searchQueryLower.includes('absence')) {
-                            window.location.href = 'attendance_list.php';
-                        } else if (searchQueryLower.includes('présence')) {
-                            window.location.href = 'presence_list.php';
-                        } else if (searchQueryLower.includes('ajouter un professeur')) {
-                            window.location.href = 'add_professor.php';
-                        } else if (searchQueryLower.includes('ajouter un élève')) {
-                            window.location.href = 'add_student.php';
-                        } else if (searchQueryLower.includes('ajouter un cours')) {
-                            window.location.href = 'add_subject.php';
-                        }
-                    }
-                });
-            });
-            </script>
 
             <ul class="nav user-menu float-end">
                 <li class="nav-item dropdown d-none d-md-block">
