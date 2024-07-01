@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="../../index.php">Tableau de bord</a></li>
+                                <li class="breadcrumb-item"><a href="../lists/teacher_list.php">Professeurs</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Ajouter un professeur</li>
                             </ul>

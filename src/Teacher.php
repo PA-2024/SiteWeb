@@ -69,4 +69,25 @@ class Teacher
 
         return json_decode($response, true);
     }
+
+    public function deleteTeacher($teacherId)
+    {
+        $ch = curl_init($this->apiUrl . '/DeleteTeacher/' . $teacherId);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la suppression de l\'enseignant.');
+        }
+
+        return json_decode($response, true);
+    }
 }
