@@ -109,7 +109,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <tr>
                                                 <td><?php echo htmlspecialchars($student['student_Id']); ?></td>
                                                 <td><?php echo htmlspecialchars($student['student_User']['user_firstname'] . ' ' . $student['student_User']['user_lastname']); ?></td>
-                                                <td><?php echo htmlspecialchars($student['isPresent'] ? 'Présent' : 'Absent'); ?></td>
+                                                <td>
+                                                    <?php if ($student['isPresent']): ?>
+                                                        <button class="custom-badge status-green">Présent</button>
+                                                    <?php else: ?>
+                                                        <button class="custom-badge status-red">Absent</button>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td>Coucou</td> <!-- Cette colonne doit contenir les informations de scan mais pour le moment vide -->
                                                 <td class="text-end">
                                                     <div class="dropdown dropdown-action">
