@@ -3,7 +3,7 @@
 include '../../vendor/autoload.php';
 
 use GeSign\SessionManager;
-use GeSign\Students;
+use GeSign\Student;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
@@ -15,7 +15,7 @@ if (!$token) {
     exit;
 }
 
-$studentManager = new Students($token);
+$studentManager = new Student($token);
 
 if ($_GET['action'] == 'delete') {
     $studentId = $_POST['studentId'] ?? null;
