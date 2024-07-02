@@ -55,15 +55,14 @@ $students = $studentManager->fetchStudents();
                         </div>
                     </div>
                 <?php endif; ?>
-
                 <div class="page-table-header mb-2">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <div class="student-table-blk">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="doctor-table-blk">
                                 <h3>Liste des Étudiants</h3>
-                                <div class="student-search-blk">
-                                    <div class="top-nav-search table-search-blk">
-                                        <form id="dataTableSearchForm">
+                                <div class="doctor-search-blk">
+                                        <div class="top-nav-search table-search-blk">
+                                            <form id="dataTableSearchForm">
                                             <input type="text" class="form-control" placeholder="Rechercher" id="dataTableSearchInput">
                                             <button type="submit" class="btn"><img src="../../assets/img/icons/search-normal.svg" alt="Search"></button>
                                         </form>
