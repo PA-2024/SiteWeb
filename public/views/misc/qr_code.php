@@ -5,8 +5,6 @@ require_once '../../../vendor/autoload.php';
 
 use GeSign\SessionManager;
 use GeSign\SubjectsHour;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
@@ -28,22 +26,24 @@ $endDate = (new DateTime('+1 year'))->format('Y-m-d') . 'T23:59:59';
 $subjectsHours = $subjectsHourManager->fetchSubjectsHoursByDateRange($startDate, $endDate);
 
 $selectedHour = isset($_GET['subjectsHourId']) ? $_GET['subjectsHourId'] : null;
-$qrText = "Capdrake est magnifique";
-$qrCode = new QrCode($qrText);
-$qrCode->setSize(300);
-$writer = new PngWriter();
-$qrImage = $writer->write($qrCode)->getDataUri();
 
 // Fonction pour formater la date en français
+// Fonction pour formater la date en français sans `IntlDateFormatter`
 function formatDateInFrench($dateString) {
-    setlocale(LC_TIME, 'fr_FR.UTF-8');
     $date = new DateTime($dateString);
-    $formattedDate = strftime('%d %B %Y', $date->getTimestamp());
-    $formattedTime = $date->format('H:i');
+    $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    $months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-    return "$formattedDate à $formattedTime";
+    $dayOfWeek = $days[$date->format('w')];
+    $day = $date->format('d');
+    $month = $months[$date->format('n') - 1];
+    $year = $date->format('Y');
+    $time = $date->format('H:i');
+
+    return "$dayOfWeek $day $month $year à $time";
 }
 
+$token = str_replace('Bearer ', '', $token);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -55,18 +55,58 @@ function formatDateInFrench($dateString) {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 300px;
-            width: 300px;
+            height: 500px;
+            width: 500px;
             margin: auto;
         }
+        #qr-code canvas {
+            width: 100%;
+            height: 100%;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script>
-        function refreshQRCode() {
-            const qrCodeImage = document.getElementById('qr-code-img');
-            qrCodeImage.src = '../../script/generate_qr.php?text=Capdrake+est+magnifique&_=' + new Date().getTime();
+        let socket;
+        let selectedHour = "<?php echo $selectedHour; ?>";
+        let token = "<?php echo $token; ?>";
+
+        function initializeWebSocket() {
+            socket = new WebSocket('wss://apigessignrecette-c5e974013fbd.herokuapp.com/ws');
+
+            socket.onopen = function() {
+                if (selectedHour) {
+                    socket.send('createRoom ' + token + ' ' + selectedHour);
+                }
+            };
+
+            socket.onmessage = function(event) {
+                let qrText = event.data;
+                updateQRCode(qrText);
+            };
+
+            socket.onclose = function(event) {
+                console.log('WebSocket closed. Reconnecting in 5 seconds...');
+                setTimeout(initializeWebSocket, 5000);
+            };
+
+            socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
         }
 
-        setInterval(refreshQRCode, 10000);
+        function updateQRCode(qrText) {
+            const qr = new QRious({
+                element: document.getElementById('qr-code-img'),
+                size: 300,
+                value: qrText
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            if (selectedHour) {
+                initializeWebSocket();
+            }
+        });
     </script>
 </head>
 <body>
@@ -104,7 +144,7 @@ function formatDateInFrench($dateString) {
 
                         <?php if ($selectedHour): ?>
                             <div id="qr-code">
-                                <img id="qr-code-img" src="<?php echo $qrImage; ?>" alt="QR Code">
+                                <canvas id="qr-code-img"></canvas>
                             </div>
                         <?php else: ?>
                             <p>Veuillez sélectionner une heure de cours pour générer le QR code.</p>

@@ -49,13 +49,13 @@ $subjects = $subjectManager->fetchSubjects();
         }
 
         .fc-event {
-            border: 1px solid #ffc107;
-            background-color: #fff3cd;
-            color: #856404;
+            border: 1px solid #007bff;
+            background-color: #007bff;
+            color: #ffffff;
         }
 
         .fc-event:hover {
-            background-color: #ffeeba;
+            background-color: #0056b3;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -161,7 +161,22 @@ $subjects = $subjectManager->fetchSubjects();
                 },
                 locale: 'fr',
                 editable: false,
-                events: [],
+                events: [
+                    {
+                        title: 'Cours de Mathématiques',
+                        start: '2024-07-02T10:00:00',
+                        end: '2024-07-02T12:00:00',
+                        room: 'A101',
+                        color: '#007bff'
+                    },
+                    {
+                        title: 'Cours de Physique',
+                        start: '2024-07-03T14:00:00',
+                        end: '2024-07-03T16:00:00',
+                        room: 'B202',
+                        color: '#007bff'
+                    }
+                ],
                 eventRender: function (event, element) {
                     element.popover({
                         title: event.title,
