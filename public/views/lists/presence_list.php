@@ -45,6 +45,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errorMessage = $e->getMessage();
     }
 }
+
+function formatDateInFrench($dateString) {
+    $date = new DateTime($dateString);
+    $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    $months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    $dayOfWeek = $days[$date->format('w')];
+    $day = $date->format('d');
+    $month = $months[$date->format('n') - 1];
+    $year = $date->format('Y');
+    $time = $date->format('H:i');
+
+    return "$dayOfWeek $day $month $year à $time";
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -84,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <select name="subjectsHourId" id="subjectsHourId" class="form-control mr-2" required>
                                 <?php foreach ($subjectsHours as $subjectsHour): ?>
                                     <option value="<?php echo htmlspecialchars($subjectsHour['subjectsHour_Id']); ?>" <?php echo isset($_GET['subjectsHourId']) && $_GET['subjectsHourId'] == $subjectsHour['subjectsHour_Id'] ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($subjectsHour['subjectsHour_Subjects']['subjects_Name'] . ' - ' . $subjectsHour['subjectsHour_DateStart']); ?>
+                                        <?php echo htmlspecialchars($subjectsHour['subjectsHour_Subjects']['subjects_Name'] . ' - ' . formatDateInFrench($subjectsHour['subjectsHour_DateStart'])); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
