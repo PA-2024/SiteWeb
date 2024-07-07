@@ -23,11 +23,11 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
         $today = new DateTime();
         $startOfWeek = (clone $today)->modify('this week')->format('Y-m-d') . 'T00:00:00';
         $endOfWeek = (clone $today)->modify('this week +6 days')->format('Y-m-d') . 'T23:59:59';
-        $subjectsHoursWeek = $subjectsHourManager->fetchByDateRange($startOfWeek, $endOfWeek);
+        $subjectsHoursWeek = $subjectsHourManager->fetchSubjectsHoursByDateRange($startOfWeek, $endOfWeek);
 
         $todayStart = $today->format('Y-m-d') . 'T00:00:00';
         $todayEnd = $today->format('Y-m-d') . 'T23:59:59';
-        $subjectsHoursToday = $subjectsHourManager->fetchByDateRange($todayStart, $todayEnd);
+        $subjectsHoursToday = $subjectsHourManager->fetchSubjectsHoursByDateRange($todayStart, $todayEnd);
 
         $hoursThisWeek = 0;
         foreach ($subjectsHoursWeek as $hour) {
@@ -221,7 +221,7 @@ include '../../header/entete.php';
                         data.subjectsHoursToday.forEach(function(hour) {
                             coursesTodayHtml += `
                                 <div class="course-card">
-                                    <div class="course-title">${hour.subject.subjects_Name}</div>
+                                    <div class="course-title">${hour.subjectsHour_Subject.subjects_Name}</div>
                                     <div class="course-time">${new Date(hour.subjectsHour_DateStart).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} - ${new Date(hour.subjectsHour_DateEnd).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</div>
                                     <div class="course-room">Salle: ${hour.subjectsHour_Room}</div>
                                     <div class="course-building">
