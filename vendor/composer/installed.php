@@ -3,7 +3,7 @@
         'name' => 'capdrake/gesign',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7cb2c9ab083d6018fcb37816e89ced6694705c11',
+        'reference' => 'dcf288a0c7294744d672f26293a117333eee86a0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'capdrake/gesign' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7cb2c9ab083d6018fcb37816e89ced6694705c11',
+            'reference' => 'dcf288a0c7294744d672f26293a117333eee86a0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

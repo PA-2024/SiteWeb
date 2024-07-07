@@ -13,15 +13,11 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-06.svg" alt=""></span> <span>Gestion des cours</span> <span class="menu-arrow"></span></a>
+                    <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-06.svg" alt=""></span> <span>Gestion des QCM</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li class="submenu">
-                            <a href="#"><span>QCM</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="../forms/add_qcm.php">Ajouter un QCM</a></li>
-                                <li><a href="../lists/qcm_results.php">Voir les résultats</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="../qcm/add_qcm.php">Ajouter un QCM</a></li>
+                        <li><a href="../qcm/list_qcm.php">Lister les QCM</a></li>
+                        <li><a href="../qcm/qcm_results.php">Voir les résultats</a></li>
                     </ul>
                 </li>
                 <div class="logout-btn">
