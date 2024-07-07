@@ -18,7 +18,14 @@ if (!$token) {
 
 $qcmManager = new QCM($token);
 $qcmId = $_GET['id'];
-$qcm = $qcmManager->fetchQCMById($qcmId);?>
+
+try {
+    $qcm = $qcmManager->fetchQCMById($qcmId);
+} catch (Exception $e) {
+    echo 'Erreur : ' . $e->getMessage();
+    exit;
+}
+?>
 <body>
     <div class="main-wrapper">
         <?php include '../../header/entete_dashboard.php'; ?>
