@@ -19,11 +19,6 @@
     },
     "require": {
         "endroid/qr-code": "5.0.9",
-        "cboden/ratchet": "^0.4.4",
-        "react/event-loop": "^1.5",
-        "react/socket": "1.15.0",
-        "react/promise": "3.2.0",
-        "ratchet/pawl": "^0.4.1",
         "textalk/websocket": "^1.6.3"
     }
 }
