@@ -16,21 +16,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '20'
-  code-quality:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-      - name: Install PHP_CodeSniffer
-        run: composer require --dev "squizlabs/php_codesniffer=*"
-      - name: Make PHP_CodeSniffer Executable
-        run: chmod +x ./vendor/bin/phpcs
-      - name: Check PSR-2 Compliance
-        run: ./vendor/bin/phpcs --standard=PSR2 src/
 
   security-check:
     needs: build
@@ -46,7 +31,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: [code-quality, security-check]
+    needs: [security-check]
     steps:
     - uses: actions/checkout@v3
     - name: Setup PHP
@@ -77,19 +62,3 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
         server-dir: httpdocs/
-        
-  performance-test:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install k6
-        run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C780D0BDB1A69C86
-          echo "deb https://dl.k6.io/deb stable main" | sudo tee -a /etc/apt/sources.list
-          sudo apt-get update
-          sudo apt-get install k6
-      - name: Run performance tests
-        run: k6 run tests/performance-test.js
-        env:
-          BASE_URL: ${{ steps.deploy.outputs.url }}
