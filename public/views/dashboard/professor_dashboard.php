@@ -30,6 +30,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
         $subjectsHoursToday = $subjectsHourManager->fetchSubjectsHoursByDateRange($todayStart, $todayEnd);
 
         $hoursThisWeek = 0;
+        $coursesThisWeek = count($subjectsHoursWeek);
         foreach ($subjectsHoursWeek as $hour) {
             $start = new DateTime($hour['subjectsHour_DateStart']);
             $end = new DateTime($hour['subjectsHour_DateEnd']);
@@ -37,8 +38,20 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
         }
         $hoursThisWeek = $hoursThisWeek / 3600;
 
+        $hoursToday = 0;
+        $coursesToday = count($subjectsHoursToday);
+        foreach ($subjectsHoursToday as $hour) {
+            $start = new DateTime($hour['subjectsHour_DateStart']);
+            $end = new DateTime($hour['subjectsHour_DateEnd']);
+            $hoursToday += $end->getTimestamp() - $start->getTimestamp();
+        }
+        $hoursToday = $hoursToday / 3600;
+
         echo json_encode([
             'hoursThisWeek' => number_format($hoursThisWeek, 2),
+            'coursesThisWeek' => $coursesThisWeek,
+            'coursesToday' => $coursesToday,
+            'hoursToday' => number_format($hoursToday, 2),
             'subjectsHoursToday' => $subjectsHoursToday
         ]);
     } catch (Exception $e) {
@@ -109,11 +122,44 @@ include '../../header/entete.php';
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="dash-widget">
+                                <div class="dash-boxs comman-flex-center">
+                                    <img src="../../assets/img/icons/calendar.svg" alt="">
+                                </div>
+                                <div class="dash-content dash-count">
+                                    <h4>Cours cette semaine</h4>
+                                    <h2><span class="counter-up" id="courses-this-week"></span> cours</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="dash-widget">
+                                <div class="dash-boxs comman-flex-center">
+                                    <img src="../../assets/img/icons/clock.svg" alt="">
+                                </div>
+                                <div class="dash-content dash-count">
+                                    <h4>Heures de cours aujourd'hui</h4>
+                                    <h2><span class="counter-up" id="hours-today"></span> heures</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="dash-widget">
+                                <div class="dash-boxs comman-flex-center">
+                                    <img src="../../assets/img/icons/calendar.svg" alt="">
+                                </div>
+                                <div class="dash-content dash-count">
+                                    <h4>Cours aujourd'hui</h4>
+                                    <h2><span class="counter-up" id="courses-today"></span> cours</h2>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <h4>Cours du jour</h4>
-                            <div id="courses-today"></div>
+                            <div id="courses-today-list"></div>
                         </div>
                     </div>
                 </div> <!-- Fin du contenu chargé -->
@@ -215,6 +261,9 @@ include '../../header/entete.php';
                     }
 
                     $('#hours-this-week').text(data.hoursThisWeek);
+                    $('#courses-this-week').text(data.coursesThisWeek);
+                    $('#courses-today').text(data.coursesToday);
+                    $('#hours-today').text(data.hoursToday);
 
                     var coursesTodayHtml = '';
                     if (data.subjectsHoursToday.length > 0) {
@@ -233,7 +282,7 @@ include '../../header/entete.php';
                     } else {
                         coursesTodayHtml = '<p>Aucun cours aujourd\'hui.</p>';
                     }
-                    $('#courses-today').html(coursesTodayHtml);
+                    $('#courses-today-list').html(coursesTodayHtml);
 
                     // Initialiser Counter-Up
                     if ($.fn.counterUp) {
