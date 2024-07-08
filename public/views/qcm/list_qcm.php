@@ -120,6 +120,7 @@ $qcms = $qcmManager->fetchAllQCMsTeacher();
                                                                 <a class="dropdown-item" href="view_qcm.php?id=<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa-solid fa-eye m-r-5"></i> Voir</a>
                                                                 <a class="dropdown-item" href="edit_qcm.php?id=<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa-solid fa-pen-to-square m-r-5"></i> Éditer</a>
                                                                 <a class="dropdown-item delete-link" href="#" data-bs-toggle="modal" data-bs-target="#delete_qcm" data-id="<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
+                                                                <a class="dropdown-item" href="start_qcm.php?id=<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa fa-play-circle m-r-5"></i> Démarrer</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -270,7 +271,7 @@ $qcms = $qcmManager->fetchAllQCMsTeacher();
                         '<input type="checkbox" class="form-check-input" value="' + qcm.id + '">',
                         qcm.id,
                         qcm.title,
-                        '<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item" href="view_qcm.php?id=' + qcm.id + '">Voir</a><a class="dropdown-item" href="edit_qcm.php?id=' + qcm.id + '">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + qcm.id + '">Supprimer</a></div></div>'
+                        '<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a href="view_qcm.php?id=' + qcm.id + '" class="dropdown-item">Voir</a><a href="edit_qcm.php?id=' + qcm.id + '" class="dropdown-item">Éditer</a><a href="start_qcm.php?id=' + qcm.id + '" class="dropdown-item">Démarrer</a><a href="#" class="dropdown-item delete-link" data-id="' + qcm.id + '">Supprimer</a></div></div>'
                     ]).draw(false);
                 });
             }
