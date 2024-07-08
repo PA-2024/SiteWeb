@@ -109,6 +109,13 @@ $token = str_replace('Bearer ', '', $token);
             font-size: 36px;
             margin-left: 10px;
         }
+        .timer {
+            font-size: 24px;
+            color: #007bff;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -147,7 +154,14 @@ $token = str_replace('Bearer ', '', $token);
                     case "END":
                         displayEndMessage();
                         break;
+                    case "INFO_TIMER":
+                        displayTimer(message.passTime);
+                        break;
                 }
+            };
+
+            ws.onclose = function() {
+                console.log("WebSocket connection closed");
             };
 
             document.getElementById("startQcmButton").addEventListener("click", function() {
@@ -177,6 +191,7 @@ $token = str_replace('Bearer ', '', $token);
 
             function displayQuestion(question) {
                 const questionDiv = document.getElementById("question");
+                const rankingDiv = document.getElementById("ranking");
                 questionDiv.innerHTML = `
                     <div class="card">
                         <h3>${question.text}</h3>
@@ -185,6 +200,8 @@ $token = str_replace('Bearer ', '', $token);
                         </ul>
                     </div>
                 `;
+                rankingDiv.classList.add("hidden");
+                questionDiv.classList.remove("hidden");
             }
 
             function displayStudents(students) {
@@ -199,21 +216,37 @@ $token = str_replace('Bearer ', '', $token);
 
             function displayRanking(ranking) {
                 const rankingDiv = document.getElementById("ranking");
+                const questionDiv = document.getElementById("question");
+                const timerDiv = document.getElementById("timer");
                 rankingDiv.innerHTML = `
                     <div class="card">
                         <h3>Classement actuel</h3>
                         ${ranking.map(student => `<p>${student.name}: ${student.score} points</p>`).join('')}
                     </div>
                 `;
+                questionDiv.classList.add("hidden");
+                timerDiv.classList.add("hidden");
+                rankingDiv.classList.remove("hidden");
+            }
+
+            function displayTimer(time) {
+                const timerDiv = document.getElementById("timer");
+                timerDiv.innerText = `Temps restant : ${time} secondes`;
+                timerDiv.classList.remove("hidden");
             }
 
             function displayEndMessage() {
                 const questionDiv = document.getElementById("question");
+                const rankingDiv = document.getElementById("ranking");
+                const timerDiv = document.getElementById("timer");
                 questionDiv.innerHTML = `
                     <div class="message">
                         Le QCM est terminé ! <span class="emoji">😊</span>
                     </div>
                 `;
+                questionDiv.classList.remove("hidden");
+                rankingDiv.classList.remove("hidden");
+                timerDiv.classList.add("hidden");
             }
         });
     </script>
@@ -224,7 +257,8 @@ $token = str_replace('Bearer ', '', $token);
         <?php include '../../menu/menu_prof.php'; ?>
         <div class="page-wrapper">
             <div class="content">
-                <h1>QCM</h1>
+                <h1>Démarrer QCM</h1>
+                <div id="timer" class="timer"></div>
                 <button id="startQcmButton" class="btn">Démarrer le QCM</button>
                 <div id="controls" class="hidden">
                     <button id="pauseQcmButton" class="btn">Pause</button>
@@ -233,7 +267,7 @@ $token = str_replace('Bearer ', '', $token);
                 </div>
                 <div id="question" class="mt-4"></div>
                 <div id="students" class="mt-4"></div>
-                <div id="ranking" class="mt-4"></div>
+                <div id="ranking" class="mt-4 hidden"></div>
             </div>
         </div>
     </div>
