@@ -39,7 +39,7 @@ class QCM
 
     public function fetchAllQCMsTeacher($pageNumber = 1, $pageSize = 10)
     {
-        $url = $this->apiUrl . "/qcmforTeacher?pageNumber=" . urlencode($pageNumber) . "&pageSize=" . urlencode($pageSize);
+        $url = sprintf("%s/qcmforTeacher?pageNumber=%d&pageSize=%d", $this->apiUrl, $pageNumber, $pageSize);
         $ch = curl_init($url);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
