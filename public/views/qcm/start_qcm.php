@@ -172,6 +172,7 @@ $token = str_replace('Bearer ', '', $token);
                 ws.send(JSON.stringify(startMessage));
                 document.getElementById("startQcmButton").classList.add("hidden");
                 document.getElementById("controls").classList.remove("hidden");
+                document.getElementById("students").classList.add("hidden");
             });
 
             document.getElementById("pauseQcmButton").addEventListener("click", function() {
@@ -247,6 +248,7 @@ $token = str_replace('Bearer ', '', $token);
                 questionDiv.classList.remove("hidden");
                 rankingDiv.classList.remove("hidden");
                 timerDiv.classList.add("hidden");
+                document.getElementById("controls").classList.add("hidden");
             }
         });
     </script>

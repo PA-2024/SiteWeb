@@ -205,7 +205,7 @@ $studentName = $_SESSION['user_name'];
                     const answerMessage = {
                         action: "ANSWER",
                         studentId: studentId,
-                        answers: selectedOptions.map(Number)
+                        answer: selectedOptions.map(Number)
                     };
                     ws.send(JSON.stringify(answerMessage));
                     displayLoading();

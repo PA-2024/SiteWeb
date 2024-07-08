@@ -20,6 +20,7 @@ $qcmManager = new QCM($token);
 
 // Définir les dates de début et de fin pour aujourd'hui
 $today = new DateTime();
+//today->sub(new DateInterval('P1D'));
 $startDate = $today->format('Y-m-d') . 'T00:00:00';
 $endDate = $today->format('Y-m-d') . 'T23:59:59';
 
