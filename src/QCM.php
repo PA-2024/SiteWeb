@@ -145,7 +145,7 @@ class QCM
     {
         $url = $this->apiUrl . "/QCM";
         $postData = json_encode([
-            'title' => $title,
+            'text' => $title,
             'subjectHour_id' => $subjectHourId,
             'questions' => $questions
         ]);
@@ -165,7 +165,7 @@ class QCM
         curl_close($ch);
 
         if ($response === false || $httpStatusCode != 200) {
-            throw new \Exception('Erreur lors de la création du QCM.');
+            throw new \Exception("Erreur lors de la création du QCM.");
         }
 
         return json_decode($response, true);

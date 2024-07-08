@@ -21,6 +21,11 @@ $qcmId = $_GET['id'];
 
 try {
     $qcm = $qcmManager->fetchQCMById($qcmId);
+    if (is_array($qcm) && count($qcm) > 0) {
+        $qcm = $qcm[0]; // Prendre le premier élément du tableau car on nous retourne un tableau...
+    } else {
+        throw new Exception('QCM introuvable.');
+    }
 } catch (Exception $e) {
     echo 'Erreur : ' . $e->getMessage();
     exit;
@@ -32,12 +37,15 @@ try {
         <?php include '../../menu/menu_prof.php'; ?>
         <div class="page-wrapper">
             <div class="content">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Voir le QCM</li>
-                        </ul>
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="list_qcm.php">QCM</a></li>
+                                <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+                                <li class="breadcrumb-item active">Voir le QCM</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
