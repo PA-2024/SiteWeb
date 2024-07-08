@@ -186,7 +186,7 @@ $studentName = $_SESSION['user_name'];
 
                 document.querySelectorAll('.answer-option').forEach(option => {
                     option.addEventListener('click', function() {
-                        const optionId = this.getAttribute('data-option-id');
+                        const optionId = parseInt(this.getAttribute('data-option-id'), 10);
                         if (selectedOptions.includes(optionId)) {
                             selectedOptions = selectedOptions.filter(id => id !== optionId);
                             this.classList.remove('selected');
@@ -198,13 +198,16 @@ $studentName = $_SESSION['user_name'];
                 });
 
                 document.getElementById('submitAnswerButton').addEventListener('click', function() {
+                    if (selectedOptions.length === 0) {
+                        alert('Veuillez sélectionner au moins une option.');
+                        return;
+                    }
                     const answerMessage = {
                         action: "ANSWER",
                         studentId: studentId,
-                        answers: selectedOptions
+                        answers: selectedOptions.map(Number)
                     };
                     ws.send(JSON.stringify(answerMessage));
-                    console.log("Answer sent: ", answerMessage);
                     displayLoading();
                 });
             }
