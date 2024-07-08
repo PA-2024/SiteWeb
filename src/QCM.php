@@ -37,6 +37,32 @@ class QCM
         return $qcms;
     }
 
+    public function fetchAllQCMsTeacher($pageNumber = 1, $pageSize = 10)
+    {
+        $url = $this->apiUrl . "/qcmforTeacher?pageNumber=" . urlencode($pageNumber) . "&pageSize=" . urlencode($pageSize);
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new \Exception('Erreur lors de la récupération des QCM.');
+        }
+
+        $qcms = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return $qcms;
+    }
+
     public function fetchQCMByRange($startDate, $endDate)
     {
         $url = $this->apiUrl . "/qcmByRange?StartDate=" . urlencode($startDate) . "&EndDate=" . urlencode($endDate);

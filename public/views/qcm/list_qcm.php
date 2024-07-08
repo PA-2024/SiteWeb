@@ -17,7 +17,7 @@ if (!$token) {
 }
 
 $qcmManager = new QCM($token);
-$qcms = $qcmManager->fetchAllQCMs();
+$qcms = $qcmManager->fetchAllQCMsTeacher();
 ?>
 
 <body>
