@@ -5,11 +5,10 @@
                 <li class="menu-title">Menu</li>
 
                 <li class="submenu">
-                    <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Membres </span> <span class="menu-arrow"></span></a>
+                    <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Directeurs </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="../lists/members_list.php">Liste des membres</a></li>
-                        <li><a href="../forms/add_member.php">Ajouter un membre</a></li>
-                        <li><a href="../forms/edit_member.php">Editer un membre</a></li>
+                        <li><a href="../lists/members_list.php">Liste des directeurs</a></li>
+                        <li><a href="../forms/add_member.php">Ajouter un directeur</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

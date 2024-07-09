@@ -20,13 +20,22 @@ if (!$token) {
 
 $subjectHourManager = new SubjectsHour($token);
 $subjectHours = $subjectHourManager->fetchAll();
+
+// Fonction pour formater la date en français
+function formatDateInFrench($dateString) {
+    $date = new DateTime($dateString);
+    $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    $months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    $dayOfWeek = $days[$date->format('w')];
+    $day = $date->format('d');
+    $month = $months[$date->format('n') - 1];
+    $year = $date->format('Y');
+    $time = $date->format('H:i');
+
+    return "$dayOfWeek $day $month $year à $time";
+}
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des Heures de Cours</title>
-</head>
 <body>
     <div class="main-wrapper">
         <?php include '../../header/entete_dashboard.php'; ?>
@@ -100,10 +109,6 @@ $subjectHours = $subjectHourManager->fetchAll();
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-auto text-end float-end ms-auto download-grp">
-                                <a href="javascript:;" id="export-csv" class="me-2"><img src="../../assets/img/icons/pdf-icon-03.svg" alt="Export to CSV"></a>
-                                <a href="javascript:;" id="export-xlsx"><img src="../../assets/img/icons/pdf-icon-04.svg" alt="Export to XLSX"></a>
-                            </div>
                         </div>
                     </div>
                     <!-- /Table Header -->
@@ -141,8 +146,8 @@ $subjectHours = $subjectHourManager->fetchAll();
                                                         <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Id']); ?></td>
                                                         <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Subjects']['subjects_Name']); ?></td>
                                                         <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Room']); ?></td>
-                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_DateStart']); ?></td>
-                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_DateEnd']); ?></td>
+                                                        <td><?php echo formatDateInFrench($subjectHour['subjectsHour_DateStart']); ?></td>
+                                                        <td><?php echo formatDateInFrench($subjectHour['subjectsHour_DateEnd']); ?></td>
                                                         <td class="text-end">
                                                             <div class="dropdown dropdown-action">
                                                                 <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>

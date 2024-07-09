@@ -226,6 +226,7 @@ include '../../header/entete.php';
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-bottom: 10px;
+            position: relative;
         }
         .course-title {
             font-size: 16px;
@@ -243,6 +244,21 @@ include '../../header/entete.php';
         .course-building {
             font-size: 14px;
             color: #007bff;
+        }
+        .call-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .call-button:hover {
+            background: #0056b3;
         }
     </style>
 
@@ -275,6 +291,9 @@ include '../../header/entete.php';
                                     <div class="course-room">Salle: ${hour.subjectsHour_Room}</div>
                                     <div class="course-building">
                                         Bâtiment: <a href="https://maps.google.com/?q=${hour.building.building_Address}" target="_blank">${hour.building.building_Name}</a>
+                                    </div>
+                                    <div class="doctor-submit text-end">
+                                            <button class="btn btn-primary submit-form me-2" onclick="location.href='https://localhost/views/misc/qr_code.php?subjectsHourId=${hour.subjectsHour_Id}'">Faire l'appel</button>
                                     </div>
                                 </div>
                             `;

@@ -28,7 +28,6 @@ $subjectsHours = $subjectsHourManager->fetchSubjectsHoursByDateRange($startDate,
 $selectedHour = isset($_GET['subjectsHourId']) ? $_GET['subjectsHourId'] : null;
 
 // Fonction pour formater la date en français
-// Fonction pour formater la date en français sans `IntlDateFormatter`
 function formatDateInFrench($dateString) {
     $date = new DateTime($dateString);
     $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
@@ -45,8 +44,6 @@ function formatDateInFrench($dateString) {
 
 $token = str_replace('Bearer ', '', $token);
 ?>
-<!DOCTYPE html>
-<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>QR Code de Présence</title>
