@@ -7,7 +7,7 @@ use GeSign\SubjectsHour;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
-$sessionManager->checkUserRole('Eleve');
+$sessionManager->checkUserRole('Professeur');
 
 $token = $_SESSION['token'] ?? $_COOKIE['token'];
 
@@ -19,9 +19,16 @@ if (!$token) {
 $subjectsHourManager = new SubjectsHour($token);
 $startDate = (new DateTime('-1 year'))->format('Y-m-d') . 'T00:00:00';
 $endDate = (new DateTime('+1 year'))->format('Y-m-d') . 'T23:59:59';
-$subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
+$subjectsHours = $subjectsHourManager->fetchSubjectsHoursByDateRange($startDate, $endDate);
+
+echo '<script>console.log(' . json_encode($subjectsHours) . ');</script>';
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/all.min.css">
@@ -54,15 +61,15 @@ $subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
 <body>
     <div class="main-wrapper">
         <?php include '../../header/entete_dashboard.php'; ?>
-        <?php include '../../menu/menu_student.php'; ?>
+        <?php include '../../menu/menu_prof.php'; ?>
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
                     <div class="col-sm-8 col-4">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="../dashboard/student_dashboard.php">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="../dashboard/professor_dashboard.php">Dashboard</a></li>
                             <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                            <li class="breadcrumb-item active">Calendrier de l'étudiant</li>
+                            <li class="breadcrumb-item active">Calendrier du professeur</li>
                         </ul>
                     </div>
                 </div>
@@ -110,7 +117,7 @@ $subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
             const events = [
                 <?php foreach ($subjectsHours as $subjectsHour): ?>
                 {
-                    title: '<?php echo addslashes($subjectsHour['subject']['subjects_Name']); ?>',
+                    title: '<?php echo addslashes($subjectsHour['subjectsHour_Subject']['subjects_Name']); ?>',
                     start: '<?php echo (new DateTime($subjectsHour['subjectsHour_DateStart']))->format('Y-m-d\TH:i:s'); ?>',
                     end: '<?php echo (new DateTime($subjectsHour['subjectsHour_DateEnd']))->format('Y-m-d\TH:i:s'); ?>',
                     room: '<?php echo addslashes($subjectsHour['subjectsHour_Room']); ?>',
@@ -119,7 +126,6 @@ $subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
                     color: '#007bff',
                     description: `
                         <strong>Salle:</strong> <?php echo addslashes($subjectsHour['subjectsHour_Room']); ?><br>
-                        <strong>Professeur:</strong> <?php echo addslashes($subjectsHour['subject']['teacher']['user_firstname'] . ' ' . $subjectsHour['subject']['teacher']['user_lastname']); ?><br>
                         <strong>Bâtiment:</strong> <a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($subjectsHour['building']['building_Address'] . ', ' . $subjectsHour['building']['building_City']); ?>" target="_blank"><?php echo addslashes($subjectsHour['building']['building_Name']); ?></a><br>
                         <strong>Début:</strong> <?php echo (new DateTime($subjectsHour['subjectsHour_DateStart']))->format("H:i"); ?><br>
                         <strong>Fin:</strong> <?php echo (new DateTime($subjectsHour['subjectsHour_DateEnd']))->format("H:i"); ?>
@@ -163,7 +169,6 @@ $subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
                         $('#event-modal .modal-body').html(`
                             <p><strong>Nom du cours:</strong> ${event.title}</p>
                             <p><strong>Salle:</strong> ${event.room}</p>
-                            <p><strong>Professeur:</strong> ${event.professor}</p>
                             <p><strong>Bâtiment:</strong> <a href="${event.mapLink}" target="_blank">${event.building}</a></p>
                             <p><strong>Début:</strong> ${moment(event.start).format('YYYY-MM-DD HH:mm')}</p>
                             <p><strong>Fin:</strong> ${moment(event.end).format('YYYY-MM-DD HH:mm')}</p>

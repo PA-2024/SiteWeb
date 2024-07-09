@@ -20,6 +20,9 @@
                         <li><a href="../qcm/qcm_results.php">Voir les résultats</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="../misc/calendar_teacher.php"><i class="fa fa-calendar"></i> <span>Calendrier</span></a>
+                </li>
                 <div class="logout-btn">
                     <a href="../../script/logout.php"><span class="menu-side"><img src="../../assets/img/icons/logout.svg" alt=""></span> <span>Me déconnecter</span></a>
                 </div>
