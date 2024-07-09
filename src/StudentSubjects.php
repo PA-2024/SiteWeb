@@ -25,7 +25,7 @@ class StudentSubjects
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json',
-            'Authorization: Bearer ' . $this->token
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
@@ -57,7 +57,7 @@ class StudentSubjects
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json',
-            'Authorization: Bearer ' . $this->token
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
@@ -75,10 +75,11 @@ class StudentSubjects
         return $result;
     }
 
-    public function listStudentsBySubject($subjectId)
+    public function addStudentsToSubject($subjectId, $studentIds)
     {
         $postData = json_encode([
-            "subject_Id" => $subjectId
+            "subject_Id" => $subjectId,
+            "studentIds" => $studentIds
         ]);
 
         $url = $this->apiUrl . '/List';
@@ -90,14 +91,14 @@ class StudentSubjects
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json',
-            'Authorization: Bearer ' . $this->token
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
         curl_close($ch);
 
         if ($response === false) {
-            throw new \Exception('Erreur lors de la récupération de la liste des étudiants.');
+            throw new \Exception('Erreur lors de l\'ajout de la liste des étudiants.');
         }
 
         $result = json_decode($response, true);

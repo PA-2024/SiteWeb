@@ -36,6 +36,14 @@
                             </ul>
                         </li>
                         <li class="submenu">
+                            <a href="#"><span>Etudiants</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="../forms/add_student_subject.php">Ajouter un étudiant à un cours</a></li>
+                                <li><a href="../forms/add_subjects.php">Ajouter une classe à un cours</a></li>
+                                <li><a href="../forms/add_subjects.php">Liste des cours et étudiants</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
                             <a href="#"><span> Heures de Cours</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="../lists/list_subject_hours.php">Liste des heures de cours</a></li>
