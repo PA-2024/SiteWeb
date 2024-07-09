@@ -90,48 +90,7 @@ $subjects = $subjectManager->fetchSubjects();
                         <div class="card-box mb-0">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div id="calendar"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade none-border" id="event-modal">
-                            <div class="modal-dialog">
-                                <div class="modal-content modal-md">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Détail de l'événement</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body"></div>
-                                    <div class="modal-footer text-center">
-                                        <button type="button" class="btn btn-primary submit-btn save-event" data-bs-dismiss="modal">Fermer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="add_event" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content modal-md">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Ajouter un événement</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="input-block">
-                                                <label>Nom de l'événement <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text">
-                                            </div>
-                                            <div class="input-block">
-                                                <label>Date de l'événement <span class="text-danger">*</span></label>
-                                                <div class="cal-icon">
-                                                    <input class="form-control datetimepicker" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="m-t-20 text-center">
-                                                <button class="btn btn-primary submit-btn">Créer l'événement</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    <div id="calendar1"></div>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +112,7 @@ $subjects = $subjectManager->fetchSubjects();
     <script src="../../assets/js/app.js"></script>
     <script>
         $(document).ready(function () {
-            $('#calendar').fullCalendar({
+            $('#calendar1').fullCalendar({
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -161,22 +120,6 @@ $subjects = $subjectManager->fetchSubjects();
                 },
                 locale: 'fr',
                 editable: false,
-                events: [
-                    {
-                        title: 'Cours de Mathématiques',
-                        start: '2024-07-02T10:00:00',
-                        end: '2024-07-02T12:00:00',
-                        room: 'A101',
-                        color: '#007bff'
-                    },
-                    {
-                        title: 'Cours de Physique',
-                        start: '2024-07-03T14:00:00',
-                        end: '2024-07-03T16:00:00',
-                        room: 'B202',
-                        color: '#007bff'
-                    }
-                ],
                 eventRender: function (event, element) {
                     element.popover({
                         title: event.title,
@@ -221,8 +164,8 @@ $subjects = $subjectManager->fetchSubjects();
                                     description: hour.subjectsHour_Subjects.subjects_Description || ''
                                 };
                             });
-                            $('#calendar').fullCalendar('removeEvents');
-                            $('#calendar').fullCalendar('addEventSource', events);
+                            $('#calendar1').fullCalendar('removeEvents');
+                            $('#calendar1').fullCalendar('addEventSource', events);
                         },
                         error: function () {
                             alert('Impossible de charger les heures de cours.');
