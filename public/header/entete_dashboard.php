@@ -30,9 +30,6 @@ $role = $_SESSION['user_role'];
                         <!-- Notifications will be fetched using AJAX -->
                     </ul>
                 </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="../misc/activities.php">Voir toutes les notifications</a>
-                </div>
             </div>
         </li>
         <li class="nav-item dropdown has-arrow user-profile-list">
@@ -77,7 +74,16 @@ $role = $_SESSION['user_role'];
                         return;
                     }
                     var notificationList = $('#notification-list');
+                    var notificationIcon = $('.nav-item.dropdown .dropdown-toggle img');
+                    var pulseElement = $('.nav-item.dropdown .dropdown-toggle .pulse');
                     notificationList.empty();
+
+                    if (data.length > 0) {
+                        pulseElement.show();
+                    } else {
+                        pulseElement.hide();
+                    }
+
                     data.forEach(function(notification) {
                         var notificationItem = `
                             <li class="notification-message">

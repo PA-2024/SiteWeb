@@ -28,24 +28,36 @@ if ($role === 'Professeur' || $role === 'Eleve') {
     $todayEnd = $today->format('Y-m-d') . 'T23:59:59';
     
     // Fetch today's subjects
-    $subjectsHoursToday = $subjectsHourManager->fetchSubjectsHoursByDateRange($todayStart, $todayEnd);
+    if ($role === 'Professeur') {
+        $subjectsHoursToday = $subjectsHourManager->fetchSubjectsHoursByDateRange($todayStart, $todayEnd);
+    } else {
+        $subjectsHoursToday = $subjectsHourManager->fetchByDateRange($todayStart, $todayEnd);
+    }
     
     foreach ($subjectsHoursToday as $subjectHour) {
+        $dateStart = new DateTime($subjectHour['subjectsHour_DateStart']);
+        $formattedDateStart = $dateStart->format('H:i');
+        
         $notifications[] = [
             'type' => 'course',
-            'message' => "Vous avez cours à {$subjectHour['subjectsHour_DateStart']} dans le bâtiment {$subjectHour['building']['building_Name']} en salle {$subjectHour['subjectsHour_Room']}."
+            'message' => "Vous avez cours à <strong>{$formattedDateStart}</strong> dans le bâtiment <strong>{$subjectHour['building']['building_Name']}</strong> en salle <strong>{$subjectHour['subjectsHour_Room']}</strong>."
         ];
     }
     
     // Fetch today's QCMs
-    /*$qcmsToday = $qcmManager->fetchQCMByRange($todayStart, $todayEnd);
+    /*
+    $qcmsToday = $qcmManager->fetchQCMByRange($todayStart, $todayEnd);
 
     foreach ($qcmsToday as $qcm) {
+        $qcmStart = new DateTime($qcm['qcm_Start']);
+        $formattedQcmStart = $qcmStart->format('H:i');
+
         $notifications[] = [
             'type' => 'qcm',
-            'message' => "Un QCM est prévu aujourd'hui à {$qcm['qcm_Start']}."
+            'message' => "Un QCM est prévu aujourd'hui à <strong>{$formattedQcmStart}</strong>."
         ];
-    }*/
+    }
+    */
 }
 
 echo json_encode($notifications);
