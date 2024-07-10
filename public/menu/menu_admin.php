@@ -3,12 +3,11 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="menu-title">Menu</li>
-
                 <li class="submenu">
                     <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Directeurs </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="../lists/members_list.php">Liste des directeurs</a></li>
-                        <li><a href="../forms/add_member.php">Ajouter un directeur</a></li>
+                        <li><a href="../lists/list_directors.php">Liste des directeurs</a></li>
+                        <li><a href="../forms/create_director.php">Ajouter un directeur</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
