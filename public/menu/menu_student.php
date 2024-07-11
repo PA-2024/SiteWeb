@@ -8,8 +8,8 @@
 					<a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Calendrier </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="../misc/calendar_student.php">Mes cours</a></li>
-						<li><a href="../forms/add_members.php">Mes absences</a></li>
-						<li><a href="../forms/edit_members.php">Justifier une absence</a></li>
+						<li><a href="../lists/absences_list.php">Mes absences</a></li>
+						<li><a href="../lists/">Voir mes justificatifs</a></li>
 					</ul>
 				</li>
 				<li class="submenu">
