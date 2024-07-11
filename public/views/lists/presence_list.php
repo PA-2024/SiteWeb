@@ -29,23 +29,6 @@ try {
     $errorMessage = $e->getMessage();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $presenceId = $_POST['presence_id'];
-    $action = $_POST['action'];
-
-    try {
-        if ($action === 'delete') {
-            $presenceManager->deletePresence($presenceId); // Cette méthode n'existe pas dans la classe Presence 
-        } elseif ($action === 'validate') {
-            $presenceManager->validatePresence($presenceId); // Cette méthode n'existe pas dans la classe Presence
-        }
-        header('Location: presence_list.php?subjectsHourId=' . $_GET['subjectsHourId']);
-        exit;
-    } catch (Exception $e) {
-        $errorMessage = $e->getMessage();
-    }
-}
-
 function formatDateInFrench($dateString) {
     $date = new DateTime($dateString);
     $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
@@ -60,12 +43,6 @@ function formatDateInFrench($dateString) {
     return "$dayOfWeek $day $month $year à $time";
 }
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des Présences</title>
-</head>
 <body>
     <div class="main-wrapper">
         <?php include '../../header/entete_dashboard.php'; ?>
@@ -102,7 +79,6 @@ function formatDateInFrench($dateString) {
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                            <br>
                             <button type="submit" class="btn btn-primary">Afficher</button>
                         </form>
 
@@ -114,7 +90,6 @@ function formatDateInFrench($dateString) {
                                             <th>ID</th>
                                             <th>Étudiant</th>
                                             <th>Présence</th>
-                                            <th>Informations de scan</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -130,14 +105,12 @@ function formatDateInFrench($dateString) {
                                                         <button class="custom-badge status-red">Absent</button>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td>Coucou</td> <!-- Cette colonne doit contenir les informations de scan mais pour le moment vide -->
                                                 <td class="text-end">
                                                     <div class="dropdown dropdown-action">
                                                         <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                         <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item delete-link" href="#" data-bs-toggle="modal" data-bs-target="#delete_presence" data-id="<?php echo htmlspecialchars($student['student_Id']); ?>"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
-                                                            <form method="post" class="d-inline">
-                                                                <input type="hidden" name="presence_id" value="<?php echo htmlspecialchars($student['student_Id']); ?>">
+                                                            <form method="post" class="d-inline validate-presence-form">
+                                                                <input type="hidden" name="presence_id" value="<?php echo htmlspecialchars($student['presence_id']); ?>">
                                                                 <button type="submit" name="action" value="validate" class="dropdown-item"><i class="fa-solid fa-check m-r-5"></i> Valider</button>
                                                             </form>
                                                         </div>
@@ -186,5 +159,26 @@ function formatDateInFrench($dateString) {
 
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.validate-presence-form').on('submit', function(event) {
+                event.preventDefault();
+                var form = $(this);
+                var formData = form.serialize();
+                $.ajax({
+                    url: '../../script/validate_presence.php',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        location.reload();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error validating presence: ', textStatus, errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

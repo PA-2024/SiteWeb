@@ -224,4 +224,27 @@ class Presence
 
         return $presences;
     }
+
+    public function validatePresence($id)
+    {
+        $url = $this->apiUrl . "/confirm/" . $id;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
+        $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($response === false || $httpStatusCode != 200) {
+            throw new \Exception('Erreur lors de la validation de la présence.');
+        }
+
+        return json_decode($response, true);
+    }
 }
