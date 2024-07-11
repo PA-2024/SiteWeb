@@ -20,8 +20,32 @@ $subjectsHourManager = new SubjectsHour($token);
 $startDate = (new DateTime('-1 year'))->format('Y-m-d') . 'T00:00:00';
 $endDate = (new DateTime('+1 year'))->format('Y-m-d') . 'T23:59:59';
 $subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
+
+$events = [];
+foreach ($subjectsHours as $subjectsHour) {
+    $events[] = [
+        'title' => htmlspecialchars($subjectsHour['subject']['subjects_Name'], ENT_QUOTES, 'UTF-8'),
+        'start' => (new DateTime($subjectsHour['subjectsHour_DateStart']))->format('Y-m-d\TH:i:s'),
+        'end' => (new DateTime($subjectsHour['subjectsHour_DateEnd']))->format('Y-m-d\TH:i:s'),
+        'room' => htmlspecialchars($subjectsHour['subjectsHour_Room'], ENT_QUOTES, 'UTF-8'),
+        'building' => htmlspecialchars($subjectsHour['building']['building_Name'] . ', ' . $subjectsHour['building']['building_Address'] . ', ' . $subjectsHour['building']['building_City'], ENT_QUOTES, 'UTF-8'),
+        'mapLink' => 'https://www.google.com/maps/search/?api=1&query=' . urlencode($subjectsHour['building']['building_Address'] . ', ' . $subjectsHour['building']['building_City']),
+        'description' => "
+            <strong>Salle:</strong> " . htmlspecialchars($subjectsHour['subjectsHour_Room'], ENT_QUOTES, 'UTF-8') . "<br>
+            <strong>Professeur:</strong> " . htmlspecialchars($subjectsHour['subject']['teacher']['user_firstname'] . ' ' . $subjectsHour['subject']['teacher']['user_lastname'], ENT_QUOTES, 'UTF-8') . "<br>
+            <strong>Bâtiment:</strong> <a href='https://www.google.com/maps/search/?api=1&query=" . urlencode($subjectsHour['building']['building_Address'] . ', ' . $subjectsHour['building']['building_City']) . "' target='_blank'>" . htmlspecialchars($subjectsHour['building']['building_Name'], ENT_QUOTES, 'UTF-8') . "</a><br>
+            <strong>Début:</strong> " . (new DateTime($subjectsHour['subjectsHour_DateStart']))->format('H:i') . "<br>
+            <strong>Fin:</strong> " . (new DateTime($subjectsHour['subjectsHour_DateEnd']))->format('H:i')
+    ];
+}
+
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="../../assets/plugins/fontawesome/css/all.min.css">
@@ -49,6 +73,70 @@ $subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
             transition: background-color 0.3s ease;
         }
     </style>
+    <script type='importmap'>
+        {
+            "imports": {
+                "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.14",
+                "@fullcalendar/daygrid": "https://cdn.skypack.dev/@fullcalendar/daygrid@6.1.14",
+                "@fullcalendar/timegrid": "https://cdn.skypack.dev/@fullcalendar/timegrid@6.1.14",
+                "@fullcalendar/list": "https://cdn.skypack.dev/@fullcalendar/list@6.1.14",
+                "@fullcalendar/interaction": "https://cdn.skypack.dev/@fullcalendar/interaction@6.1.14"
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type='module'>
+        import { Calendar } from '@fullcalendar/core'
+        import dayGridPlugin from '@fullcalendar/daygrid'
+        import timeGridPlugin from '@fullcalendar/timegrid'
+        import listPlugin from '@fullcalendar/list'
+        import interactionPlugin from '@fullcalendar/interaction'
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar1');
+            const calendar = new Calendar(calendarEl, {
+                plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                locale: 'fr',
+                buttonText: {
+                    today: 'Aujourd\'hui',
+                    month: 'Mois',
+                    week: 'Semaine',
+                    day: 'Jour'
+                },
+                allDaySlot: false,
+                events: <?php echo json_encode($events); ?>,
+                eventDidMount: function(info) {
+                    new bootstrap.Tooltip(info.el, {
+                        title: info.event.extendedProps.description,
+                        placement: 'top',
+                        trigger: 'hover',
+                        container: 'body',
+                        html: true
+                    });
+                },
+                eventClick: function(info) {
+                    const event = info.event;
+                    const modalBody = document.querySelector('#event-modal .modal-body');
+                    modalBody.innerHTML = `
+                        <p><strong>Nom du cours:</strong> ${event.title}</p>
+                        <p><strong>Salle:</strong> ${event.extendedProps.room}</p>
+                        <p><strong>Professeur:</strong> ${event.extendedProps.professor}</p>
+                        <p><strong>Bâtiment:</strong> <a href="${event.extendedProps.mapLink}" target="_blank">${event.extendedProps.building}</a></p>
+                        <p><strong>Début:</strong> ${moment(event.start).format('DD/MM/YYYY HH:mm')}</p>
+                        <p><strong>Fin:</strong> ${moment(event.end).format('DD/MM/YYYY HH:mm')}</p>
+                    `;
+                    $('#event-modal').modal('show');
+                }
+            });
+            calendar.render();
+        });
+    </script>
 </head>
 
 <body>
@@ -96,86 +184,10 @@ $subjectsHours = $subjectsHourManager->fetchByDateRange($startDate, $endDate);
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="../../assets/js/jquery-3.7.1.min.js"></script>
-    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/jquery.slimscroll.js"></script>
     <script src="../../assets/js/select2.min.js"></script>
-    <script src="../../assets/js/moment.min.js"></script>
-    <script src="../../assets/js/jquery-ui.min.js"></script>
-    <script src="../../assets/js/fullcalendar.min.js"></script>
-    <script src="../../assets/js/jquery.fullcalendar.js"></script>
     <script src="../../assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="../../assets/js/app.js"></script>
-    <script>
-        $(document).ready(function () {
-            const events = [
-                <?php foreach ($subjectsHours as $subjectsHour): ?>
-                {
-                    title: '<?php echo addslashes($subjectsHour['subject']['subjects_Name']); ?>',
-                    start: '<?php echo (new DateTime($subjectsHour['subjectsHour_DateStart']))->format('Y-m-d\TH:i:s'); ?>',
-                    end: '<?php echo (new DateTime($subjectsHour['subjectsHour_DateEnd']))->format('Y-m-d\TH:i:s'); ?>',
-                    room: '<?php echo addslashes($subjectsHour['subjectsHour_Room']); ?>',
-                    building: '<?php echo addslashes($subjectsHour['building']['building_Name'] . ', ' . $subjectsHour['building']['building_Address'] . ', ' . $subjectsHour['building']['building_City']); ?>',
-                    mapLink: 'https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($subjectsHour['building']['building_Address'] . ', ' . $subjectsHour['building']['building_City']); ?>',
-                    color: '#007bff',
-                    description: `
-                        <strong>Salle:</strong> <?php echo addslashes($subjectsHour['subjectsHour_Room']); ?><br>
-                        <strong>Professeur:</strong> <?php echo addslashes($subjectsHour['subject']['teacher']['user_firstname'] . ' ' . $subjectsHour['subject']['teacher']['user_lastname']); ?><br>
-                        <strong>Bâtiment:</strong> <a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($subjectsHour['building']['building_Address'] . ', ' . $subjectsHour['building']['building_City']); ?>" target="_blank"><?php echo addslashes($subjectsHour['building']['building_Name']); ?></a><br>
-                        <strong>Début:</strong> <?php echo (new DateTime($subjectsHour['subjectsHour_DateStart']))->format("H:i"); ?><br>
-                        <strong>Fin:</strong> <?php echo (new DateTime($subjectsHour['subjectsHour_DateEnd']))->format("H:i"); ?>
-                    `
-                },
-                <?php endforeach; ?>
-            ];
-
-            console.log(events);
-
-            $('#calendar1').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                locale: 'fr',
-                timeFormat: 'H(:mm)',
-                editable: false,
-                events: events,
-                eventRender: function (event, element) {
-                    if (event.title && event.start && event.end) {
-                        element.find('.fc-title').html(`
-                            <strong>${event.title}</strong><br/>
-                            ${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")}
-                        `);
-                        element.popover({
-                            title: event.title,
-                            content: event.description,
-                            trigger: 'hover',
-                            placement: 'top',
-                            container: 'body',
-                            html: true
-                        });
-                    } else {
-                        console.error('Event data missing:', event);
-                    }
-                },
-                eventClick: function (event) {
-                    if (event.title && event.start && event.end) {
-                        $('#event-modal .modal-body').html(`
-                            <p><strong>Nom du cours:</strong> ${event.title}</p>
-                            <p><strong>Salle:</strong> ${event.room}</p>
-                            <p><strong>Professeur:</strong> ${event.professor}</p>
-                            <p><strong>Bâtiment:</strong> <a href="${event.mapLink}" target="_blank">${event.building}</a></p>
-                            <p><strong>Début:</strong> ${moment(event.start).format('YYYY-MM-DD HH:mm')}</p>
-                            <p><strong>Fin:</strong> ${moment(event.end).format('YYYY-MM-DD HH:mm')}</p>
-                        `);
-                        $('#event-modal').modal('show');
-                    } else {
-                        console.error('Event data missing:', event);
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

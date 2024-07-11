@@ -60,6 +60,102 @@ $subjects = $subjectManager->fetchSubjects();
             transition: background-color 0.3s ease;
         }
     </style>
+    <script type='importmap'>
+        {
+            "imports": {
+                "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.14",
+                "@fullcalendar/daygrid": "https://cdn.skypack.dev/@fullcalendar/daygrid@6.1.14",
+                "@fullcalendar/timegrid": "https://cdn.skypack.dev/@fullcalendar/timegrid@6.1.14",
+                "@fullcalendar/list": "https://cdn.skypack.dev/@fullcalendar/list@6.1.14",
+                "@fullcalendar/interaction": "https://cdn.skypack.dev/@fullcalendar/interaction@6.1.14"
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type='module'>
+        import { Calendar } from '@fullcalendar/core'
+        import dayGridPlugin from '@fullcalendar/daygrid'
+        import timeGridPlugin from '@fullcalendar/timegrid'
+        import listPlugin from '@fullcalendar/list'
+        import interactionPlugin from '@fullcalendar/interaction'
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar1');
+            const calendar = new Calendar(calendarEl, {
+                plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                locale: 'fr',
+                buttonText: {
+                    today: 'Aujourd\'hui',
+                    month: 'Mois',
+                    week: 'Semaine',
+                    day: 'Jour'
+                },
+                allDaySlot: false,
+                events: [],  // Initialement vide, les événements seront chargés via AJAX
+                eventDidMount: function(info) {
+                    new bootstrap.Tooltip(info.el, {
+                        title: info.event.extendedProps.description,
+                        placement: 'top',
+                        trigger: 'hover',
+                        container: 'body',
+                        html: true
+                    });
+                },
+                eventClick: function(info) {
+                    const event = info.event;
+                    const modalBody = document.querySelector('#event-modal .modal-body');
+                    modalBody.innerHTML = `
+                        <p><strong>Nom du cours:</strong> ${event.title}</p>
+                        <p><strong>Salle:</strong> ${event.extendedProps.room}</p>
+                        <p><strong>Début:</strong> ${moment(event.start).format('DD/MM/YYYY HH:mm')}</p>
+                        <p><strong>Fin:</strong> ${moment(event.end).format('DD/MM/YYYY HH:mm')}</p>
+                    `;
+                    $('#event-modal').modal('show');
+                }
+            });
+            calendar.render();
+
+            $('#subjectSelect').on('change', function () {
+                var subjectId = $(this).val();
+                if (subjectId) {
+                    $.ajax({
+                        url: '../../script/fetch_subject_hours_ajax_2.php',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { subjectId: subjectId },
+                        success: function (data) {
+                            var events = data.map(function (hour) {
+                                return {
+                                    title: hour.subjectsHour_Subjects.subjects_Name,
+                                    start: hour.subjectsHour_DateStart,
+                                    end: hour.subjectsHour_DateEnd,
+                                    room: hour.subjectsHour_Room,
+                                    description: `
+                                        <strong>Salle:</strong> ${hour.subjectsHour_Room}<br>
+                                        <strong>Début:</strong> ${moment(hour.subjectsHour_DateStart).format('H:mm')}<br>
+                                        <strong>Fin:</strong> ${moment(hour.subjectsHour_DateEnd).format('H:mm')}
+                                    `
+                                };
+                            });
+                            calendar.removeAllEvents();
+                            calendar.addEventSource(events);
+                        },
+                        error: function () {
+                            alert('Impossible de charger les heures de cours.');
+                        }
+                    });
+                } else {
+                    calendar.removeAllEvents();
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -94,6 +190,20 @@ $subjects = $subjectManager->fetchSubjects();
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade none-border" id="event-modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content modal-md">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Détails du cours</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body"></div>
+                                    <div class="modal-footer text-center">
+                                        <button type="button" class="btn btn-primary submit-btn save-event" data-bs-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,82 +211,10 @@ $subjects = $subjectManager->fetchSubjects();
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="../../assets/js/jquery-3.7.1.min.js"></script>
-    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/jquery.slimscroll.js"></script>
     <script src="../../assets/js/select2.min.js"></script>
-    <script src="../../assets/js/moment.min.js"></script>
-    <script src="../../assets/js/jquery-ui.min.js"></script>
-    <script src="../../assets/js/fullcalendar.min.js"></script>
-    <script src="../../assets/js/jquery.fullcalendar.js"></script>
     <script src="../../assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="../../assets/js/app.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#calendar1').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                locale: 'fr',
-                editable: false,
-                eventRender: function (event, element) {
-                    element.popover({
-                        title: event.title,
-                        content: `
-                            <strong>Nom du cours:</strong> ${event.title}<br>
-                            <strong>Salle:</strong> ${event.room}<br>
-                            <strong>Début:</strong> ${event.start.format('YYYY-MM-DD HH:mm')}<br>
-                            <strong>Fin:</strong> ${event.end.format('YYYY-MM-DD HH:mm')}
-                        `,
-                        trigger: 'hover',
-                        placement: 'top',
-                        container: 'body',
-                        html: true
-                    });
-                },
-                eventClick: function (event) {
-                    $('#event-modal .modal-body').html(`
-                        <p><strong>Nom du cours:</strong> ${event.title}</p>
-                        <p><strong>Salle:</strong> ${event.room}</p>
-                        <p><strong>Début:</strong> ${event.start.format('YYYY-MM-DD HH:mm')}</p>
-                        <p><strong>Fin:</strong> ${event.end.format('YYYY-MM-DD HH:mm')}</p>
-                    `);
-                    $('#event-modal').modal('show');
-                }
-            });
-
-            $('#subjectSelect').on('change', function () {
-                var subjectId = $(this).val();
-                if (subjectId) {
-                    $.ajax({
-                        url: '../../script/fetch_subject_hours_ajax_2.php',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { subjectId: subjectId },
-                        success: function (data) {
-                            var events = data.map(function (hour) {
-                                return {
-                                    title: hour.subjectsHour_Subjects.subjects_Name,
-                                    start: hour.subjectsHour_DateStart,
-                                    end: hour.subjectsHour_DateEnd,
-                                    room: hour.subjectsHour_Room,
-                                    description: hour.subjectsHour_Subjects.subjects_Description || ''
-                                };
-                            });
-                            $('#calendar1').fullCalendar('removeEvents');
-                            $('#calendar1').fullCalendar('addEventSource', events);
-                        },
-                        error: function () {
-                            alert('Impossible de charger les heures de cours.');
-                        }
-                    });
-                } else {
-                    $('#calendar').fullCalendar('removeEvents');
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>
