@@ -45,19 +45,19 @@ if ($role === 'Professeur' || $role === 'Eleve') {
     }
     
     // Fetch today's QCMs
-    /*
+    
     $qcmsToday = $qcmManager->fetchQCMByRange($todayStart, $todayEnd);
 
     foreach ($qcmsToday as $qcm) {
-        $qcmStart = new DateTime($qcm['qcm_Start']);
-        $formattedQcmStart = $qcmStart->format('H:i');
+        //$qcmStart = new DateTime($qcm['qcm_Start']);
+        //$formattedQcmStart = $qcmStart->format('H:i');
 
         $notifications[] = [
             'type' => 'qcm',
-            'message' => "Un QCM est prévu aujourd'hui à <strong>{$formattedQcmStart}</strong>."
+            'message' => "Un QCM est prévu aujourd'hui à <strong>not good</strong>."
         ];
     }
-    */
+
 }
 
 echo json_encode($notifications);

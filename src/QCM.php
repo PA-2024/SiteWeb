@@ -145,7 +145,7 @@ class QCM
     {
         $url = $this->apiUrl . "/QCM";
         $postData = json_encode([
-            'text' => $title,
+            'title' => $title,
             'subjectHour_id' => $subjectHourId,
             'questions' => $questions
         ]);

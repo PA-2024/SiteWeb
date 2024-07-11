@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $studentSubjectsManager->addStudentSubject($studentId, $subjectId);
         $message = "L'étudiant a été ajouté au cours avec succès.";
     } catch (Exception $e) {
-        $error = $e->getMessage();
+        $error = $e->getMessage() . $_POST['student_Id'] . $_POST['subject_Id'];
     }
 }
 ?>
