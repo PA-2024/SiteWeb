@@ -4,6 +4,17 @@ Template Name: PreClinic - Medical and Hospital Admin Template
 Version      : 1.0
 */
 $(document).ready(function($) {
+
+    // Ajout de l'événement de clic pour les boutons de fermeture des alertes
+    document.querySelectorAll('.btn-close[data-bs-dismiss="alert"]').forEach(button => {
+        button.addEventListener('click', function() {
+            // On utilise closest() pour remonter jusqu'à l'élément parent card
+            const card = this.closest('.card.bg-white');
+            if (card) {
+                card.remove();
+            }
+        });
+    });
 	
 	// Variables declarations
 	var $wrapper = $('.main-wrapper');
