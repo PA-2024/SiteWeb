@@ -14,7 +14,7 @@
                     <a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-03.svg" alt=""></span> <span>Classe </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="../lists/sectors_list.php">Liste des classes</a></li>
-                        <li><a href="../lists/sectors_list.php">Liste des étudiants d'une classe</a></li>
+                        <li><a href="../lists/view_students.php">Liste des étudiants d'une classe</a></li>
                         <li><a href="../forms/add_sectors.php">Ajouter une classe</a></li>
                     </ul>
                 </li>

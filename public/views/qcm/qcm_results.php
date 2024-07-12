@@ -23,7 +23,7 @@ if (!$token) {
 $qcmManager = new Qcm($token);
 $qcmResultManager = new QcmResult($token);
 
-$qcms = $qcmManager->fetchAllQCMsTeacher();
+$qcms = $qcmManager->fetchAllQCMsTeacher(1, 50);
 $qcmId = $_GET['qcm_id'] ?? null;
 $scores = [];
 $details = [];

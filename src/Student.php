@@ -231,4 +231,67 @@ class Student
 
         return true;
     }
+
+    /**
+     * Récupère tous les étudiants d'une école spécifique en fonction du token et du nom de la classe.
+     *
+     * @param string $className Le nom de la classe.
+     * @return array La liste des étudiants de l'école spécifique.
+     */
+    public function fetchStudentsByClass($className)
+    {
+        $url = "{$this->apiUrl}/GetStudentsSchoolByToken?NameClass=" . urlencode($className);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new Exception('Erreur lors de la récupération des données.');
+        }
+
+        $students = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return $students;
+    }
+
+    /**
+     * Récupère les informations d'un étudiant par le token.
+     *
+     * @return array Les informations de l'étudiant.
+     */
+    public function fetchStudentByToken()
+    {
+        $url = $this->apiUrl . '/GetStudentByToken';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            throw new Exception('Erreur lors de la récupération des données.');
+        }
+
+        $student = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return $student;
+    }
 }

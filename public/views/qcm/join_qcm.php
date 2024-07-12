@@ -3,6 +3,7 @@ include '../../header/entete.php';
 require_once '../../../vendor/autoload.php';
 
 use GeSign\SessionManager;
+use GeSign\Student;
 
 $sessionManager = new SessionManager();
 $sessionManager->restrictAccessToLoginUsers();
@@ -15,6 +16,11 @@ if (!$token || !$qcmId) {
     header('Location: ../auth/login.php');
     exit;
 }
+
+$student = new Student($token);
+$studentID = $student->fetchStudentByToken();
+$studentID = $studentID['student_Id'];
+
 $token = str_replace('Bearer ', '', $token);
 $studentId = $_SESSION['user_id'];
 $studentName = $_SESSION['user_name'];
@@ -109,6 +115,18 @@ $studentName = $_SESSION['user_name'];
             font-weight: bold;
             text-align: center;
             margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading .spinner {
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 0.25rem solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spinner-border .75s linear infinite;
+            margin-left: 10px;
         }
         .answer-option {
             background: #f7f7f7;
@@ -127,11 +145,17 @@ $studentName = $_SESSION['user_name'];
         .answer-option:nth-child(2) { background: #6a4c93; }
         .answer-option:nth-child(3) { background: #ffd700; }
         .answer-option:nth-child(4) { background: #28a745; }
+        @keyframes spinner-border {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const ws = new WebSocket(`wss://apigessignrecette-c5e974013fbd.herokuapp.com/qcm/${<?php echo json_encode($qcmId); ?>}`);
-            const studentId = <?php echo json_encode($studentId); ?>;
+            alert(<?php echo json_encode($studentID); ?>);
+            const studentId = <?php echo json_encode($studentID); ?>;
             const studentName = <?php echo json_encode($studentName); ?>;
             let selectedOptions = [];
 
@@ -155,7 +179,7 @@ $studentName = $_SESSION['user_name'];
                         break;
                     case "INFO":
                     case "ERROR":
-                        alert(message.message);
+                        displayMessage(message.message, message.action === "ERROR" ? 'danger' : 'info');
                         break;
                     case "END":
                         displayEndMessage();
@@ -199,7 +223,7 @@ $studentName = $_SESSION['user_name'];
 
                 document.getElementById('submitAnswerButton').addEventListener('click', function() {
                     if (selectedOptions.length === 0) {
-                        alert('Veuillez sélectionner au moins une option.');
+                        displayMessage('Veuillez sélectionner au moins une option.', 'danger');
                         return;
                     }
                     const answerMessage = {
@@ -217,6 +241,7 @@ $studentName = $_SESSION['user_name'];
                 questionDiv.innerHTML = `
                     <div class="loading">
                         En attente de la prochaine question...
+                        <div class="spinner"></div>
                     </div>
                 `;
             }
@@ -229,6 +254,13 @@ $studentName = $_SESSION['user_name'];
                     </div>
                 `;
             }
+
+            function displayMessage(message, type) {
+                const messageDiv = document.getElementById("error-message");
+                messageDiv.innerHTML = message;
+                messageDiv.className = `alert alert-${type}`;
+                messageDiv.style.display = 'block';
+            }
         });
     </script>
 </head>
@@ -240,7 +272,13 @@ $studentName = $_SESSION['user_name'];
             <div class="content">
                 <h1>Participer au QCM</h1>
                 <div id="timer" class="timer"></div>
-                <div id="question" class="mt-4"></div>
+                <div id="error-message" class="alert alert-danger" style="display:none;"></div>
+                <div id="question" class="mt-4">
+                    <div class="loading">
+                        En attente de la prochaine question...
+                        <div class="spinner"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
