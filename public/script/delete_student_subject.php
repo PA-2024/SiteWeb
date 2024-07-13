@@ -4,7 +4,7 @@ require_once '../../vendor/autoload.php';
 use GeSign\SessionManager;
 use GeSign\StudentSubjects;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 
 $token = $_SESSION['token'] ?? $_COOKIE['token'];

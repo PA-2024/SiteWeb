@@ -5,6 +5,6 @@ require_once '../vendor/autoload.php';
 
 use GeSign\SessionManager;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->checkUserLoggedIn();
 ?>
