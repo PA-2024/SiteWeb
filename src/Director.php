@@ -36,7 +36,7 @@ class Director
         curl_close($ch);
 
         if ($httpStatusCode != 200) {
-            throw new \Exception("Échec de la création du directeur, statut HTTP: " . $httpStatusCode);
+            throw new \Exception("Échec de la création du directeur, ce directeur existe déjà!");
         }
 
         return json_decode($response, true);

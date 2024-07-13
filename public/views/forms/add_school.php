@@ -40,25 +40,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         $result = $schoolManager->createSchool($name, $token, $allowSite);
-        echo '<div class="card bg-white">
-				<div class="card-body">
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						<strong>Ecole bien ajoutée !</strong> Cette école a bien été créée !
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					</div>
-				</div>
-			</div>';
+
+        if ($result['status'] === 201) {
+            echo '<div class="card bg-white">
+                    <div class="card-body">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Ecole bien ajoutée !</strong> Cette école a bien été créée ! <strong> Pensez à ajouter un gestionnaire pour cet école !</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>';
+        } else if ($result['status'] === 409) {
+            echo '<div class="card bg-white">
+                    <div class="card-body">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Ecole non créée !</strong> Un conflit est survenu, une école avec ce nom existe déjà.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>';
+        } else {
+            throw new Exception('Erreur inconnue.');
+        }
     } catch (Exception $e) {
-		echo '<div class="card bg-white">
-			<div class="card-body">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<strong>Ecole non créée ! :(</strong> ' . $e->getMessage() . '
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</div>
-		</div>';
+        echo '<div class="card bg-white">
+                <div class="card-body">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Ecole non créée ! :(</strong> ' . $e->getMessage() . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>';
     }
 }
+
 ?>
 
                 <!-- Main Content -->

@@ -66,13 +66,23 @@ class Schools
         ]);
 
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception("Échec de la création d'une école.");
         }
 
-        return json_decode($response, true);
+        if ($httpStatusCode === 201) {
+            return ['result' => null, 'status' => $httpStatusCode];
+        }
+
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON.');
+        }
+
+        return ['result' => $result, 'status' => $httpStatusCode];
     }
 
     public function deleteSchool($schoolId)
