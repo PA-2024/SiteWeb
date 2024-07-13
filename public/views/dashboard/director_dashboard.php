@@ -170,7 +170,6 @@ include '../../header/entete.php';
                                         <table class="table mb-0 border-0 datatable custom-table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
                                                     <th>Nom</th>
                                                     <th>Prénom</th>
                                                     <th>Email</th>
@@ -199,11 +198,9 @@ include '../../header/entete.php';
                                         <table class="table mb-0 border-0 datatable custom-table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
                                                     <th>Nom</th>
                                                     <th>Prénom</th>
                                                     <th>Email</th>
-                                                    <th>Classe</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="teacher-list">
@@ -334,7 +331,6 @@ include '../../header/entete.php';
                     let studentList = '';
                     data.students.forEach(student => {
                         studentList += `<tr>
-                            <td>${student.student_Id}</td>
                             <td>${student.student_User.user_lastname}</td>
                             <td>${student.student_User.user_firstname}</td>
                             <td>${student.student_User.user_email}</td>
@@ -347,11 +343,9 @@ include '../../header/entete.php';
                     let teacherList = '';
                     data.teachers.forEach(teacher => {
                         teacherList += `<tr>
-                            <td>${teacher.user_Id}</td>
                             <td>${teacher.user_lastname}</td>
                             <td>${teacher.user_firstname}</td>
                             <td>${teacher.user_email}</td>
-                            <td>${teacher.sectors_Name}</td>
                         </tr>`;
                     });
                     $('#teacher-list').html(teacherList);
