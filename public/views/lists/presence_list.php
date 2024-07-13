@@ -7,7 +7,7 @@ use GeSign\SessionManager;
 use GeSign\Presence;
 use GeSign\SubjectsHour;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Professeur');
 

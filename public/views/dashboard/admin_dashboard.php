@@ -4,7 +4,7 @@ require_once '../../../vendor/autoload.php';
 use GeSign\Schools;
 use GeSign\SessionManager;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Admin');
 

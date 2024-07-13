@@ -4,7 +4,7 @@ require_once '../../../vendor/autoload.php';
 use GeSign\SessionManager;
 use GeSign\SubjectsHour;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Professeur');
 

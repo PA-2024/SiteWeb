@@ -8,7 +8,7 @@ use GeSign\Student;
 use GeSign\Subjects;
 use GeSign\StudentSubjects;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Gestion Ecole');
 

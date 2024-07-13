@@ -6,7 +6,7 @@ use GeSign\SessionManager;
 use GeSign\Director;
 use GeSign\Schools;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Admin');
 

@@ -4,7 +4,7 @@ include '../../header/entete.php';
 require_once '../../../vendor/autoload.php';
 use GeSign\SessionManager;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Admin');
 

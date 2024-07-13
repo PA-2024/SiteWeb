@@ -7,7 +7,7 @@ use GeSign\Presence;
 use GeSign\Student;
 use GeSign\Teacher;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Gestion Ecole');
 

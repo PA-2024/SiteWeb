@@ -6,7 +6,7 @@ use GeSign\Auth;
 use GeSign\SessionManager;
 
 $auth = new Auth();
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $error = '';
 $success = '';
 

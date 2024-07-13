@@ -8,7 +8,7 @@ use GeSign\QcmResult;
 use GeSign\Qcm;
 
 // Vérification de la session et du rôle
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Professeur');
 

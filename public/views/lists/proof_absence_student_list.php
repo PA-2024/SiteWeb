@@ -5,7 +5,7 @@ require_once '../../../vendor/autoload.php';
 use GeSign\SessionManager;
 use GeSign\ProofAbsence;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Eleve');
 

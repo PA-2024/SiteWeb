@@ -8,7 +8,7 @@ use GeSign\Subjects;
 use GeSign\Buildings;
 use GeSign\SubjectsHour;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Gestion Ecole');
 

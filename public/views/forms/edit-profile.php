@@ -5,7 +5,7 @@ require_once '../../../vendor/autoload.php';
 use GeSign\SessionManager;
 use GeSign\User;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 
 // Récupération du token de l'utilisateur connecté
