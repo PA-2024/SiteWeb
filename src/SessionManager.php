@@ -5,17 +5,26 @@ namespace GeSign;
 
 class SessionManager
 {
-    public function __construct()
+    private static $instance = null;
+
+    private function __construct()
     {
         session_start();
+        if (!$this->isUserLoggedIn()) {
+            $this->attemptLoginFromCookies();
+        }
+    }
+
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new SessionManager();
+        }
+        return self::$instance;
     }
 
     public function checkUserLoggedIn()
     {
-        if (!$this->isUserLoggedIn()) {
-            $this->attemptLoginFromCookies();
-        }
-
         if ($this->isUserLoggedIn()) {
             $this->redirectToDashboard();
         } else {
@@ -41,13 +50,13 @@ class SessionManager
         }
     }
 
-    protected function redirectToLogin()
+    private function redirectToLogin()
     {
         header('Location: /views/auth/login.php');
         exit;
     }
 
-    protected function redirectToError()
+    private function redirectToError()
     {
         header('Location: /views/misc/error-404.php');
         exit;
@@ -82,7 +91,7 @@ class SessionManager
         setcookie('schoolId', $schoolId, $cookieExpiration, "/");
     }
 
-    protected function redirectToDashboard()
+    private function redirectToDashboard()
     {
         if (!isset($_SESSION['user_role'])) {
             $this->redirectToError();
