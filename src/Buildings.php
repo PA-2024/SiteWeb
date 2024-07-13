@@ -18,7 +18,11 @@ class Buildings
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $this->apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
         $response = curl_exec($ch);
         curl_close($ch);
 
