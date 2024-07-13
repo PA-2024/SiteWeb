@@ -23,12 +23,6 @@ $sectorsManager = new Sectors();
 $subjects = $subjectManager->fetchSubjects();
 $sectors = $sectorsManager->fetchSectors();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Ajouter une Classe à un Cours</title>
-</head>
 <body>
     <div class="main-wrapper">
         <?php include '../../header/entete_dashboard.php'; ?>
@@ -47,12 +41,31 @@ $sectors = $sectorsManager->fetchSectors();
                         </div>
                     </div>
                 </div>
+                <!-- Alert Zone -->
+                <?php if (isset($_GET['message'])): ?>
+                    <div class="card bg-white">
+                        <div class="card-body">
+                            <?php if ($_GET['message'] == 'success'): ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Action réussie !</strong> La classe a été ajoutée avec succès.
+                            <?php elseif ($_GET['message'] == 'error'): ?>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Erreur !</strong> Une erreur s'est produite...
+                            <?php elseif ($_GET['message'] == 'conflict'): ?>
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Conflit !</strong> Un ou plusieurs étudiants sont déjà présents dans ce cours.
+                            <?php endif; ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <!-- Main Content -->
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <form id="addClassForm">
+                                <form id="addClassForm" action="../../script/add_class_to_subject.php" method="POST">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-block">
@@ -73,7 +86,7 @@ $sectors = $sectorsManager->fetchSectors();
                                                 <select id="sectorSelect" name="sectorId" class="form-control" required>
                                                     <option value="">Sélectionnez une classe</option>
                                                     <?php foreach ($sectors as $sector): ?>
-                                                        <option value="<?php echo $sector['sectors_Id']; ?>">
+                                                        <option value="<?php echo $sector['sectors_Name']; ?>">
                                                             <?php echo htmlspecialchars($sector['sectors_Name']); ?>
                                                         </option>
                                                     <?php endforeach; ?>
@@ -90,22 +103,6 @@ $sectors = $sectorsManager->fetchSectors();
                         </div>
                     </div>
                 </div>
-                <!-- Alert Zone -->
-                <?php if (isset($_GET['message'])): ?>
-                    <div class="card bg-white">
-                        <div class="card-body">
-                            <?php if ($_GET['message'] == 'success'): ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Action réussie !</strong> La classe a été ajoutée avec succès.
-                            <?php elseif ($_GET['message'] == 'error'): ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>Erreur !</strong> Une erreur s'est produite...
-                            <?php endif; ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </div>

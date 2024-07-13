@@ -110,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+                            <br>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Ajouter</button>
                             </div>
