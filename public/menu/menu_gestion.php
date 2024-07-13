@@ -15,7 +15,7 @@
                     <ul style="display: none;">
                         <li><a href="../lists/student_list.php">Liste des étudiants</a></li>
                         <li><a href="../forms/add_student.php">Ajouter un étudiant</a></li>
-                        <li><a href="../lists/justif_list.php">Justification des absences</a></li>
+                        <li><a href="../lists/proof_absence_list.php">Justification des absences</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
