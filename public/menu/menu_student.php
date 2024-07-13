@@ -9,7 +9,7 @@
 					<ul style="display: none;">
 						<li><a href="../misc/calendar_student.php">Mes cours</a></li>
 						<li><a href="../lists/absences_list.php">Mes absences</a></li>
-						<li><a href="../lists/">Voir mes justificatifs</a></li>
+						<li><a href="../lists/proof_absence_student_list.php">Voir mes justificatifs</a></li>
 					</ul>
 				</li>
 				<li class="submenu">
