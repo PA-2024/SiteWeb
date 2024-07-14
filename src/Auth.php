@@ -155,7 +155,7 @@ class Auth
     
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON: ' . json_last_error_msg() . ' URL : ' . $url . ' Response : ' . $response);
+            throw new \Exception('Erreur dans le décodage des données JSON');
         }
     
         return $result;
