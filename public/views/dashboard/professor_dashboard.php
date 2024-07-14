@@ -293,7 +293,7 @@ include '../../header/entete.php';
                                         Bâtiment: <a href="https://maps.google.com/?q=${hour.building.building_Address}" target="_blank">${hour.building.building_Name}</a>
                                     </div>
                                     <div class="doctor-submit text-end">
-                                            <button class="btn btn-primary submit-form me-2" onclick="location.href='https://localhost/views/misc/qr_code.php?subjectsHourId=${hour.subjectsHour_Id}'">Faire l'appel</button>
+                                            <button class="btn btn-primary submit-form me-2" onclick="location.href='../misc/qr_code.php?subjectsHourId=${hour.subjectsHour_Id}'">Faire l'appel</button>
                                     </div>
                                 </div>
                             `;
