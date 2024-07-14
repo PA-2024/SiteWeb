@@ -57,7 +57,7 @@ class ProofAbsence
     {
         $url = $this->apiUrl . "/" . $id;
     
-        $putData = json_encode([
+        $postData = json_encode([
             'proofAbsence_Id' => $proofAbsenceData['proofAbsence_Id'],
             'proofAbsence_SchoolComment' => $proofAbsenceData['proofAbsence_SchoolComment'],
             'proofAbsence_Status' => $proofAbsenceData['proofAbsence_Status'],
@@ -67,13 +67,14 @@ class ProofAbsence
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $putData);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Authorization: ' . $this->token
         ]);
     
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
     
         if ($response === false) {
@@ -82,12 +83,16 @@ class ProofAbsence
     
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
+            $jsonError = json_last_error_msg();
+            throw new \Exception('Erreur dans le décodage des données JSON : ' . $jsonError . '. Réponse brute : ' . $response . '. Code HTTP : ' . $httpStatusCode);
+        }
+    
+        if ($httpStatusCode !== 200) {
+            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response);
         }
     
         return $result;
-    }
-    
+    }    
 
     public function fetchProofAbsenceAll($studentId = null)
     {

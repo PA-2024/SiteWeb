@@ -1,4 +1,5 @@
 <?php
+// Auteur : Capdrake (Bastien LEUWERS)
 include '../../header/entete.php';
 require_once '../../../vendor/autoload.php';
 
@@ -18,6 +19,7 @@ if (!$token) {
 
 $proofAbsenceManager = new ProofAbsence($token);
 $proofAbsences = $proofAbsenceManager->fetchProofAbsenceAll();
+
 function formatDateInFrench($dateString) {
     $date = new DateTime($dateString);
     $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
@@ -118,8 +120,13 @@ function formatDateInFrench($dateString) {
                                                     <td><?php echo formatDateInFrench($proofAbsence['subjectHour_DateStart']); ?></td>
                                                     <td><?php echo formatDateInFrench($proofAbsence['subjectHour_DateEnd']); ?></td>
                                                     <td class="text-end">
-                                                        <button class="btn btn-success validate-absence" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>">Valider</button>
-                                                        <button class="btn btn-danger refuse-absence" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>">Refuser</button>
+                                                        <div class="dropdown dropdown-action">
+                                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <a class="dropdown-item validate-absence" href="#" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>"><i class="fa-solid fa-check m-r-5"></i> Valider</a>
+                                                                <a class="dropdown-item refuse-absence" href="#" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>"><i class="fa fa-times m-r-5"></i> Refuser</a>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -134,6 +141,34 @@ function formatDateInFrench($dateString) {
         </div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
+
+    <!-- Modal pour valider/refuser une absence -->
+    <div class="modal fade" id="absence-modal" tabindex="-1" role="dialog" aria-labelledby="absenceModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="absenceModalLabel">Détails de la justification d'absence</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Contenu de la modal -->
+                    <p><strong>Nom de l'Étudiant:</strong> <span id="student-name"></span></p>
+                    <p><strong>Email de l'Étudiant:</strong> <span id="student-email"></span></p>
+                    <p><strong>Classe:</strong> <span id="student-class"></span></p>
+                    <p><strong>Raison de l'Absence:</strong> <span id="absence-reason"></span></p>
+                    <p><strong>Commentaire de l'École:</strong> <input type="text" id="school-comment" class="form-control"></p>
+                    <p><strong>URL du fichier:</strong> <a href="#" target="_blank" id="file-url">Voir le fichier</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="refuse-absence-btn">Refuser</button>
+                    <button type="button" class="btn btn-success" id="validate-absence-btn">Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="../../assets/js/jquery-3.7.1.min.js"></script>
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
@@ -163,17 +198,55 @@ function formatDateInFrench($dateString) {
             dataTable.search(this.value).draw();
         });
 
-        $(document).on('click', '.validate-absence', function() {
+        var currentAbsenceId = null;
+
+        $(document).on('click', '.validate-absence, .refuse-absence', function() {
             var id = $(this).data('id');
-            // Implémenter la logique pour valider l'absence
-            console.log('Valider absence ID:', id);
+            currentAbsenceId = id;
+            var row = $(this).closest('tr');
+            var studentName = row.find('td:eq(0)').text();
+            var studentEmail = row.find('td:eq(1)').text();
+            var studentClass = row.find('td:eq(2)').text();
+            var absenceReason = row.find('td:eq(3)').text();
+            var fileUrl = row.find('td:eq(6) a').attr('href');
+
+            $('#student-name').text(studentName);
+            $('#student-email').text(studentEmail);
+            $('#student-class').text(studentClass);
+            $('#absence-reason').text(absenceReason);
+            $('#file-url').attr('href', fileUrl);
+
+            $('#absence-modal').modal('show');
         });
 
-        $(document).on('click', '.refuse-absence', function() {
-            var id = $(this).data('id');
-            // Implémenter la logique pour refuser l'absence
-            console.log('Refuser absence ID:', id);
+        $('#validate-absence-btn').on('click', function() {
+            var comment = $('#school-comment').val();
+            updateProofAbsence(currentAbsenceId, comment, 2); // 2 for validated
         });
+
+        $('#refuse-absence-btn').on('click', function() {
+            var comment = $('#school-comment').val();
+            updateProofAbsence(currentAbsenceId, comment, 1); // 1 for refused
+        });
+
+        function updateProofAbsence(id, comment, status) {
+            $.ajax({
+                url: '../../script/update_proof_absence.php',
+                type: 'POST',
+                data: {
+                    proofAbsence_Id: id,
+                    proofAbsence_SchoolComment: comment,
+                    proofAbsence_Status: status
+                },
+                success: function(response) {
+                    $('#absence-modal').modal('hide');
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    alert('Erreur lors de la mise à jour de la justification d\'absence.');
+                }
+            });
+        }
     });
     </script>
 </body>
