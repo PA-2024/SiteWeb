@@ -123,7 +123,11 @@ class Auth
     // Définir un nouveau mot de passe
     public function setNewPassword($userId, $code, $password)
     {
-        $url = $this->apiUrl . '/newpassword?user_id=' . urlencode($userId) . '&code=' . urlencode($code) . '&password=' . urlencode($password);
+        $url = $this->apiUrl . '/newpassword?' . http_build_query([
+            'user_id' => $userId,
+            'code' => $code,
+            'password' => $password
+        ]);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -138,7 +142,7 @@ class Auth
         curl_close($ch);
 
         if ($httpStatusCode !== 200) {
-            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response);
+            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response . 'URL : ' . $url);
         }
 
         $result = json_decode($response, true);
