@@ -5,7 +5,7 @@ require_once '../../../vendor/autoload.php';
 
 use GeSign\SessionManager;
 use GeSign\QcmResult;
-use GeSign\Qcm;
+use GeSign\QCM;
 
 // Vérification de la session et du rôle
 $sessionManager = SessionManager::getInstance();
@@ -20,7 +20,7 @@ if (!$token) {
     exit;
 }
 
-$qcmManager = new Qcm($token);
+$qcmManager = new QCM($token);
 $qcmResultManager = new QcmResult($token);
 
 $qcms = $qcmManager->fetchAllQCMsTeacher(1, 50);
