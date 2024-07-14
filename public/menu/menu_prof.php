@@ -9,7 +9,6 @@
                     <ul style="display: none;">
                         <li><a href="../misc/qr_code.php">Faire l'appel</a></li>
                         <li><a href="../lists/presence_list.php">Liste des présences</a></li>
-                        <li><a href="../lists/view_call.php">Voir l'appel</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

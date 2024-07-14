@@ -108,6 +108,7 @@ foreach ($subjectsHours as $subjectsHour) {
                     week: 'Semaine',
                     day: 'Jour'
                 },
+                firstDay: 1,
                 allDaySlot: false,
                 events: <?php echo json_encode($events); ?>,
                 eventDidMount: function(info) {

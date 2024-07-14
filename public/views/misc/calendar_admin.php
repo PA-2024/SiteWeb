@@ -96,6 +96,7 @@ $subjects = $subjectManager->fetchSubjects();
                     week: 'Semaine',
                     day: 'Jour'
                 },
+                firstDay: 1,
                 allDaySlot: false,
                 events: [],  // Initialement vide, les événements seront chargés via AJAX
                 eventDidMount: function(info) {
