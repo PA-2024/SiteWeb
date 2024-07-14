@@ -128,28 +128,36 @@ class Auth
             'code' => $code,
             'password' => $password
         ]);
-
+    
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Accept: application/json'
+            'Accept: text/plain'
         ]);
-
+    
         $response = curl_exec($ch);
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-
+    
         if ($httpStatusCode !== 200) {
-            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response . 'URL : ' . $url);
+            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response . ' URL : ' . $url);
         }
-
+    
+        // Vérifier si la réponse est vide
+        if (empty($response)) {
+            return [
+                'status' => 'success',
+                'message' => 'Le mot de passe a été réinitialisé avec succès.'
+            ];
+        }
+    
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON: ' . json_last_error_msg());
+            throw new \Exception('Erreur dans le décodage des données JSON: ' . json_last_error_msg() . ' URL : ' . $url . ' Response : ' . $response);
         }
-
+    
         return $result;
     }
 }

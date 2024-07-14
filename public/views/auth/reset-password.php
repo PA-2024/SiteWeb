@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $auth = new Auth();
             $response = $auth->setNewPassword($userId, $token, $password);
 
-            if ($response['status'] === 200) {
-                $successMessage = 'Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.';
+            if ($response['status'] === 'success') {
+                $successMessage = 'Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe. <a href="login.php">Connexion</a>';
             } else {
                 $errorMessage = 'Erreur lors de la réinitialisation du mot de passe. Veuillez réessayer.';
             }
