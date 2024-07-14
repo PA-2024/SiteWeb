@@ -1,0 +1,5 @@
+User_email,User_lastname,User_firstname,User_num,ClassName
+john1.doe@example.com,Doe,John,123456,AL1
+jane1.doe@example.com,Doe,Jane,654321,AL1
+alice.smith@example.com,Smith,Alice,789012,AL1
+bob.jones@example.com,Jones,Bob,345678,AL1

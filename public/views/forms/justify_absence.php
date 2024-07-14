@@ -31,11 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (move_uploaded_file($_FILES["proofFile"]["tmp_name"], $targetFile)) {
             $proofAbsenceData = [
-                'ProofAbsence_Id' => 0,
-                'ProofAbsence_UrlFile' => $targetFile,
-                'ProofAbsence_Status' => 1,
-                'ProofAbsence_SchoolCommentaire' => '', // Non utilisé mais requis par l'API donc on l'donne
-                'ProofAbsence_ReasonAbscence' => $_POST['reason']
+                'proofAbsence_StudentComment' => $_POST['reason'],
+                'proofAbsence_UrlFile' => $targetFile
             ];
 
             $proofAbsenceManager->createProofAbsence($presenceId, $proofAbsenceData);
@@ -67,6 +64,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
                 </div>
+                <!-- Alert Zone -->
+                <?php if (isset($_GET['message']) && $_GET['message'] == 'success'): ?>
+                    <div class="card bg-white">
+                        <div class="card-body">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Action réussie !</strong> Le justificatif a été envoyé avec succès.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <!-- Main Content -->
                 <div class="row">
                     <div class="col-md-12">
@@ -105,17 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
                 </div>
-                <!-- Alert Zone -->
-                <?php if (isset($_GET['message']) && $_GET['message'] == 'success'): ?>
-                    <div class="card bg-white">
-                        <div class="card-body">
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Action réussie !</strong> L'absence a été justifiée avec succès.
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </div>

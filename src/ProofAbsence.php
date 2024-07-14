@@ -16,35 +16,40 @@ class ProofAbsence
     public function createProofAbsence($presenceId, $proofAbsenceData)
     {
         $url = $this->apiUrl . "/CreateProofAbsence/" . $presenceId;
-
-        $queryParams = http_build_query([
-            'ProofAbsence_Id' => $proofAbsenceData['ProofAbsence_Id'],
-            'ProofAbsence_UrlFile' => $proofAbsenceData['ProofAbsence_UrlFile'],
-            'ProofAbsence_Status' => $proofAbsenceData['ProofAbsence_Status'],
-            'ProofAbsence_SchoolCommentaire' => $proofAbsenceData['ProofAbsence_SchoolCommentaire'],
-            'ProofAbsence_ReasonAbscence' => $proofAbsenceData['ProofAbsence_ReasonAbscence']
+    
+        $postData = json_encode([
+            'proofAbsence_StudentComment' => $proofAbsenceData['proofAbsence_StudentComment'],
+            'proofAbsence_UrlFile' => $proofAbsenceData['proofAbsence_UrlFile']
         ]);
-
-        $ch = curl_init($url . '?' . $queryParams);
+    
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Authorization: ' . $this->token
         ]);
-
+    
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-
+    
         if ($response === false) {
             throw new \Exception('Erreur lors de la création de la preuve d\'absence.');
         }
-
-        $result = json_decode($response, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
+    
+        // Vérification de la réponse en texte brut
+        if ($httpStatusCode === 200) {
+            return ['status' => 'success', 'message' => $response];
         }
-
+    
+        $result = json_decode($response, true);
+    
+        if ($httpStatusCode !== 200) {
+            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response);
+        }
+    
         return $result;
     }
 

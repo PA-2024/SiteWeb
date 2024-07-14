@@ -18,6 +18,19 @@ if (!$token) {
 
 $proofAbsenceManager = new ProofAbsence($token);
 $proofAbsences = $proofAbsenceManager->fetchProofAbsenceByStudent();
+function formatDateInFrench($dateString) {
+    $date = new DateTime($dateString);
+    $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    $months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    $dayOfWeek = $days[$date->format('w')];
+    $day = $date->format('d');
+    $month = $months[$date->format('n') - 1];
+    $year = $date->format('Y');
+    $time = $date->format('H:i');
+
+    return "$dayOfWeek $day $month $year à $time";
+}
 ?>
 <body>
     <div class="main-wrapper">
@@ -97,8 +110,8 @@ $proofAbsences = $proofAbsenceManager->fetchProofAbsenceByStudent();
                                                     <td><?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_SchoolCommentaire']); ?></td>
                                                     <td><?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Status']); ?></td>
                                                     <td><a href="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_UrlFile']); ?>" target="_blank">Voir le fichier</a></td>
-                                                    <td><?php echo htmlspecialchars($proofAbsence['subjectHour_DateStart']); ?></td>
-                                                    <td><?php echo htmlspecialchars($proofAbsence['subjectHour_DateEnd']); ?></td>
+                                                    <td><?php echo formatDateInFrench($proofAbsence['subjectHour_DateStart']); ?></td>
+                                                    <td><?php echo formatDateInFrench($proofAbsence['subjectHour_DateEnd']); ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
