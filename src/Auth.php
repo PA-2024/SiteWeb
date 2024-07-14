@@ -5,7 +5,7 @@ class Auth
 {
     private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Auth";
     
-    // A tester
+    // Plus nécessaire
     public function register($userName, $email, $password, $phoneNumber)
     {
         $postData = json_encode([
@@ -89,5 +89,63 @@ class Auth
             'school' => $payload['SchoolName'],
             'schoolId' => $payload['SchoolId']
         ];
+    }
+
+    // Réinitialisation du mot de passe
+    public function resetPassword($email)
+    {
+        $url = $this->apiUrl . '/reset?email=' . urlencode($email);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ]);
+
+        $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpStatusCode !== 200) {
+            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response);
+        }
+
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON: ' . json_last_error_msg());
+        }
+
+        return $result;
+    }
+
+    // Définir un nouveau mot de passe
+    public function setNewPassword($userId, $code, $password)
+    {
+        $url = $this->apiUrl . '/newpassword?user_id=' . urlencode($userId) . '&code=' . urlencode($code) . '&password=' . urlencode($password);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ]);
+
+        $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpStatusCode !== 200) {
+            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response);
+        }
+
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Erreur dans le décodage des données JSON: ' . json_last_error_msg());
+        }
+
+        return $result;
     }
 }
