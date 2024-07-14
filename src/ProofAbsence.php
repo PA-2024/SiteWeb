@@ -84,7 +84,7 @@ class ProofAbsence
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             $jsonError = json_last_error_msg();
-            throw new \Exception('Erreur dans le décodage des données JSON : ' . $jsonError . '. Réponse brute : ' . $response . '. Code HTTP : ' . $httpStatusCode);
+            throw new \Exception('Erreur dans le décodage des données JSON.');
         }
     
         if ($httpStatusCode !== 200) {
@@ -92,7 +92,7 @@ class ProofAbsence
         }
     
         return $result;
-    }    
+    }
 
     public function fetchProofAbsenceAll($studentId = null)
     {
