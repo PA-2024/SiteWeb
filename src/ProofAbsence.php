@@ -56,36 +56,38 @@ class ProofAbsence
     public function updateProofAbsence($id, $proofAbsenceData)
     {
         $url = $this->apiUrl . "/" . $id;
-
-        $queryParams = http_build_query([
-            'ProofAbsence_Id' => $proofAbsenceData['ProofAbsence_Id'],
-            'ProofAbsence_SchoolComment' => $proofAbsenceData['ProofAbsence_SchoolComment'],
-            'ProofAbsence_Status' => $proofAbsenceData['ProofAbsence_Status'],
-            'Presence_id' => $proofAbsenceData['Presence_id']
+    
+        $putData = json_encode([
+            'proofAbsence_Id' => $proofAbsenceData['proofAbsence_Id'],
+            'proofAbsence_SchoolComment' => $proofAbsenceData['proofAbsence_SchoolComment'],
+            'proofAbsence_Status' => $proofAbsenceData['proofAbsence_Status'],
+            'presence_id' => $proofAbsenceData['presence_id']
         ]);
-
-        $ch = curl_init($url . '?' . $queryParams);
+    
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $putData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Authorization: ' . $this->token
         ]);
-
+    
         $response = curl_exec($ch);
         curl_close($ch);
-
+    
         if ($response === false) {
             throw new \Exception('Erreur lors de la mise à jour de la preuve d\'absence.');
         }
-
+    
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Erreur dans le décodage des données JSON.');
         }
-
+    
         return $result;
     }
+    
 
     public function fetchProofAbsenceAll($studentId = null)
     {
