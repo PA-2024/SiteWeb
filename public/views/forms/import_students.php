@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="col-sm-7 col-6">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="../../index.php">Tableau de bord</a></li>
+                                <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Importer un fichier</li>
                             </ul>
                         </div>
@@ -89,11 +90,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <label for="file">Sélectionner un fichier</label>
                                         <input type="file" name="file" id="file" class="form-control" required>
                                     </div>
+                                    <br>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Importer</button>
                                         <a href="../../index.php" class="btn btn-secondary">Annuler</a>
                                     </div>
                                 </form>
+                                <!-- Note d'information -->
+                                <div class="alert alert-info mt-3" role="alert">
+                                    <h5>Format attendu du fichier CSV</h5>
+                                    <p>Le fichier CSV doit contenir les colonnes suivantes :</p>
+                                    <ul>
+                                        <li>User_email</li>
+                                        <li>User_lastname</li>
+                                        <li>User_firstname</li>
+                                        <li>User_num</li>
+                                        <li>ClassName</li>
+                                    </ul>
+                                    <p>Exemple :</p>
+                                    <pre>
+User_email,User_lastname,User_firstname,User_num,ClassName
+john1.doe@example.com,Doe,John,123456,AL1
+jane1.doe@example.com,Doe,Jane,654321,AL1
+alice.smith@example.com,Smith,Alice,789012,AL1
+bob.jones@example.com,Jones,Bob,345678,AL1
+                                    </pre>
+                                </div>
                             </div>
                         </div>
                     </div>

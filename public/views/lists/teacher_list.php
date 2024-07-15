@@ -198,13 +198,12 @@ try {
     <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../assets/plugins/datatables/datatables.min.js"></script>
 
-    <!-- counterup JS -->
-    <script src="../../assets/js/jquery.waypoints.js"></script>
-    <script src="../../assets/js/jquery.counterup.min.js"></script>
-
-    <!-- Apexchart JS -->
-    <script src="../../assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="../../assets/plugins/apexchart/chart-data.js"></script>
+    <!-- Datatables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/build/pdfmake.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/vfs_fonts.js"></script>
 
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
@@ -240,7 +239,7 @@ try {
 						modifier: {
 							selected: true
 						},
-						columns: [1, 2, 3, 4, 5]
+						columns: [0, 1, 2, 3] // Exclusion de la colonne "Actions"
 					}
 				},
 				{
@@ -251,7 +250,7 @@ try {
 						modifier: {
 							selected: true
 						},
-						columns: [1, 2, 3, 4, 5]
+						columns: [0, 1, 2, 3] // Exclusion de la colonne "Actions"
 					}
 				}
 			],

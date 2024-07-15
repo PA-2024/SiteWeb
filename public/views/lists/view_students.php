@@ -202,6 +202,13 @@ if ($className) {
     <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../assets/plugins/datatables/datatables.min.js"></script>
 
+    <!-- Datatables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/build/pdfmake.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/vfs_fonts.js"></script>
+    
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
 
@@ -236,7 +243,7 @@ if ($className) {
                         modifier: {
                             selected: true
                         },
-                        columns: [1, 2, 3, 4, 5, 6]
+                        columns: [0, 1, 2, 3, 4] // Mettez à jour les index de colonne
                     }
                 },
                 {
@@ -247,7 +254,7 @@ if ($className) {
                         modifier: {
                             selected: true
                         },
-                        columns: [1, 2, 3, 4, 5, 6]
+                        columns: [0, 1, 2, 3, 4] // Mettez à jour les index de colonne
                     }
                 }
             ],
@@ -304,7 +311,7 @@ if ($className) {
                     student.student_User.user_email,
                     student.student_User.user_num,
                     student.student_Sectors.sectors_Name,
-                    '<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item" href="edit_student.php?id=' + student.student_Id + '">Éditer</a><a class="dropdown-item delete-link" href="#" data-id=' + student.student_Id + '>Supprimer</a></div></div>'
+                    '<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="edit_student.php?id=' + student.student_Id + '">Éditer</a><a class="dropdown-item delete-link" href="#" data-id=' + student.student_Id + '>Supprimer</a></div></div>'
                 ]).draw(false);
             });
             rebindEvents();

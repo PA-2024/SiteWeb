@@ -95,30 +95,6 @@ include '../../header/entete.php';
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="dash-widget">
                                 <div class="dash-boxs comman-flex-center">
-                                    <img src="../../assets/img/icons/profile-add.svg" alt="">
-                                </div>
-                                <div class="dash-content dash-count">
-                                    <h4>Nouveaux membres</h4>
-                                    <h2><span class="counter-up" id="current-month-count"></span></h2>
-                                    <p><span class="passive-view"><i class="feather-arrow-up-right me-1"></i>20%</span> vs dernier mois</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                            <div class="dash-widget">
-                                <div class="dash-boxs comman-flex-center">
-                                    <img src="../../assets/img/icons/calendar.svg" alt="">
-                                </div>
-                                <div class="dash-content dash-count">
-                                    <h4>Absences</h4>
-                                    <h2><span class="counter-up" ></span></h2>
-                                    <p><span class="passive-view"><i class="feather-arrow-up-right me-1"></i>40%</span> vs dernier mois</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                            <div class="dash-widget">
-                                <div class="dash-boxs comman-flex-center">
                                     <img src="../../assets/img/icons/star.svg" alt="">
                                 </div>
                                 <div class="dash-content dash-count">
