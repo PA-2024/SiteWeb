@@ -16,7 +16,7 @@
 					<a href="#"><span class="menu-side"><img src="../../assets/img/icons/menu-icon-06.svg" alt=""></span> <span>QCM </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="../qcm/list_qcm_student.php">QCM</a></li>
-						<li><a href="../forms/edit_members.php">Voir mes résultats</a></li>
+						<li><a href="../qcm/select_qcm_results.php">Voir mes résultats</a></li>
 					</ul>
 				</li>
 				<div class="logout-btn">
