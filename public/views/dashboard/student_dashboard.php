@@ -82,7 +82,7 @@ include '../../header/entete.php';
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="../../index.php">Dashboard </a></li>
+                                <li class="breadcrumb-item"><a href="../../index.php">Tableau de bord </a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Panel étudiant</li>
                             </ul>

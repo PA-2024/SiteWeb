@@ -57,7 +57,7 @@ $user_email = $user['user_email'] ?? 'Email non spécifié';
                 <div class="row">
                     <div class="col-sm-7 col-6">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="../../index.php">Dashboard </a></li>
+                            <li class="breadcrumb-item"><a href="../../index.php">Tableau de bord </a></li>
                             <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                             <li class="breadcrumb-item active">Mon Profil</li>
                         </ul>

@@ -149,7 +149,7 @@ foreach ($subjectsHours as $subjectsHour) {
                 <div class="row">
                     <div class="col-sm-8 col-4">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="../dashboard/student_dashboard.php">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="../dashboard/student_dashboard.php">Tableau de bord </a></li>
                             <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                             <li class="breadcrumb-item active">Calendrier de l'étudiant</li>
                         </ul>

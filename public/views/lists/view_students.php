@@ -44,7 +44,7 @@ if ($className) {
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="../dashboard/director_dashboard.php">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="../dashboard/director_dashboard.php">Tableau de bord</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Liste des Étudiants</li>
                             </ul>
