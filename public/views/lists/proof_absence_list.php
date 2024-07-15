@@ -33,6 +33,19 @@ function formatDateInFrench($dateString) {
 
     return "$dayOfWeek $day $month $year à $time";
 }
+
+function getStatusBadge($status) {
+    switch ($status) {
+        case 'En attente':
+            return '<button class="custom-badge status-yellow">En attente</button>';
+        case 'Refusé':
+            return '<button class="custom-badge status-pink">Refusé</button>';
+        case 'Accepté':
+            return '<button class="custom-badge status-green">Accepté</button>';
+        default:
+            return '<button class="custom-badge status-grey">Inconnu</button>';
+    }
+}
 ?>
 <body>
     <div class="main-wrapper">
@@ -116,7 +129,7 @@ function formatDateInFrench($dateString) {
                                                     <td><?php echo htmlspecialchars($proofAbsence['student']['student_Sectors']['sectors_Name']); ?></td>
                                                     <td><?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_ReasonAbscence']); ?></td>
                                                     <td><?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_SchoolCommentaire']); ?></td>
-                                                    <td><?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Status']); ?></td>
+                                                    <td><?php echo getStatusBadge($proofAbsence['proofAbsenceResponse']['proofAbsence_Status']); ?></td>
                                                     <td><a href="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_UrlFile']); ?>" target="_blank">Voir le fichier</a></td>
                                                     <td><?php echo formatDateInFrench($proofAbsence['subjectHour_DateStart']); ?></td>
                                                     <td><?php echo formatDateInFrench($proofAbsence['subjectHour_DateEnd']); ?></td>

@@ -210,7 +210,7 @@ $token = str_replace('Bearer ', '', $token);
                 studentsDiv.innerHTML = `
                     <div class="card">
                         <h3>Liste des étudiants</h3>
-                        ${students.map(student => `<p>${student.name} (ID: ${student.id})</p>`).join('')}
+                        ${students.map(student => `<p>${student.name}</p>`).join('')}
                     </div>
                 `;
             }
@@ -261,10 +261,8 @@ $token = str_replace('Bearer ', '', $token);
             <div class="content">
                 <h1>Démarrer QCM</h1>
                 <div id="timer" class="timer"></div>
-                <button id="startQcmButton" class="btn">Démarrer le QCM</button>
+                <button id="startQcmButton" class="btn">QCM</button>
                 <div id="controls" class="hidden">
-                    <button id="pauseQcmButton" class="btn">Pause</button>
-                    <button id="resumeQcmButton" class="btn">Reprendre</button>
                     <button id="endQcmButton" class="btn btn-danger">Terminer le QCM</button>
                 </div>
                 <div id="question" class="mt-4"></div>
