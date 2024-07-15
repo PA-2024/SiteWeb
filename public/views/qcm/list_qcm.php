@@ -118,7 +118,7 @@ $qcms = $qcmManager->fetchAllQCMsTeacher(1, 30);
                                                             <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                             <div class="dropdown-menu dropdown-menu-end">
                                                                 <a class="dropdown-item" href="view_qcm.php?id=<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa-solid fa-eye m-r-5"></i> Voir</a>
-                                                                <a class="dropdown-item" href="edit_qcm.php?id=<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa-solid fa-pen-to-square m-r-5"></i> Éditer</a>
+                                                                <a class="dropdown-item" href="add_question.php?id=<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa-solid fa-pen-to-square m-r-5"></i> Ajouter une question</a>
                                                                 <a class="dropdown-item delete-link" href="#" data-bs-toggle="modal" data-bs-target="#delete_qcm" data-id="<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa fa-trash-alt m-r-5"></i> Supprimer</a>
                                                                 <a class="dropdown-item" href="start_qcm.php?id=<?php echo htmlspecialchars($qcm['id']); ?>"><i class="fa fa-play-circle m-r-5"></i> Démarrer</a>
                                                             </div>
