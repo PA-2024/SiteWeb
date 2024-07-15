@@ -196,4 +196,26 @@ class QCM
 
         return $qcm;
     }
+
+    public function deleteQcm($id) {
+        $url = $this->apiUrl . "/DeleteQcm/" . $id;
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: ' . $this->token,
+            'Accept: */*'
+        ]);
+
+        $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpStatusCode !== 200) {
+            throw new Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response);
+        }
+
+        return $response;
+    }
 }
