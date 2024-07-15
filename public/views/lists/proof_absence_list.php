@@ -52,7 +52,8 @@ function formatDateInFrench($dateString) {
                     </div>
                 </div>
 
-                <div id="alert-placeholder"></div>
+				<!-- Zone pour les messages d'alerte -->
+				<div id="alert-placeholder"></div>
                 <?php if (isset($_GET['message'])): ?>
                     <div class="card bg-white">
                         <div class="card-body">
@@ -123,8 +124,8 @@ function formatDateInFrench($dateString) {
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                             <div class="dropdown-menu dropdown-menu-end">
-                                                                <a class="dropdown-item validate-absence" href="#" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>"><i class="fa-solid fa-check m-r-5"></i> Valider</a>
-                                                                <a class="dropdown-item refuse-absence" href="#" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>"><i class="fa fa-times m-r-5"></i> Refuser</a>
+                                                                <a class="dropdown-item validate-absence" href="#" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>" data-presence-id="<?php echo htmlspecialchars($proofAbsence['presence_id']); ?>"><i class="fa-solid fa-check m-r-5"></i> Valider</a>
+                                                                <a class="dropdown-item refuse-absence" href="#" data-id="<?php echo htmlspecialchars($proofAbsence['proofAbsenceResponse']['proofAbsence_Id']); ?>" data-presence-id="<?php echo htmlspecialchars($proofAbsence['presence_id']); ?>"><i class="fa fa-times m-r-5"></i> Refuser</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -199,10 +200,13 @@ function formatDateInFrench($dateString) {
         });
 
         var currentAbsenceId = null;
+        var currentPresenceId = null;
 
         $(document).on('click', '.validate-absence, .refuse-absence', function() {
             var id = $(this).data('id');
+            var presenceId = $(this).data('presence-id');
             currentAbsenceId = id;
+            currentPresenceId = presenceId;
             var row = $(this).closest('tr');
             var studentName = row.find('td:eq(0)').text();
             var studentEmail = row.find('td:eq(1)').text();
@@ -221,26 +225,28 @@ function formatDateInFrench($dateString) {
 
         $('#validate-absence-btn').on('click', function() {
             var comment = $('#school-comment').val();
-            updateProofAbsence(currentAbsenceId, comment, 2); // 2 for validated
+            updateProofAbsence(currentAbsenceId, currentPresenceId, comment, 2); // 2 for validated
         });
 
         $('#refuse-absence-btn').on('click', function() {
             var comment = $('#school-comment').val();
-            updateProofAbsence(currentAbsenceId, comment, 1); // 1 for refused
+            updateProofAbsence(currentAbsenceId, currentPresenceId, comment, 1); // 1 for refused
         });
 
-        function updateProofAbsence(id, comment, status) {
+        function updateProofAbsence(id, presenceId, comment, status) {
             $.ajax({
                 url: '../../script/update_proof_absence.php',
                 type: 'POST',
                 data: {
                     proofAbsence_Id: id,
+                    presence_id: presenceId,
                     proofAbsence_SchoolComment: comment,
                     proofAbsence_Status: status
                 },
                 success: function(response) {
                     $('#absence-modal').modal('hide');
                     location.reload();
+                    $('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-success alert-dismissible fade show" role="alert"><strong>École supprimée !</strong> Cette école a bien été supprimée.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
                 },
                 error: function(xhr, status, error) {
                     alert('Erreur lors de la mise à jour de la justification d\'absence.');
