@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="add_qcm.php" method="post">
+                                <form id="qcmForm" action="add_qcm.php" method="post">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">
@@ -225,6 +225,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 });
             }
 
+            function validateForm() {
+                var isValid = true;
+                var questions = $('.questions-container .question');
+                
+                if (questions.length < 1) {
+                    alert('Vous devez ajouter au moins une question.');
+                    isValid = false;
+                }
+
+                questions.each(function() {
+                    var options = $(this).find('.options-container .input-block');
+                    if (options.length < 2) {
+                        alert('Chaque question doit avoir au moins deux options.');
+                        isValid = false;
+                        return false; // break out of each loop
+                    }
+                });
+
+                return isValid;
+            }
+
             $('.add-question').on('click', function() {
                 var questionHtml = `
                     <div class="question">
@@ -278,6 +299,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $(document).on('click', '.remove-option', function() {
                 $(this).closest('.input-block').remove();
                 updateQuestionNames();
+            });
+
+            $('#qcmForm').on('submit', function(e) {
+                if (!validateForm()) {
+                    e.preventDefault();
+                }
             });
         });
     </script>
