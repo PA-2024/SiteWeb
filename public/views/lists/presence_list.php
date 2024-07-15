@@ -87,7 +87,6 @@ function formatDateInFrench($dateString) {
                                 <table class="table border-0 custom-table comman-table datatable mb-0">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
                                             <th>Étudiant</th>
                                             <th>Présence</th>
                                             <th>Actions</th>
@@ -96,7 +95,6 @@ function formatDateInFrench($dateString) {
                                     <tbody>
                                         <?php foreach ($presences['students'] as $student): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($student['student_Id']); ?></td>
                                                 <td><?php echo htmlspecialchars($student['student_User']['user_firstname'] . ' ' . $student['student_User']['user_lastname']); ?></td>
                                                 <td>
                                                     <?php if ($student['isPresent']): ?>

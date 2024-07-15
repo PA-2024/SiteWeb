@@ -118,12 +118,6 @@ try {
                                         <table class="table border-0 custom-table comman-table datatable mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox" value="">
-                                                        </div>
-                                                    </th>
-                                                    <th>ID</th>
                                                     <th>Nom</th>
                                                     <th>Prénom</th>
                                                     <th>Email</th>
@@ -134,12 +128,6 @@ try {
                                             <tbody>
                                                 <?php foreach ($teachers as $teacher): ?>
                                                     <tr>
-                                                        <td>
-                                                            <div class="form-check check-tables">
-                                                                <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($teacher['user_Id']); ?>">
-                                                            </div>
-                                                        </td>
-                                                        <td><?php echo htmlspecialchars($teacher['user_Id']); ?></td>
                                                         <td><?php echo htmlspecialchars($teacher['user_lastname']); ?></td>
                                                         <td><?php echo htmlspecialchars($teacher['user_firstname']); ?></td>
                                                         <td><?php echo htmlspecialchars($teacher['user_email']); ?></td>
@@ -310,8 +298,6 @@ try {
 			dataTable.clear();
 			$.each(data, function(index, teacher) {
 				dataTable.row.add([
-					'<input type="checkbox" class="form-check-input" value="' + teacher.user_Id + '">',
-					teacher.user_Id,
 					teacher.user_lastname,
 					teacher.user_firstname,
 					teacher.user_email,

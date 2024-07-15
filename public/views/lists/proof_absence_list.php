@@ -36,10 +36,10 @@ function formatDateInFrench($dateString) {
 
 function getStatusBadge($status) {
     switch ($status) {
-        case 'En attente':
-            return '<button class="custom-badge status-yellow">En attente</button>';
+        case 'En attente de traitement':
+            return '<button class="custom-badge status-orange">En attente</button>';
         case 'Refusé':
-            return '<button class="custom-badge status-pink">Refusé</button>';
+            return '<button class="custom-badge status-red">Refusé</button>';
         case 'Accepté':
             return '<button class="custom-badge status-green">Accepté</button>';
         default:

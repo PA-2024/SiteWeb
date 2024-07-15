@@ -135,12 +135,6 @@ try {
                                         <table class="table border-0 custom-table comman-table datatable mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox" value="">
-                                                        </div>
-                                                    </th>
-                                                    <th>ID</th>
                                                     <th>Nom de la classe</th>
                                                     <th>ID de l'école</th>
                                                     <th>Nom de l'école</th>
@@ -150,12 +144,6 @@ try {
                                             <tbody>
                                                 <?php foreach ($sectors as $sector): ?>
                                                     <tr>
-                                                        <td>
-                                                            <div class="form-check check-tables">
-                                                                <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($sector['sectors_Id']); ?>">
-                                                            </div>
-                                                        </td>
-                                                        <td><?php echo htmlspecialchars($sector['sectors_Id']); ?></td>
                                                         <td><?php echo htmlspecialchars($sector['sectors_Name']); ?></td>
                                                         <td><?php echo htmlspecialchars($sector['sectors_School']['school_Id']); ?></td>
                                                         <td><?php echo htmlspecialchars($sector['sectors_School']['school_Name']); ?></td>
@@ -318,8 +306,6 @@ try {
 			dataTable.clear();
 			$.each(data, function(index, sector) {
 				dataTable.row.add([
-					'<input type="checkbox" class="form-check-input" value="' + sector.sectors_Id + '">',
-					sector.sectors_Id,
 					sector.sectors_Name,
 					sector.sectors_School.school_Id,
 					sector.sectors_School.school_Name,

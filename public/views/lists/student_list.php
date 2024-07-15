@@ -89,12 +89,6 @@ $students = $studentManager->fetchStudents();
                                     <table class="table border-0 custom-table comman-table datatable mb-0">
                                         <thead>
                                             <tr>
-                                                <th>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox" value="">
-                                                    </div>
-                                                </th>
-                                                <th>ID</th>
                                                 <th>Nom</th>
                                                 <th>Prénom</th>
                                                 <th>Email</th>
@@ -106,12 +100,6 @@ $students = $studentManager->fetchStudents();
                                         <tbody>
                                             <?php foreach ($students as $student): ?>
                                                 <tr>
-                                                    <td>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($student['student_Id']); ?>">
-                                                        </div>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($student['student_Id']); ?></td>
                                                     <td><?php echo htmlspecialchars($student['student_User']['user_lastname']); ?></td>
                                                     <td><?php echo htmlspecialchars($student['student_User']['user_firstname']); ?></td>
                                                     <td><?php echo htmlspecialchars($student['student_User']['user_email']); ?></td>
@@ -265,8 +253,6 @@ $students = $studentManager->fetchStudents();
             dataTable.clear();
             $.each(data, function(index, student) {
                 dataTable.row.add([
-                    '<input type="checkbox" class="form-check-input" value="' + student.student_Id + '">',
-                    student.student_Id,
                     student.student_User.user_lastname,
                     student.student_User.user_firstname,
                     student.student_User.user_email,

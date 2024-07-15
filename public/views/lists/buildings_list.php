@@ -83,10 +83,6 @@ $buildings = $buildingManager->fetchBuildings();
                                 </div>
                             </div>
                         </div>
-                        <div class="col-auto text-end float-end ms-auto download-grp">
-                            <a href="javascript:;" id="export-csv" class="me-2"><img src="../../assets/img/icons/pdf-icon-03.svg" alt="Export to CSV"></a>
-                            <a href="javascript:;" id="export-xlsx"><img src="../../assets/img/icons/pdf-icon-04.svg" alt="Export to XLSX"></a>
-                        </div>
                     </div>
                 </div>
                 <!-- /Table Header -->
@@ -100,12 +96,6 @@ $buildings = $buildingManager->fetchBuildings();
                                     <table class="table border-0 custom-table comman-table datatable mb-0">
                                         <thead>
                                             <tr>
-                                                <th>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox" value="">
-                                                    </div>
-                                                </th>
-                                                <th>ID</th>
                                                 <th>Nom</th>
                                                 <th>Ville</th>
                                                 <th>Adresse</th>
@@ -115,12 +105,6 @@ $buildings = $buildingManager->fetchBuildings();
                                         <tbody>
                                             <?php foreach ($buildings as $building): ?>
                                                 <tr>
-                                                    <td>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($building['bulding_Id']); ?>">
-                                                        </div>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($building['bulding_Id']); ?></td>
                                                     <td><?php echo htmlspecialchars($building['bulding_Name']); ?></td>
                                                     <td><?php echo htmlspecialchars($building['bulding_City']); ?></td>
                                                     <td><?php echo htmlspecialchars($building['bulding_Adress']); ?></td>
@@ -281,8 +265,6 @@ $buildings = $buildingManager->fetchBuildings();
                 dataTable.clear();
                 $.each(data, function(index, building) {
                     dataTable.row.add([
-                        '<input type="checkbox" class="form-check-input" value="' + building.bulding_Id + '">',
-                        building.bulding_Id,
                         building.bulding_Name,
                         building.bulding_City,
                         building.bulding_Adress,

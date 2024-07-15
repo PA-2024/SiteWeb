@@ -127,12 +127,6 @@ $subjects = $subjectManager->fetchSubjects();
                                         <table class="table border-0 custom-table comman-table datatable mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox" value="">
-                                                        </div>
-                                                    </th>
-                                                    <th>ID</th>
                                                     <th>Nom du Cours</th>
                                                     <th>Professeur</th>
                                                     <th class="text-end">Actions</th>
@@ -141,12 +135,6 @@ $subjects = $subjectManager->fetchSubjects();
                                             <tbody>
                                                 <?php foreach ($subjects as $subject): ?>
                                                     <tr>
-                                                        <td>
-                                                            <div class="form-check check-tables">
-                                                                <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($subject['subjects_Id']); ?>">
-                                                            </div>
-                                                        </td>
-                                                        <td><?php echo htmlspecialchars($subject['subjects_Id']); ?></td>
                                                         <td><?php echo htmlspecialchars($subject['subjects_Name']); ?></td>
                                                         <td><?php echo htmlspecialchars($subject['teacher']['user_firstname'] . ' ' . $subject['teacher']['user_lastname']); ?></td>
                                                         <td class="text-end">
@@ -307,8 +295,6 @@ $subjects = $subjectManager->fetchSubjects();
 			dataTable.clear();
 			$.each(data, function(index, subject) {
 				dataTable.row.add([
-					'<input type="checkbox" class="form-check-input" value="' + subject.subjects_Id + '">',
-					subject.subjects_Id,
 					subject.subjects_Name,
 					subject.teacher.user_firstname + ' ' + subject.teacher.user_lastname,
 					'<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item" href="edit_subject.php?id=' + subject.subjects_Id + '">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + subject.subjects_Id + '">Supprimer</a></div></div>'

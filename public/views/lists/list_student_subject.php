@@ -64,12 +64,6 @@ $subjects = $subjectManager->fetchSubjects();
                             <table class="table border-0 custom-table comman-table datatable mb-0">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                            </div>
-                                        </th>
-                                        <th>ID</th>
                                         <th>Nom</th>
                                         <th>Email</th>
                                         <th class="text-end">Actions</th>
@@ -128,12 +122,6 @@ $subjects = $subjectManager->fetchSubjects();
                                 $.each(students, function(index, student) {
                                     studentsTableBody.append(
                                         '<tr>' +
-                                            '<td>' +
-                                                '<div class="form-check check-tables">' +
-                                                    '<input class="form-check-input" type="checkbox" value="' + student.student_Id + '">' +
-                                                '</div>' +
-                                            '</td>' +
-                                            '<td>' + student.student_Id + '</td>' +
                                             '<td>' + student.student_User.user_firstname + ' ' + student.student_User.user_lastname + '</td>' +
                                             '<td>' + student.student_User.user_email + '</td>' +
                                             '<td class="text-end">' +

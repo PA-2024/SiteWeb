@@ -122,12 +122,6 @@ function formatDateInFrench($dateString) {
                                         <table class="table border-0 custom-table comman-table datatable mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox" value="">
-                                                        </div>
-                                                    </th>
-                                                    <th>ID</th>
                                                     <th>Nom du Cours</th>
                                                     <th>Salle</th>
                                                     <th>Date de Début</th>
@@ -138,12 +132,6 @@ function formatDateInFrench($dateString) {
                                             <tbody>
                                                 <?php foreach ($subjectHours as $subjectHour): ?>
                                                     <tr>
-                                                        <td>
-                                                            <div class="form-check check-tables">
-                                                                <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($subjectHour['subjectsHour_Id']); ?>">
-                                                            </div>
-                                                        </td>
-                                                        <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Id']); ?></td>
                                                         <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Subjects']['subjects_Name']); ?></td>
                                                         <td><?php echo htmlspecialchars($subjectHour['subjectsHour_Room']); ?></td>
                                                         <td><?php echo formatDateInFrench($subjectHour['subjectsHour_DateStart']); ?></td>
@@ -307,7 +295,6 @@ function formatDateInFrench($dateString) {
             $.each(data, function(index, subjectHour) {
                 dataTable.row.add([
                     '<input type="checkbox" class="form-check-input" value="' + subjectHour.subjectsHour_Id + '">',
-                    subjectHour.subjectsHour_Id,
                     subjectHour.subjectsHour_Subjects.subjects_Name,
                     subjectHour.subjectsHour_Room,
                     subjectHour.subjectsHour_DateStart,
