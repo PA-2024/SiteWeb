@@ -63,7 +63,7 @@ $user_email = $user['user_email'] ?? 'Email non spécifié';
                         </ul>
                     </div>
                     <div class="col-sm-5 col-6 text-end m-b-30">
-                        <a href="../forms/edit-profile.php" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Éditer le Profil</a>
+                        <a href="../auth/forget-password.php" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Éditer le mot de passe</a>
                     </div>
                 </div>
 
