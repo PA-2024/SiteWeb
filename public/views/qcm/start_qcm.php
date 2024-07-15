@@ -143,7 +143,7 @@ $token = str_replace('Bearer ', '', $token);
                         break;
                     case "INFO":
                     case "ERROR":
-                        alert(message.message);
+                        //alert(message.message);
                         break;
                     case "STUDENT_LIST":
                         displayStudents(message.students);
@@ -186,6 +186,11 @@ $token = str_replace('Bearer ', '', $token);
             });
 
             document.getElementById("endQcmButton").addEventListener("click", function() {
+                const endMessage = { action: "END" };
+                ws.send(JSON.stringify(endMessage));
+            });
+
+            window.addEventListener("beforeunload", function() {
                 const endMessage = { action: "END" };
                 ws.send(JSON.stringify(endMessage));
             });
@@ -259,9 +264,9 @@ $token = str_replace('Bearer ', '', $token);
         <?php include '../../menu/menu_prof.php'; ?>
         <div class="page-wrapper">
             <div class="content">
-                <h1>Démarrer QCM</h1>
+                <h1>QCM</h1>
                 <div id="timer" class="timer"></div>
-                <button id="startQcmButton" class="btn">QCM</button>
+                <button id="startQcmButton" class="btn">Démarrer le QCM</button>
                 <div id="controls" class="hidden">
                     <button id="endQcmButton" class="btn btn-danger">Terminer le QCM</button>
                 </div>
