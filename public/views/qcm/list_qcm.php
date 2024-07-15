@@ -93,12 +93,6 @@ $qcms = $qcmManager->fetchAllQCMsTeacher(1, 30);
                                     <table class="table border-0 custom-table comman-table datatable mb-0">
                                         <thead>
                                             <tr>
-                                                <th>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox" value="">
-                                                    </div>
-                                                </th>
-                                                <th>ID</th>
                                                 <th>Titre</th>
                                                 <th class="text-end">Actions</th>
                                             </tr>
@@ -106,12 +100,6 @@ $qcms = $qcmManager->fetchAllQCMsTeacher(1, 30);
                                         <tbody>
                                             <?php foreach ($qcms['items'] as $qcm): ?>
                                                 <tr>
-                                                    <td>
-                                                        <div class="form-check check-tables">
-                                                            <input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($qcm['id']); ?>">
-                                                        </div>
-                                                    </td>
-                                                    <td><?php echo htmlspecialchars($qcm['id']); ?></td>
                                                     <td><?php echo htmlspecialchars($qcm['title']); ?></td>
                                                     <td class="text-end">
                                                         <div class="dropdown dropdown-action">

@@ -197,7 +197,8 @@ class QCM
         return $qcm;
     }
 
-    public function deleteQcm($id) {
+    public function deleteQcm($id)
+    {
         $url = $this->apiUrl . "/DeleteQcm/" . $id;
 
         $ch = curl_init($url);

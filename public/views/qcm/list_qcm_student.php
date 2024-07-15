@@ -96,7 +96,6 @@ $qcms = $qcmManager->fetchQCMByRange($startDate, $endDate);
                                     <table class="table border-0 custom-table comman-table datatable mb-0">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
                                                 <th>Titre</th>
                                                 <th class="text-end">Actions</th>
                                             </tr>
@@ -104,7 +103,6 @@ $qcms = $qcmManager->fetchQCMByRange($startDate, $endDate);
                                         <tbody>
                                             <?php foreach ($qcms as $qcm): ?>
                                                 <tr>
-                                                    <td><?php echo htmlspecialchars($qcm['id']); ?></td>
                                                     <td><?php echo htmlspecialchars($qcm['title']); ?></td>
                                                     <td class="text-end">
                                                         <a href="join_qcm.php?id=<?php echo htmlspecialchars($qcm['id']); ?>" class="btn btn-primary">Rejoindre</a>
