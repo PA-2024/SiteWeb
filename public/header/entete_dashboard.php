@@ -44,7 +44,7 @@ $role = $_SESSION['user_role'];
             </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="../misc/profile.php">Mon profil</a>
-                <a class="dropdown-item" href="../forms/edit-profile.php">Modifier mon profil</a>
+                <a class="dropdown-item" href="../auth/forgot-password.php">Changer mon mot de passe</a>
                 <a class="dropdown-item" href="../../script/logout.php">Me déconnecter</a>
             </div>
         </li>
@@ -53,7 +53,7 @@ $role = $_SESSION['user_role'];
         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
         <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="../misc/profile.php">Mon profil</a>
-            <a class="dropdown-item" href="../forms/edit-profile.php">Modifier mon profil</a>
+            <a class="dropdown-item" href="../auth/forgot-password.php">Changer mon mot de passe</a>
             <a class="dropdown-item" href="../../script/logout.php">Me déconnecter</a>
         </div>
     </div>
