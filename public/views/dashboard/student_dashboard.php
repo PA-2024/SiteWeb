@@ -257,7 +257,7 @@ include '../../header/entete.php';
                 dataType: 'json',
                 success: function(data) {
                     if (data.error) {
-                        //window.location.href = '../misc/error-500.php';
+                        window.location.href = '../misc/error-500.php';
                         return;
                     }
 

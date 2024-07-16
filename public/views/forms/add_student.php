@@ -27,7 +27,7 @@ if (!$schoolId) {
     exit;
 }
 
-$sectorManager = new Sectors();
+$sectorManager = new Sectors($token);
 $studentManager = new Student($token);
 
 try {
@@ -102,17 +102,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="form-group">
                                 <label>Classe</label>
-                                <select class="form-control" name="sector_id" required>
-                                    <?php foreach ($sectors as $sector): ?>
-                                        <option value="<?php echo htmlspecialchars($sector['sectors_Id']); ?>">
-                                            <?php echo htmlspecialchars($sector['sectors_Name']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <?php if (!empty($sectors)): ?>
+                                    <select class="form-control" name="sector_id" required>
+                                        <?php foreach ($sectors as $sector): ?>
+                                            <option value="<?php echo htmlspecialchars($sector['sectors_Id']); ?>">
+                                                <?php echo htmlspecialchars($sector['sectors_Name']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                <?php else: ?>
+                                    <p>Pas de classes disponibles</p>
+                                <?php endif; ?>
                             </div>
                             <br>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                                <button type="submit" class="btn btn-primary" <?php echo empty($sectors) ? 'disabled' : ''; ?>>Ajouter</button>
                             </div>
                         </form>
                     </div>
