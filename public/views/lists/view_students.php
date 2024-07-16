@@ -19,7 +19,7 @@ if (!$token) {
 }
 
 $studentManager = new Student($token);
-$sectorsManager = new Sectors();
+$sectorsManager = new Sectors($token);
 $classes = $sectorsManager->fetchSectors(); // Récupération des classes disponibles
 
 // Traitement de la sélection de la classe

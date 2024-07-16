@@ -30,12 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $studentId = $_POST['student_Id'];
     $subjectId = $_POST['subject_Id'];
     
-    try {
-        $studentSubjectsManager = new StudentSubjects($token);
-        $studentSubjectsManager->addStudentSubject($studentId, $subjectId);
-        $message = "L'étudiant a été ajouté au cours avec succès.";
-    } catch (Exception $e) {
-        $error = $e->getMessage() . $_POST['student_Id'] . $_POST['subject_Id'];
+    if (empty($studentId) || empty($subjectId)) {
+        $error = "Veuillez remplir tous les champs.";
+    } else {
+        try {
+            $studentSubjectsManager = new StudentSubjects($token);
+            $studentSubjectsManager->addStudentSubject($studentId, $subjectId);
+            $message = "L'étudiant a été ajouté au cours avec succès.";
+        } catch (Exception $e) {
+            $error = $e->getMessage() . $_POST['student_Id'] . $_POST['subject_Id'];
+        }
     }
 }
 ?>
@@ -50,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="../lists/list_student_subjects.php">Étudiants et Cours</a></li>
+                                <li class="breadcrumb-item"><a href="../lists/list_student_subject.php">Étudiants et Cours</a></li>
                                 <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Ajouter un Étudiant à un Cours</li>
                             </ul>
@@ -71,22 +75,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="student_Id">Étudiant</label>
-                                        <select name="student_Id" id="student_Id" class="form-control">
-                                            <?php foreach ($students as $student): ?>
-                                                <option value="<?php echo htmlspecialchars($student['student_Id']); ?>"><?php echo htmlspecialchars($student['student_User']['user_firstname']) . "  " . htmlspecialchars($student['student_User']['user_lastname']); ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <?php if (!empty($students)): ?>
+                                            <select name="student_Id" id="student_Id" class="form-control" required>
+                                                <option value="" disabled selected>Choisir un étudiant</option>
+                                                <?php foreach ($students as $student): ?>
+                                                    <option value="<?php echo htmlspecialchars($student['student_Id']); ?>">
+                                                        <?php echo htmlspecialchars($student['student_User']['user_firstname']) . " " . htmlspecialchars($student['student_User']['user_lastname']); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        <?php else: ?>
+                                            <p>Pas d'étudiants disponibles</p>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="form-group">
                                         <label for="subject_Id">Cours</label>
-                                        <select name="subject_Id" id="subject_Id" class="form-control">
-                                            <?php foreach ($subjects as $subject): ?>
-                                                <option value="<?php echo htmlspecialchars($subject['subjects_Id']); ?>"><?php echo htmlspecialchars($subject['subjects_Name']); ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <?php if (!empty($subjects)): ?>
+                                            <select name="subject_Id" id="subject_Id" class="form-control" required>
+                                                <option value="" disabled selected>Choisir un cours</option>
+                                                <?php foreach ($subjects as $subject): ?>
+                                                    <option value="<?php echo htmlspecialchars($subject['subjects_Id']); ?>">
+                                                        <?php echo htmlspecialchars($subject['subjects_Name']); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        <?php else: ?>
+                                            <p>Pas de cours disponibles</p>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="form-group text-end">
-                                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                                        <button type="submit" class="btn btn-primary" <?php echo empty($students) || empty($subjects) ? 'disabled' : ''; ?>>Ajouter</button>
                                     </div>
                                 </div>
                             </div>
