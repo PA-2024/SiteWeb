@@ -212,32 +212,6 @@ include '../../header/entete.php';
                             </div>                          
                         </div>                  
                     </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-12 col-lg-6 col-xl-9">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="chart-title patient-visit">
-                                        <h4>Tests</h4>
-                                        <div >
-                                            <ul class="nav chat-user-total">
-                                                <li><i class="fa fa-circle current-users" aria-hidden="true"></i>Bogoss 75%</li>
-                                                <li><i class="fa fa-circle old-users" aria-hidden="true"></i> Moches 25%</li>
-                                            </ul>
-                                        </div>
-                                        <div class="input-block mb-0">
-                                            <select class="form-control select">
-                                                <option>2022</option>
-                                                <option>2021</option>
-                                                <option>2020</option>
-                                                <option>2019</option>
-                                            </select>
-                                        </div>
-                                    </div>  
-                                    <div id="patient-chart"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-12 col-md-12 col-lg-6 col-xl-3 d-flex">
                             <div class="card">
                                 <div class="card-body">
