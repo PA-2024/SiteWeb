@@ -118,10 +118,6 @@ try {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-auto text-end float-end ms-auto download-grp">
-                                <a href="javascript:;" id="export-csv" class="me-2"><img src="../../assets/img/icons/pdf-icon-03.svg" alt="Export to CSV"></a>
-                                <a href="javascript:;" id="export-xlsx"><img src="../../assets/img/icons/pdf-icon-04.svg" alt="Export to XLSX"></a>
-                            </div>
                         </div>
                     </div>
                     <!-- /Table Header -->

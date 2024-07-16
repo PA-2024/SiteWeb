@@ -28,7 +28,6 @@ if (!$schoolName) {
 }
 
 $subjectManager = new Subjects($token);
-
 $subjects = $subjectManager->fetchSubjects();
 ?>
 <!DOCTYPE html>
@@ -206,6 +205,13 @@ $subjects = $subjectManager->fetchSubjects();
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
 
+    <!-- Datatables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/build/pdfmake.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/vfs_fonts.js"></script>
+
     <!-- Script pour gérer le tableau et la suppression -->
     <script>
 	$(document).ready(function() {
@@ -219,7 +225,7 @@ $subjects = $subjectManager->fetchSubjects();
 					extend: 'pdfHtml5',
 					title: 'School Data',
 					exportOptions: {
-						columns: ':visible'
+						columns: ':visible :not(.text-end)'
 					},
 					customize: function(doc) {
 						doc.content.splice(0, 1, {
@@ -237,7 +243,7 @@ $subjects = $subjectManager->fetchSubjects();
 						modifier: {
 							selected: true
 						},
-						columns: [1, 2, 3, 4]
+						columns: ':visible :not(.text-end)'
 					}
 				},
 				{
@@ -248,7 +254,7 @@ $subjects = $subjectManager->fetchSubjects();
 						modifier: {
 							selected: true
 						},
-						columns: [1, 2, 3, 4]
+						columns: ':visible :not(.text-end)'
 					}
 				}
 			],

@@ -31,7 +31,6 @@ $details = [];
 if ($qcmId) {
     try {
         $scores = $qcmResultManager->fetchAllResultsForQcm($qcmId);
-        $details = $qcmResultManager->fetchAllResultsDetailsForQcm($qcmId);
     } catch (Exception $e) {
         $errorMessage = $e->getMessage();
     }
@@ -87,9 +86,29 @@ if ($qcmId) {
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4>Scores globaux</h4>
+                                    <div class="page-table-header mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <div class="doctor-table-blk">
+                                                    <h3>Scores globaux</h3>
+                                                    <div class="doctor-search-blk">
+                                                        <div class="top-nav-search table-search-blk">
+                                                            <form id="dataTableSearchForm">
+                                                                <input type="text" class="form-control" placeholder="Rechercher" id="dataTableSearchInput">
+                                                                <button type="submit" class="btn"><img src="../../assets/img/icons/search-normal.svg" alt="Search"></button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto text-end float-end ms-auto download-grp">
+                                                <a href="javascript:;" id="export-csv" class="me-2"><img src="../../assets/img/icons/pdf-icon-03.svg" alt="Export to CSV"></a>
+                                                <a href="javascript:;" id="export-xlsx"><img src="../../assets/img/icons/pdf-icon-04.svg" alt="Export to XLSX"></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="table-responsive">
-                                        <table class="table border-0 custom-table">
+                                        <table class="table border-0 custom-table comman-table datatable mb-0">
                                             <thead>
                                                 <tr>
                                                     <th>Étudiant</th>
@@ -112,37 +131,6 @@ if ($qcmId) {
                             </div>
                         </div>
                     </div>
-
-                    <!-- Détails des résultats -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4>Détails des résultats</h4>
-                                    <div class="table-responsive">
-                                        <table class="table border-0 custom-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Étudiant</th>
-                                                    <th>Question ID</th>
-                                                    <th>Réponse</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($details as $detail): ?>
-                                                    <tr>
-                                                        <td><?php echo htmlspecialchars($detail['qcmResult_Student']['student_User']['user_firstname'] . ' ' . $detail['qcmResult_Student']['student_User']['user_lastname']); ?></td>
-                                                        <td><?php echo htmlspecialchars($detail['qcmResultDetails_Question_id']); ?></td>
-                                                        <td><?php echo htmlspecialchars($detail['qcmResultDetails_Answer']); ?></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -155,11 +143,96 @@ if ($qcmId) {
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
     <!-- Select2 JS -->
     <script src="../../assets/js/select2.min.js"></script>
+    <!-- Datatables JS -->
+    <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../assets/plugins/datatables/datatables.min.js"></script>
+    <!-- Datatables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/build/pdfmake.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/vfs_fonts.js"></script>
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
+
     <script>
         $(document).ready(function() {
             $('.select2').select2();
+
+            var dataTable = $('.datatable').DataTable({
+                "searching": true,
+                "bDestroy": true,
+                "dom": 'lrtip',
+                "paging": false,
+                "info": false,
+                select: 'multi',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Export Excel',
+                        title: 'QCM Scores Report',
+                        exportOptions: {
+                            columns: [0, 1, 2]
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: 'Export CSV',
+                        title: 'QCM Scores Report',
+                        exportOptions: {
+                            columns: [0, 1, 2]
+                        }
+                    }
+                ],
+                select: true
+            });
+
+            $('#export-csv').on('click', function() {
+                dataTable.button('.buttons-csv').trigger();
+            });
+            $('#export-xlsx').on('click', function() {
+                dataTable.button('.buttons-excel').trigger();
+            });
+
+            $(document).on('submit', '#dataTableSearchForm', function(event) {
+                event.preventDefault();
+                var searchTerm = $('#dataTableSearchInput').val();
+                dataTable.search(searchTerm).draw(); // On effectue la recherche
+            });
+
+            // Pour rechercher lors de l'écriture
+            $('#dataTableSearchInput').on('keyup change', function() {
+                dataTable.search(this.value).draw();
+            });
+
+            $('#refreshTableBtn').click(function() {
+                refreshTable();
+            });
+
+            function refreshTable() {
+                $.ajax({
+                    url: '../../script/fetch_presences_ajax.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        updateTable(data);
+                    },
+                    error: function() {
+                        alert('Impossible de recharger les données.');
+                    }
+                });
+            }
+
+            function updateTable(data) {
+                dataTable.clear();
+                $.each(data, function(index, detail) {
+                    dataTable.row.add([
+                        detail.answerQCM_Student.student_User.user_firstname + ' ' + detail.answerQCM_Student.student_User.user_lastname,
+                        detail.answerQCM_Question_Id,
+                        detail.answerQCM_Answer
+                    ]).draw(false);
+                });
+            }
         });
     </script>
 </body>

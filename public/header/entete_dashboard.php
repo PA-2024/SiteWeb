@@ -11,12 +11,6 @@ $role = $_SESSION['user_role'];
     </div>
     <a id="toggle_btn" href="javascript:void(0);"><img src="../../assets/img/icons/bar-icon.svg" alt=""></a>
     <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img src="../../assets/img/icons/bar-icon.svg" alt=""></a>
-    <div class="top-nav-search mob-view">
-        <form action="search.php" method="get">
-            <input type="text" name="query" id="search-input" class="form-control" placeholder="Rechercher">
-            <button type="submit" class="btn"><img src="../../assets/img/icons/search-normal.svg" alt=""></button>
-        </form>
-    </div>
 
     <ul class="nav user-menu float-end">
         <li class="nav-item dropdown d-none d-md-block">

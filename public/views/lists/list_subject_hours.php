@@ -109,6 +109,10 @@ function formatDateInFrench($dateString) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-auto text-end float-end ms-auto download-grp">
+                                <a href="javascript:;" id="export-csv" class="me-2"><img src="../../assets/img/icons/pdf-icon-03.svg" alt="Export to CSV"></a>
+                                <a href="javascript:;" id="export-xlsx"><img src="../../assets/img/icons/pdf-icon-04.svg" alt="Export to XLSX"></a>
+                            </div>
                         </div>
                     </div>
                     <!-- /Table Header -->
@@ -194,16 +198,15 @@ function formatDateInFrench($dateString) {
     <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../assets/plugins/datatables/datatables.min.js"></script>
 
-    <!-- counterup JS -->
-    <script src="../../assets/js/jquery.waypoints.js"></script>
-    <script src="../../assets/js/jquery.counterup.min.js"></script>
-
-    <!-- Apexchart JS -->
-    <script src="../../assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="../../assets/plugins/apexchart/chart-data.js"></script>
-
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
+
+    <!-- Datatables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/build/pdfmake.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.36/vfs_fonts.js"></script>
 
     <!-- Script pour gérer le tableau et la suppression -->
     <script>
@@ -216,13 +219,13 @@ function formatDateInFrench($dateString) {
             buttons: [
                 {
                     extend: 'pdfHtml5',
-                    title: 'School Data',
+                    title: 'Subject hours Data',
                     exportOptions: {
-                        columns: ':visible'
+                        columns: ':visible :not(.text-end)'
                     },
                     customize: function(doc) {
                         doc.content.splice(0, 1, {
-                            text: 'Report for School Data',
+                            text: 'Subject Hours Report',
                             fontSize: 16,
                             alignment: 'center'
                         });
@@ -231,23 +234,23 @@ function formatDateInFrench($dateString) {
                 {
                     extend: 'excelHtml5',
                     text: 'Export Excel',
-                    title: 'School Data Report',
+                    title: 'Subject Hours Report',
                     exportOptions: {
                         modifier: {
                             selected: true
                         },
-                        columns: [1, 2, 3, 4]
+                        columns: ':visible :not(.text-end)'
                     }
                 },
                 {
                     extend: 'csvHtml5',
                     text: 'Export CSV',
-                    title: 'School Data Report',
+                    title: 'Subject Hours Report',
                     exportOptions: {
                         modifier: {
                             selected: true
                         },
-                        columns: [1, 2, 3, 4]
+                        columns: ':visible :not(.text-end)'
                     }
                 }
             ],
@@ -294,11 +297,10 @@ function formatDateInFrench($dateString) {
             dataTable.clear();
             $.each(data, function(index, subjectHour) {
                 dataTable.row.add([
-                    '<input type="checkbox" class="form-check-input" value="' + subjectHour.subjectsHour_Id + '">',
                     subjectHour.subjectsHour_Subjects.subjects_Name,
                     subjectHour.subjectsHour_Room,
-                    subjectHour.subjectsHour_DateStart,
-                    subjectHour.subjectsHour_DateEnd,
+                    formatDateInFrench(subjectHour.subjectsHour_DateStart),
+                    formatDateInFrench(subjectHour.subjectsHour_DateEnd),
                     '<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item" href="edit_subject_hour.php?id=' + subjectHour.subjectsHour_Id + '">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + subjectHour.subjectsHour_Id + '">Supprimer</a></div></div>'
                 ]).draw(false);
             });
