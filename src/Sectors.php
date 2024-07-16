@@ -4,6 +4,12 @@ namespace GeSign;
 class Sectors
 {
     private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/Sectors";
+    private $token;
+
+    public function __construct($token)
+    {
+        $this->token = $token;
+    }
 
     public function fetchSectors()
     {
@@ -12,7 +18,10 @@ class Sectors
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $this->apiUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: ' . $this->token
+        ]);
 
         $response = curl_exec($ch);
 
@@ -44,7 +53,8 @@ class Sectors
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Accept: application/json'
+            'Accept: application/json',
+            'Authorization: ' . $this->token
         ]);
 
         // Exécuter la requête
@@ -75,7 +85,8 @@ class Sectors
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: application/json'
+            'Accept: application/json',
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
@@ -105,7 +116,8 @@ class Sectors
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Accept: application/json'
+            'Accept: application/json',
+            'Authorization: ' . $this->token
         ]);
 
         $response = curl_exec($ch);
@@ -125,7 +137,10 @@ class Sectors
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Authorization: ' . $this->token
+        ]);
 
         $response = curl_exec($ch);
         curl_close($ch);

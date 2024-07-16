@@ -7,7 +7,14 @@ require_once '../../vendor/autoload.php';
 use GeSign\Sectors;
 
 if (isset($_POST['sectorId'])) {
-    $sectorsManager = new Sectors();
+    // Récupération du token de l'utilisateur connecté
+    $token = $_SESSION['token'] ?? $_COOKIE['token'];
+
+    if (!$token) {
+        header('Location: ../auth/login.php');
+        exit;
+    }
+    $sectorsManager = new Sectors($token);
     try {
         $sectorsManager->deleteSector($_POST['sectorId']);
         echo 'Success';

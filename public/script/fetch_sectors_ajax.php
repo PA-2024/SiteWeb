@@ -5,7 +5,15 @@
 require_once '../../vendor/autoload.php';
 use GeSign\Sectors;
 
-$sectorsManager = new Sectors();
+// Récupération du token de l'utilisateur connecté
+$token = $_SESSION['token'] ?? $_COOKIE['token'];
+
+if (!$token) {
+    header('Location: ../auth/login.php');
+    exit;
+}
+
+$sectorsManager = new Sectors($token);
 $sectors = $sectorsManager->fetchSectors();
 
 header('Content-Type: application/json');

@@ -10,7 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $schoolId = htmlspecialchars($_POST['school_Id']);
     $roomName = htmlspecialchars($_POST['room_name']);
 
-    $sectorsManager = new Sectors();
+    // Récupération du token de l'utilisateur connecté
+    $token = $_SESSION['token'] ?? $_COOKIE['token'];
+
+    if (!$token) {
+        header('Location: ../auth/login.php');
+        exit;
+    }
+
+    $sectorsManager = new Sectors($token);
     $schoolManager = new Schools();
 
     try {

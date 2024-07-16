@@ -11,8 +11,16 @@ $sessionManager = SessionManager::getInstance();
 $sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Gestion Ecole');
 
+// Récupération du token de l'utilisateur connecté
+$token = $_SESSION['token'] ?? $_COOKIE['token'];
+
+if (!$token) {
+    header('Location: ../auth/login.php');
+    exit;
+}
+
 $schoolManager = new Schools();
-$sectorsManager = new Sectors();
+$sectorsManager = new Sectors($token);
 
 // Récupération du nom de l'école à partir de la session ou du cookie
 $schoolName = $_SESSION['school'] ?? $_COOKIE['school'];
