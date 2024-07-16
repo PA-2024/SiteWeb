@@ -28,7 +28,7 @@ if (!$studentId) {
 }
 
 $userManager = new User($token);
-$sectorManager = new Sectors();
+$sectorManager = new Sectors($token);
 $studentManager = new Student($token);
 
 try {

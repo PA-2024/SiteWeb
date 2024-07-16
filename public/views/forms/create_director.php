@@ -70,8 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <input type="text" name="user_firstname" id="user_firstname" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="user_num">Numéro</label>
-                                        <input type="text" name="user_num" id="user_num" class="form-control" required>
+                                        <label for="user_num">Numéro de téléphone</label>
+                                        <input type="text" name="user_num" id="user_num" class="form-control" pattern="\d{10}" maxlength="10" title="Veuillez entrer un numéro de téléphone valide à 10 chiffres." required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_school_id">École</label>

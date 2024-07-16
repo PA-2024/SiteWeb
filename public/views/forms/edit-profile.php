@@ -92,7 +92,7 @@ $user_role = $user['user_Role']['role_Name'] ?? '';
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-block local-forms">
-                                                <label class="focus-label">Numéro</label>
+                                                <label class="focus-label">Numéro de téléphone</label>
                                                 <input type="text" class="form-control floating" name="user_num" value="<?php echo htmlspecialchars($user_num); ?>">
                                             </div>
                                         </div>

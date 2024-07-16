@@ -88,14 +88,7 @@ $schools = $schoolManager->fetchSchools();
                                     <table class="table border-0 custom-table comman-table datatable mb-0">
                                         <thead>
                                             <tr>
-												<th>
-													<div class="form-check check-tables">
-														<input class="form-check-input" type="checkbox" value="">
-													</div>
-												</th>
-                                                <th>ID</th>
                                                 <th>Nom de l'école</th>
-                                                <th>Token</th>
                                                 <th>Date de création</th>
 												<th ></th>
                                             </tr>
@@ -103,14 +96,7 @@ $schools = $schoolManager->fetchSchools();
                                         <tbody>
                                             <?php foreach ($schools as $school): ?>
                                                 <tr>
-													<td>
-														<div class="form-check check-tables">
-															<input class="form-check-input" type="checkbox" value="<?php echo htmlspecialchars($school['school_Id']); ?>">
-														</div>
-													</td>
-                                                    <td><?php echo htmlspecialchars($school['school_Id']); ?></td>
                                                     <td><?php echo htmlspecialchars($school['school_Name']); ?></td>
-                                                    <td><?php echo htmlspecialchars($school['school_token']); ?></td>
                                                     <td><?php echo date("d/m/Y", strtotime($school['school_Date']));?></td>
 													<td class="text-end">
 														<div class="dropdown dropdown-action">
@@ -273,10 +259,7 @@ $schools = $schoolManager->fetchSchools();
 				$.each(data, function(index, school) {
 					var formattedDate = moment(school.school_Date).format('DD/MM/YYYY'); // Formatage de la date
 					dataTable.row.add([
-						'<input type="checkbox" class="form-check-input" value="' + school.school_Id + '">',
-						school.school_Id,
 						school.school_Name,
-						school.school_token,
 						formattedDate, // Utilisation de la date formatée
 						'<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item edit-link" href="edit-appointment.html">Éditer</a><a class="dropdown-item delete-link" href="#" data-id="' + school.school_Id + '">Supprimer</a></div></div>'
 					]).draw(false);

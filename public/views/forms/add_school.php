@@ -13,11 +13,11 @@ $schoolManager = new Schools();
 ?>
 <body>
     <div class="main-wrapper">
-		<!--On ajoute notre header ici -->
-		<?php include '../../header/entete_dashboard.php'; ?>
+        <!--On ajoute notre header ici -->
+        <?php include '../../header/entete_dashboard.php'; ?>
         <!--On ajoute notre menu à gauche ici-->
-		<?php include '../../menu/menu_admin.php'; ?>
-                <div class="page-wrapper">
+        <?php include '../../menu/menu_admin.php'; ?>
+        <div class="page-wrapper">
             <div class="content">
                 <!-- Page Header -->
                 <div class="page-header">
@@ -25,7 +25,7 @@ $schoolManager = new Schools();
                         <div class="col-sm-12">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="../lists/schools_list.php">Écoles</a></li>
-								<li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+                                <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
                                 <li class="breadcrumb-item active">Ajouter une école</li>
                             </ul>
                         </div>
@@ -35,8 +35,8 @@ $schoolManager = new Schools();
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['school_Name'] ?? 'Default Name';
-    $token = $_POST['school_token'] ?? 'Default Token';
-    $allowSite = isset($_POST['school_allowSite']) && $_POST['school_allowSite'] === 'on' ? true : false;
+    $token = $name;
+    $allowSite = true;
 
     try {
         $result = $schoolManager->createSchool($name, $token, $allowSite);
@@ -73,11 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>';
     }
 }
-
 ?>
 
                 <!-- Main Content -->
-				<div class="row">
+                <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
@@ -92,21 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="input-block">
                                                 <label>Nom de l'école <span class="login-danger">*</span></label>
                                                 <input class="form-control" type="text" name="school_Name" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="input-block">
-                                                <label>Token de l'école <span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" name="school_token" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="input-block">
-                                                <label>Site autorisé <span class="login-danger">*</span></label>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="school_allowSite">
-                                                    <label class="form-check-label">Oui</label>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -125,37 +109,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
-	
-	<!-- jQuery -->
+    
+    <!-- jQuery -->
     <script src="../../assets/js/jquery-3.7.1.min.js"></script>
-	
-	<!-- Bootstrap Core JS -->
+    
+    <!-- Bootstrap Core JS -->
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
-	
-	<!-- Feather Js -->
-	<script src="../../assets/js/feather.min.js"></script>
-	
-	<!-- Slimscroll -->
+    
+    <!-- Feather Js -->
+    <script src="../../assets/js/feather.min.js"></script>
+    
+    <!-- Slimscroll -->
     <script src="../../assets/js/jquery.slimscroll.js"></script>
-	
-	<!-- Select2 Js -->
-	<script src="../../assets/js/select2.min.js"></script>
-	
-	<!-- Datatables JS -->
-	<script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
-	<script src="../../assets/plugins/datatables/datatables.min.js"></script>
-	
-	<!-- counterup JS -->
-	<script src="../../assets/js/jquery.waypoints.js"></script>
-	<script src="../../assets/js/jquery.counterup.min.js"></script>
-	
-	<!-- Apexchart JS -->
-	<script src="../../assets/plugins/apexchart/apexcharts.min.js"></script>
-	<script src="../../assets/plugins/apexchart/chart-data.js"></script>
-	
-	<!-- Custom JS -->
+    
+    <!-- Select2 Js -->
+    <script src="../../assets/js/select2.min.js"></script>
+    
+    <!-- Datatables JS -->
+    <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../assets/plugins/datatables/datatables.min.js"></script>
+    
+    <!-- counterup JS -->
+    <script src="../../assets/js/jquery.waypoints.js"></script>
+    <script src="../../assets/js/jquery.counterup.min.js"></script>
+    
+    <!-- Apexchart JS -->
+    <script src="../../assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="../../assets/plugins/apexchart/chart-data.js"></script>
+    
+    <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
 
 </body>
-
 </html>

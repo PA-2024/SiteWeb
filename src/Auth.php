@@ -142,7 +142,7 @@ class Auth
         curl_close($ch);
     
         if ($httpStatusCode !== 200) {
-            throw new \Exception('Erreur HTTP ' . $httpStatusCode . ': ' . $response . ' URL : ' . $url);
+            throw new \Exception('Erreur. Veuillez réessayer plus tard.');
         }
     
         // Vérifier si la réponse est vide

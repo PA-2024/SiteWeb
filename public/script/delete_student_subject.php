@@ -30,14 +30,12 @@ if (!isset($_POST['studentId']) || !isset($_POST['subjectId'])) {
 $studentId = $_POST['studentId'];
 $subjectId = $_POST['subjectId'];
 
-echo "<script> alert('".$studentId."'); </script>";
-
 try {
     $subjectManager = new StudentSubjects($token);
     $subjectManager->deleteStudentSubject($studentId, $subjectId);
-    echo json_encode(['success' => true]);
+    echo json_encode(['status' => 'success', 'message' => 'L\'étudiant a été supprimé du cours avec succès.']);
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 ?>

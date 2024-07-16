@@ -18,7 +18,7 @@ if (!$token) {
 }
 
 $subjectManager = new Subjects($token);
-$sectorsManager = new Sectors();
+$sectorsManager = new Sectors($token);
 
 $subjects = $subjectManager->fetchSubjects();
 $sectors = $sectorsManager->fetchSectors();

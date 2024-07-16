@@ -103,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="col-md-6">
                                 <div class="input-block local-forms">
-                                    <label class="focus-label">Numéro</label>
-                                    <input type="text" class="form-control" name="num" required>
+                                    <label class="focus-label">Numéro de téléphone</label>
+                                    <input type="text" class="form-control" name="num" pattern="\d{10}" maxlength="10" title="Veuillez entrer un numéro de téléphone valide à 10 chiffres." required>
                                 </div>
                             </div>
                         </div>

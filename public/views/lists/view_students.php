@@ -127,7 +127,7 @@ if ($className) {
                                                 <th>Nom</th>
                                                 <th>Prénom</th>
                                                 <th>Email</th>
-                                                <th>Numéro</th>
+                                                <th>Numéro de téléphone</th>
                                                 <th>Secteur</th>
                                                 <th class="text-end">Actions</th>
                                             </tr>

@@ -73,6 +73,7 @@ $subjects = $subjectManager->fetchSubjects();
                                     <!-- Les étudiants seront affichés ici -->
                                 </tbody>
                             </table>
+                            <p id="noStudentsMessage" style="display: none;">Pas d'étudiants inscrits à ce cours.</p>
                         </div>
                     </div>
                 </div>
@@ -115,10 +116,12 @@ $subjects = $subjectManager->fetchSubjects();
                         success: function(subject) {
                             var students = subject.students;
                             var studentsTableBody = $('#studentsTableBody');
+                            var noStudentsMessage = $('#noStudentsMessage');
                             studentsTableBody.empty();
 
                             if (students.length > 0) {
                                 $('#studentsContainer').show();
+                                noStudentsMessage.hide();
                                 $.each(students, function(index, student) {
                                     studentsTableBody.append(
                                         '<tr>' +
@@ -136,7 +139,8 @@ $subjects = $subjectManager->fetchSubjects();
                                     );
                                 });
                             } else {
-                                $('#studentsContainer').hide();
+                                studentsTableBody.append('<tr><td colspan="3" class="text-center">Pas d\'étudiants inscrits à ce cours.</td></tr>');
+                                $('#studentsContainer').show();
                             }
                         },
                         error: function() {
@@ -163,10 +167,15 @@ $subjects = $subjectManager->fetchSubjects();
                     url: '../../script/delete_student_subject.php',
                     type: 'POST',
                     data: { studentId: studentId, subjectId: subjectId },
+                    dataType: 'json',
                     success: function(response) {
-                        $('#delete_student').modal('hide');
-                        $('#subjectSelect').trigger('change');
-                        $('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Étudiant supprimé !</strong> L\'étudiant a bien été supprimé du cours.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
+                        if (response.status === 'success') {
+                            $('#delete_student').modal('hide');
+                            $('#subjectSelect').trigger('change');
+                            $('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Étudiant supprimé !</strong> ' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
+                        } else {
+                            $('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Erreur !</strong> ' + response.message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');
+                        }
                     },
                     error: function() {
                         $('#alert-placeholder').html('<div class="card bg-white"><div class="card-body"><div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Erreur !</strong> La suppression de l\'étudiant a échoué.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div></div>');

@@ -140,7 +140,6 @@ try {
                                             <thead>
                                                 <tr>
                                                     <th>Nom de la classe</th>
-                                                    <th>ID de l'école</th>
                                                     <th>Nom de l'école</th>
                                                     <th class="text-end">Actions</th>
                                                 </tr>
@@ -149,7 +148,6 @@ try {
                                                 <?php foreach ($sectors as $sector): ?>
                                                     <tr>
                                                         <td><?php echo htmlspecialchars($sector['sectors_Name']); ?></td>
-                                                        <td><?php echo htmlspecialchars($sector['sectors_School']['school_Id']); ?></td>
                                                         <td><?php echo htmlspecialchars($sector['sectors_School']['school_Name']); ?></td>
                                                         <td class="text-end">
                                                             <div class="dropdown dropdown-action">
@@ -311,7 +309,6 @@ try {
 			$.each(data, function(index, sector) {
 				dataTable.row.add([
 					sector.sectors_Name,
-					sector.sectors_School.school_Id,
 					sector.sectors_School.school_Name,
 					'<div class="dropdown dropdown-action"><a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a><div class="dropdown-menu"><a class="dropdown-item" href="edit_sector.php?id=' + sector.sectors_Id + '">Éditer</a><a class="dropdown-item" href="view_students.php?sector_id=' + sector.sectors_Id + '">Voir les étudiants</a><a class="dropdown-item delete-link" href="#" data-id="' + sector.sectors_Id + '">Supprimer</a></div></div>'
 				]).draw(false);

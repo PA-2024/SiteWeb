@@ -112,7 +112,7 @@ if ($qcmId) {
                                             <thead>
                                                 <tr>
                                                     <th>Étudiant</th>
-                                                    <th>Secteur</th>
+                                                    <th>Classe</th>
                                                     <th>Score</th>
                                                 </tr>
                                             </thead>

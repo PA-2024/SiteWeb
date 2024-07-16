@@ -103,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <p>Pas de cours disponibles</p>
                                         <?php endif; ?>
                                     </div>
+                                    <br>
                                     <div class="form-group text-end">
                                         <button type="submit" class="btn btn-primary" <?php echo empty($students) || empty($subjects) ? 'disabled' : ''; ?>>Ajouter</button>
                                     </div>

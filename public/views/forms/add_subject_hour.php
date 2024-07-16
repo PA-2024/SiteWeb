@@ -86,6 +86,7 @@ $buildings = $buildingManager->fetchBuildings();
                                         <label for="subjectsHour_DateEnd">Date de Fin</label>
                                         <input type="datetime-local" name="subjectsHour_DateEnd" id="subjectsHour_DateEnd" class="form-control" required>
                                     </div>
+                                    <br>
                                     <div class="form-group text-end">
                                         <button type="submit" class="btn btn-primary">Ajouter</button>
                                     </div>

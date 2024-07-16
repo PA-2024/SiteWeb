@@ -29,15 +29,24 @@ class StudentSubjects
         ]);
 
         $response = curl_exec($ch);
+        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception('Erreur lors de l\'ajout de la matière à l\'étudiant.');
         }
 
+        if ($httpStatusCode !== 201) {
+            throw new \Exception('Erreur lors de la requête HTTP. Code de statut : ' . $httpStatusCode);
+        }
+
+        if ($response === '') {
+            return ['message' => 'Ajout réussi !'];
+        }
+
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
+            throw new \Exception('Erreur dans le décodage des données JSON : ' . json_last_error_msg());
         }
 
         return $result;
@@ -61,15 +70,24 @@ class StudentSubjects
         ]);
 
         $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($response === false) {
             throw new \Exception('Erreur lors de la suppression de la matière de l\'étudiant.');
         }
 
+        if ($httpCode !== 200 && $httpCode !== 204) {
+            throw new \Exception('Erreur HTTP : ' . $httpCode . '. Réponse : ' . $response);
+        }
+
+        if (empty($response) && $httpCode === 204) {
+            return ['success' => true];
+        }
+
         $result = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Erreur dans le décodage des données JSON.');
+            throw new \Exception('Erreur dans le décodage des données JSON : ' . json_last_error_msg());
         }
 
         return $result;

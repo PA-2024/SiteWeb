@@ -75,22 +75,25 @@ $token = $_GET['token'] ?? '';
                                     <?php endif; ?>
 
                                     <!-- Form -->
-                                    <form action="reset-password.php" method="POST">
+                                    <form id="resetPasswordForm" action="reset-password.php" method="POST" onsubmit="return validateForm()">
                                         <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($userId); ?>">
                                         <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
 
                                         <div class="input-block">
                                             <label>Nouveau mot de passe <span class="login-danger">*</span></label>
-                                            <input class="form-control pass-input" type="password" name="password" required>
+                                            <input class="form-control pass-input" type="password" name="password" id="password" required>
                                             <span class="profile-views feather-eye-off toggle-password"></span>
                                         </div>
                                         <div class="input-block">
                                             <label>Confirmez le nouveau mot de passe <span class="login-danger">*</span></label>
-                                            <input class="form-control pass-input" type="password" name="confirm_password" required>
+                                            <input class="form-control pass-input" type="password" name="confirm_password" id="confirm_password">
                                             <span class="profile-views feather-eye-off toggle-password"></span>
                                         </div>
+                                        <div id="passwordError" class="alert alert-danger" role="alert" style="display: none;">
+                                            Les mots de passe ne correspondent pas.
+                                        </div>
                                         <div class="input-block login-btn">
-                                            <button class="btn btn-primary btn-block" type="submit">Envoyer</button>
+                                            <button id="submitBtn" class="btn btn-primary btn-block" type="submit" disabled>Envoyer</button>
                                         </div>
                                     </form>
                                     <!-- /Form -->
@@ -116,7 +119,36 @@ $token = $_GET['token'] ?? '';
     
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
-    
+
+    <script>
+        document.getElementById('password').addEventListener('input', checkPasswords);
+        document.getElementById('confirm_password').addEventListener('input', checkPasswords);
+
+        function checkPasswords() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+            var submitBtn = document.getElementById('submitBtn');
+            var passwordError = document.getElementById('passwordError');
+
+            if (password !== confirmPassword) {
+                passwordError.style.display = 'block';
+                submitBtn.disabled = true;
+            } else {
+                passwordError.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        }
+
+        function validateForm() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('passwordError').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
-le

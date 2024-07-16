@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <input type="text" name="user_firstname" id="user_firstname" class="form-control" value="<?php echo isset($director['user_firstname']) ? htmlspecialchars($director['user_firstname']) : ''; ?>" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="user_num">Numéro</label>
+                                        <label for="user_num">Numéro de téléphone</label>
                                         <input type="text" name="user_num" id="user_num" class="form-control" value="<?php echo isset($director['user_num']) ? htmlspecialchars($director['user_num']) : ''; ?>" required>
                                     </div>
                                     <div class="form-group">

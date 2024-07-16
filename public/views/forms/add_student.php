@@ -1,5 +1,5 @@
+<!-- Auteur : Capdrake (Bastien LEUWERS) -->
 <?php
-// Auteur : Capdrake (Bastien LEUWERS)
 include '../../header/entete.php';
 require_once '../../../vendor/autoload.php';
 
@@ -97,8 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="text" class="form-control" name="lastname" required>
                             </div>
                             <div class="form-group">
-                                <label>Numéro</label>
-                                <input type="text" class="form-control" name="num" required>
+                                <label>Numéro de téléphone</label>
+                                <input type="text" class="form-control" name="num" pattern="\d{10}" maxlength="10" title="Veuillez entrer un numéro de téléphone valide à 10 chiffres." required>
                             </div>
                             <div class="form-group">
                                 <label>Classe</label>

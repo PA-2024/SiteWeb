@@ -5,7 +5,8 @@ use GeSign\SessionManager;
 use GeSign\StudentSubjects;
 use GeSign\Student;
 
-$sessionManager = new SessionManager();
+$sessionManager = SessionManager::getInstance();
+$sessionManager->restrictAccessToLoginUsers();
 $sessionManager->checkUserRole('Gestion Ecole');
 
 $token = $_SESSION['token'] ?? $_COOKIE['token'];
