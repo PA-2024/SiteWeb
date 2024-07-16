@@ -53,12 +53,13 @@ $buildings = $buildingManager->fetchBuildings();
                 <!-- Formulaire -->
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="../../script/subject_hour_scripts.php?action=add" method="post">
+                        <form action="../../script/subject_hour_scripts.php?action=add" method="post" id="subjectHourForm">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="subjectsHour_Subjects_Id">Cours</label>
-                                        <select name="subjectsHour_Subjects_Id" id="subjectsHour_Subjects_Id" class="form-control">
+                                        <select name="subjectsHour_Subjects_Id" id="subjectsHour_Subjects_Id" class="form-control" required>
+                                            <option value="">Sélectionner un cours</option>
                                             <?php foreach ($subjects as $subject): ?>
                                                 <option value="<?php echo htmlspecialchars($subject['subjects_Id']); ?>"><?php echo htmlspecialchars($subject['subjects_Name']); ?></option>
                                             <?php endforeach; ?>
@@ -66,7 +67,8 @@ $buildings = $buildingManager->fetchBuildings();
                                     </div>
                                     <div class="form-group">
                                         <label for="subjectsHour_Building_Id">Bâtiment</label>
-                                        <select name="subjectsHour_Building_Id" id="subjectsHour_Building_Id" class="form-control">
+                                        <select name="subjectsHour_Building_Id" id="subjectsHour_Building_Id" class="form-control" required>
+                                            <option value="">Sélectionner un bâtiment</option>
                                             <?php foreach ($buildings as $building): ?>
                                                 <option value="<?php echo htmlspecialchars($building['bulding_Id']); ?>"><?php echo htmlspecialchars($building['bulding_Name']); ?></option>
                                             <?php endforeach; ?>
@@ -74,15 +76,15 @@ $buildings = $buildingManager->fetchBuildings();
                                     </div>
                                     <div class="form-group">
                                         <label for="subjectsHour_Room">Salle</label>
-                                        <input type="text" name="subjectsHour_Room" id="subjectsHour_Room" class="form-control">
+                                        <input type="text" name="subjectsHour_Room" id="subjectsHour_Room" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="subjectsHour_DateStart">Date de Début</label>
-                                        <input type="datetime-local" name="subjectsHour_DateStart" id="subjectsHour_DateStart" class="form-control">
+                                        <input type="datetime-local" name="subjectsHour_DateStart" id="subjectsHour_DateStart" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="subjectsHour_DateEnd">Date de Fin</label>
-                                        <input type="datetime-local" name="subjectsHour_DateEnd" id="subjectsHour_DateEnd" class="form-control">
+                                        <input type="datetime-local" name="subjectsHour_DateEnd" id="subjectsHour_DateEnd" class="form-control" required>
                                     </div>
                                     <div class="form-group text-end">
                                         <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -126,5 +128,28 @@ $buildings = $buildingManager->fetchBuildings();
 
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
+
+    <!-- Validation JS -->
+    <script>
+        document.getElementById('subjectHourForm').addEventListener('submit', function(event) {
+            const startDate = new Date(document.getElementById('subjectsHour_DateStart').value);
+            const endDate = new Date(document.getElementById('subjectsHour_DateEnd').value);
+
+            const subject = document.getElementById('subjectsHour_Subjects_Id').value;
+            const building = document.getElementById('subjectsHour_Building_Id').value;
+            const room = document.getElementById('subjectsHour_Room').value;
+
+            if (!subject || !building || !room || !startDate || !endDate) {
+                alert('Veuillez remplir tous les champs.');
+                event.preventDefault();
+            } else if (endDate <= startDate) {
+                alert('La date de fin doit être supérieure à la date de début.');
+                event.preventDefault();
+            } else if (startDate.toDateString() !== endDate.toDateString()) {
+                alert('Le cours doit se terminer le même jour qu\'il commence.');
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
