@@ -97,6 +97,9 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         <div class="input-block login-btn">
                                             <button class="btn btn-primary btn-block" type="submit">Connexion</button>
                                         </div>
+                                        <div class="next-sign">
+                                            <p class="account-subtitle">Vous souhaitez télécharger notre application Android? <a href="../misc/app.php">Télécharger</a></p>
+                                        </div>
                                     </form>
                                     <!-- /Form -->
                                 </div>
