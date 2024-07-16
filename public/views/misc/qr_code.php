@@ -68,7 +68,7 @@ $token = str_replace('Bearer ', '', $token);
         let token = "<?php echo $token; ?>";
 
         function initializeWebSocket() {
-            socket = new WebSocket('wss://apigessignrecette-c5e974013fbd.herokuapp.com/ws');
+            socket = new WebSocket('wss://apipa2024-a0a3b2c9ce54.herokuapp.com/ws');
 
             socket.onopen = function() {
                 if (selectedHour) {

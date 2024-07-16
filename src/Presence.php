@@ -4,7 +4,7 @@ namespace GeSign;
 
 class Presence
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Presence";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/api/Presence";
     private $token;
 
     public function __construct($token)

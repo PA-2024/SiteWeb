@@ -3,7 +3,7 @@ namespace GeSign;
 
 class Auth
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Auth";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/api/Auth";
     
     // Plus nécessaire
     public function register($userName, $email, $password, $phoneNumber)

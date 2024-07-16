@@ -3,7 +3,7 @@ namespace GeSign;
 
 class Sectors
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/Sectors";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/Sectors";
 
     public function fetchSectors()
     {

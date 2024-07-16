@@ -153,7 +153,7 @@ $studentName = $_SESSION['user_name'];
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const ws = new WebSocket(`wss://apigessignrecette-c5e974013fbd.herokuapp.com/qcm/${<?php echo json_encode($qcmId); ?>}`);
+            const ws = new WebSocket(`wss://apipa2024-a0a3b2c9ce54.herokuapp.com/qcm/${<?php echo json_encode($qcmId); ?>}`);
             alert(<?php echo json_encode($studentID); ?>);
             const studentId = <?php echo json_encode($studentID); ?>;
             const studentName = <?php echo json_encode($studentName); ?>;

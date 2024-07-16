@@ -6,7 +6,7 @@ use Exception;
 
 class Student
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/Student";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/api/Student";
     private $token;
 
     public function __construct($token)

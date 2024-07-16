@@ -3,7 +3,7 @@ namespace GeSign;
 
 class Errors
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/Errors";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/Errors";
 
     /**
      * Récupère toutes les erreurs depuis l'API.

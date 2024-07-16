@@ -5,7 +5,7 @@ namespace GeSign;
 
 class ProofAbsence
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com";
     private $token;
 
     public function __construct($token)

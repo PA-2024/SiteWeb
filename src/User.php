@@ -3,7 +3,7 @@ namespace GeSign;
 
 class User
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/api/User";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/api/User";
     private $token;
 
     public function __construct($token)

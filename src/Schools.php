@@ -5,7 +5,7 @@ namespace GeSign;
 
 class Schools
 {
-    private $apiUrl = "https://apigessignrecette-c5e974013fbd.herokuapp.com/School";
+    private $apiUrl = "https://apipa2024-a0a3b2c9ce54.herokuapp.com/School";
 
     public function fetchSchools()
     {

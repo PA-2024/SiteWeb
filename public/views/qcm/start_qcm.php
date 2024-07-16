@@ -119,7 +119,7 @@ $token = str_replace('Bearer ', '', $token);
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const ws = new WebSocket(`wss://apigessignrecette-c5e974013fbd.herokuapp.com/qcm/${<?php echo json_encode($qcmId); ?>}`);
+            const ws = new WebSocket(`wss://apipa2024-a0a3b2c9ce54.herokuapp.com/qcm/${<?php echo json_encode($qcmId); ?>}`);
             const token = <?php echo json_encode($token); ?>;
             const professorName = "ProfessorName";
 
