@@ -22,7 +22,7 @@ $subjectsHourManager = new SubjectsHour($token);
 
 $today = new DateTime();
 $startDate = $today->format('Y-m-d') . 'T00:00:00';
-$endDate = (new DateTime('+1 year'))->format('Y-m-d') . 'T23:59:59';
+$endDate = $today->format('Y-m-d') . 'T23:59:59';
 $subjectsHours = $subjectsHourManager->fetchSubjectsHoursByDateRange($startDate, $endDate);
 
 $selectedHour = isset($_GET['subjectsHourId']) ? $_GET['subjectsHourId'] : null;
@@ -99,10 +99,19 @@ $token = str_replace('Bearer ', '', $token);
             });
         }
 
+        function closeWebSocket() {
+            if (socket) {
+                socket.close();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', (event) => {
             if (selectedHour) {
                 initializeWebSocket();
             }
+
+            window.addEventListener('beforeunload', closeWebSocket);
+            document.getElementById('subjectsHourId').addEventListener('change', closeWebSocket);
         });
     </script>
 </head>
