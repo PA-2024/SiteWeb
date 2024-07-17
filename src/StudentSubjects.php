@@ -37,7 +37,7 @@ class StudentSubjects
         }
 
         if ($httpStatusCode !== 201) {
-            throw new \Exception('Erreur lors de la requête HTTP. Code de statut : ' . $httpStatusCode);
+            throw new \Exception('Erreur lors de l\'ajout de le l\étudiant à la matière');
         }
 
         if ($response === '') {
