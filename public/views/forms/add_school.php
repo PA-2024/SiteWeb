@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <form method="post">
+                                <form method="post" onsubmit="return validateSchoolName()">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-heading">
@@ -90,7 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="col-12 col-md-6">
                                             <div class="input-block">
                                                 <label>Nom de l'école <span class="login-danger">*</span></label>
-                                                <input class="form-control" type="text" name="school_Name" required>
+                                                <input class="form-control" type="text" id="schoolName" name="school_Name" required>
+                                                <div id="error-message" style="color: red; display: none;">Le nom de l'école ne doit pas contenir d'espaces ou de caractères spéciaux.</div>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -140,5 +141,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Custom JS -->
     <script src="../../assets/js/app.js"></script>
 
+    <script>
+        function validateSchoolName() {
+            const schoolName = document.getElementById('schoolName').value;
+            const errorMessage = document.getElementById('error-message');
+            const regex = /^[a-zA-Z0-9_-]+$/; // Only allow letters, numbers, underscores, and hyphens
+
+            if (!regex.test(schoolName)) {
+                errorMessage.style.display = 'block';
+                return false; // Prevent form submission
+            }
+
+            errorMessage.style.display = 'none';
+            return true; // Allow form submission
+        }
+    </script>
 </body>
 </html>
