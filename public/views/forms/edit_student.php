@@ -52,12 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Éditer un Étudiant</title>
-</head>
 <body>
     <div class="main-wrapper">
         <?php include '../../header/entete_dashboard.php'; ?>
